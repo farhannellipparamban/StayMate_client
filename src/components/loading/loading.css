@@ -1,0 +1,138 @@
+/* @keyframes ball {
+    from {
+      transform: rotate(0) translateY(-6.5em);
+    }
+    50% {
+      transform: rotate(180deg) translateY(-6em);
+    }
+    to {
+      transform: rotate(360deg) translateY(-6.5em);
+    }
+  }
+  
+  @keyframes ballInnerShadow {
+    from {
+      transform: rotate(0);
+    }
+    to {
+      transform: rotate(-360deg);
+    }
+  }
+  
+  @keyframes ballOuterShadow {
+    from {
+      transform: rotate(20deg);
+    }
+    to {
+      transform: rotate(-340deg);
+    }
+  }
+  
+  @keyframes ballTexture {
+    from {
+      transform: translateX(0);
+    }
+    to {
+      transform: translateX(50%);
+    }
+  }
+  
+  @keyframes trackCover {
+    from {
+      transform: rotate(0);
+    }
+    to {
+      transform: rotate(360deg);
+    }
+  }
+  
+  .pl,
+  .pl__ball,
+  .pl__ball-inner-shadow,
+  .pl__ball-side-shadows,
+  .pl__ball-texture,
+  .pl__inner-ring,
+  .pl__outer-ring,
+  .pl__track-cover {
+    border-radius: 50%;
+  }
+  
+  .pl {
+    position: relative;
+    width: 16em;
+    height: 16em;
+  }
+  
+  .pl__ball,
+  .pl__ball-inner-shadow,
+  .pl__ball-outer-shadow,
+  .pl__ball-side-shadows,
+  .pl__ball-texture:before,
+  .pl__track-cover {
+    position: absolute;
+  }
+  
+  .pl__ball,
+  .pl__ball-inner-shadow,
+  .pl__ball-outer-shadow,
+  .pl__ball-texture:before,
+  .pl__track-cover {
+    animation-duration: 3s;
+    animation-iteration-count: infinite;
+    animation-timing-function: linear;
+  }
+  
+  .pl__ball {
+    top: calc(50% - 1.25em);
+    left: calc(50% - 1.25em);
+    transform: rotate(0) translateY(-6.5em);
+    width: 2.5em;
+    height: 2.5em;
+  }
+  
+  .pl__ball-inner-shadow {
+    width: 100%;
+    height: 100%;
+  }
+  
+  .pl__ball-outer-shadow {
+    top: 50%;
+    left: 0;
+    width: 100%;
+    height: 250%;
+  }
+  
+  .pl__ball-side-shadows {
+    width: 100%;
+    height: 100%;
+  }
+  
+  .pl__ball-texture {
+    overflow: hidden;
+    width: 100%;
+    height: 100%;
+  }
+  
+  .pl__ball-texture:before {
+    content: '';
+    display: block;
+    top: 0;
+    right: 0;
+    width: 200%;
+    height: 100%;
+  }
+  
+  .pl__inner-ring {
+    top: 2.375em;
+    left: 2.375em;
+    width: calc(100% - 4.75em);
+    height: calc(100% - 4.75em);
+  }
+  
+  .pl__outer-ring {
+    top: 0.75em;
+    left: 0.75em;
+    width: calc(100% - 1.5em);
+    height: calc(100% - 1.5em);
+  }
+   */
