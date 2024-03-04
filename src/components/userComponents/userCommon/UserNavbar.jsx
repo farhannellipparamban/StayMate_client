@@ -182,7 +182,7 @@ const UserNavbar = () => {
                     </li>
                     <li>
                       <Link
-                        to=""
+                        to="/bookingList"
                         className="block px-4 py-2 text-sm text-balck hover:bg-gray-400 dark:hover:bg-gray-400 dark:text-balck dark:hover:text-black"
                       >
                         My Bookings

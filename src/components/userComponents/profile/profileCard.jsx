@@ -1,11 +1,12 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { updateUserProfile } from "../../../api/userApi";
+import { getUserDetails, updateUserProfile } from "../../../api/userApi";
 import { userLogin } from "../../../reduxStore/slices/userSlice";
 import { toast } from "react-toastify";
 import { useFormik } from "formik";
 import { profileValidationSchema } from "../../../validations/user/editProfileValidation";
 import Loading from "../../loading/Loading";
+import { useNavigate } from "react-router-dom";
 
 const ProfileCard = () => {
   const { user } = useSelector((state) => state.userReducer);
@@ -13,8 +14,20 @@ const ProfileCard = () => {
   const dispatch = useDispatch();
   const [isEdit, setIsEdit] = useState(false);
   const [loading, setLoading] = useState(false);
+  const [userData, setUserData] = useState({});
+  const navigate = useNavigate();
 
   const userId = user._id;
+
+  useEffect(() => {
+    getUserDetails(user._id)
+      .then((res) => {
+        setUserData(res?.data?.userData);
+      })
+      .catch((err) => {
+        console.log(err.message);
+      });
+  }, []);
 
   const onSubmit = async () => {
     try {
@@ -60,7 +73,7 @@ const ProfileCard = () => {
         </div>
       ) : (
         <div className="flex justify-center items-center bg-gray-200 min-h-screen">
-          <div className="rounded-xl w-full md:w-3/5 overflow-hidden bg-white shadow-lg">
+          <div className="rounded-xl w-full md:w-3/5 overflow-hidden bg-white shadow-lg  my-16">
             <div className="px-6 py-8">
               <div className="text-center">
                 <div className="relative w-10 h-10 overflow-hidden bg-gray-100 rounded-full dark:bg-gray-600">
@@ -134,8 +147,20 @@ const ProfileCard = () => {
                         value={values.mobile}
                         disabled
                       />
+                      <h1 className="font-bold text-lg mt-5">
+                        Wallet Amount : {userData?.wallet}
+                      </h1>
                     </div>
                     <div className="text-center">
+                      <button
+                        type="button"
+                        onClick={() =>
+                          navigate("/walletHistory", { state: userData })
+                        }
+                        className="text-white mt-4 bg-gradient-to-r from-blue-500 via-blue-600 to-blue-700 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-blue-300 dark:focus:ring-blue-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2"
+                      >
+                        Wallet History
+                      </button>
                       <button
                         className="bg-[#ff0808] hover:bg-[#ff4848] text-white font-bold py-2 px-4 rounded"
                         onClick={() => setIsEdit(true)}
@@ -149,7 +174,10 @@ const ProfileCard = () => {
                 <>
                   <div className="p-4">
                     <div className="w-full">
-                      <form className="max-w-xl mx-auto" onSubmit={handleSubmit}>
+                      <form
+                        className="max-w-xl mx-auto"
+                        onSubmit={handleSubmit}
+                      >
                         <div className="mt-5 overflow-hidden text-sm">
                           <label
                             htmlFor="roomName"

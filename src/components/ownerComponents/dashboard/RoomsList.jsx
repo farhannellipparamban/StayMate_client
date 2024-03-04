@@ -193,7 +193,7 @@ const RoomsList = () => {
                             color="blue-gray"
                             className="mb-2"
                           >
-                            Price / day : {room.rent} RS
+                            Price / day : {room.rent} Rs
                           </Typography>
                           <Typography
                             variant="h6"

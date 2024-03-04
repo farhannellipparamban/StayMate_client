@@ -3,7 +3,7 @@ import { faHeart } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useNavigate } from "react-router-dom";
 
-const HomeRoomCard = ({ room, values }) => {
+const HomeRoomCard = ({ room }) => {
   const { roomName, roomImages, description, model } = room;
   const navigate = useNavigate();
   const [showFullDescription, setShowFullDescription] = useState(false);
@@ -154,7 +154,7 @@ const HomeRoomCard = ({ room, values }) => {
       </div>
       <div className="p-6 pt-3">
         <button
-          onClick={() => navigate("/roomDetails", { state: { room, values } })}
+          onClick={() => navigate("/roomDetails", { state: { room } })}
           className="block w-full select-none rounded-lg bg-black py-3.5 px-7 text-center align-middle font-sans text-sm font-bold uppercase text-white shadow-md shadow-gray-900/10 transition-all hover:shadow-lg hover:shadow-gray-900/20 focus:opacity-[0.85] focus:shadow-none active:opacity-[0.85] active:shadow-none disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none"
           type="button"
         >

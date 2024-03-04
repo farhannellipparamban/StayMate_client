@@ -7,6 +7,7 @@ import { faBed } from "@fortawesome/free-solid-svg-icons";
 import Pagination from "../../components/common/Pagination";
 import { allRoomList } from "../../api/userApi";
 import { useLocation } from "react-router-dom";
+import LocationDateFilter from "../../components/userComponents/FilterRoom/LocationDateFilter";
 
 const RoomCardList = lazy(() =>
   import("../../components/userComponents/Rooms/RoomCardList")
@@ -15,12 +16,12 @@ const RoomCardList = lazy(() =>
 const AllRoomsPage = () => {
   const [rooms, setRooms] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(false);
   const location = useLocation();
-  // const values = location.state ? location.state.values : null;
-    
+  const values = location.state;
 
   useEffect(() => {
+    setLoading(true);
     allRoomList()
       .then((res) => {
         setRooms(res?.data?.rooms);
@@ -42,6 +43,8 @@ const AllRoomsPage = () => {
   return (
     <>
       <UserNavbar />
+      {/* <LocationDateFilter selectedData={values} setLoading={setLoading} /> */}
+
       <Suspense
         fallback={
           <div className="flex justify-center items-center h-screen">
@@ -78,7 +81,7 @@ const AllRoomsPage = () => {
           >
             {roomsInSinglePage &&
               roomsInSinglePage.map((room) => (
-                <RoomCardList key={room._id} room={room}/>
+                <RoomCardList key={room._id} room={room} values={values} />
               ))}
           </div>
         )}

@@ -4,7 +4,6 @@ import { Link, useLocation } from "react-router-dom";
 const BookingSuccess = () => {
   const state = useLocation();
   const {roomDetails,bookingDetails} = state
-  console.log(state);
 
   return (
     <>

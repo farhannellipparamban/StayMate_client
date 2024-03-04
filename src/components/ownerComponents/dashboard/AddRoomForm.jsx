@@ -10,10 +10,11 @@ import { Autocomplete } from "@react-google-maps/api";
 
 const AddRoomForm = () => {
   const { isLoaded } = useGoogleMapApi();
+  const [roomImage, setRoomImage] = useState([]);
+  // const [roomImages, setRoomImages] = useState([]);
   const [roomImagesError, setRoomImagesError] = useState(null);
   const [location, setLocation] = useState("");
   const [errorLocation, setErrorLocation] = useState("");
-  const [roomImage, setRoomImage] = useState("");
   const navigate = useNavigate();
   const { _id } = useSelector((state) => state.ownerReducer.owner);
   const ownerId = _id;
@@ -74,11 +75,16 @@ const AddRoomForm = () => {
   };
 
   const setRoomImageToBase = async (files) => {
+    const imagesData = [];
     for (let i = 0; i < files.length; i++) {
       const reader = new FileReader();
       reader.readAsDataURL(files[i]);
       reader.onloadend = () => {
-        setRoomImage((prev) => [...prev, reader.result]);
+        imagesData.push(reader.result);
+        // setRoomImage((prev) => [...prev, reader.result]);
+        if (imagesData.length === files.length) {
+          setRoomImage(imagesData);
+        }
       };
     }
   };
@@ -93,14 +99,11 @@ const AddRoomForm = () => {
         }
       );
 
-
-
       autocomplete.addListener("place_changed", () => {
         const place = autocomplete.getPlace();
         const firstName = place.formatted_address.split(",")[0];
         setLocation(firstName);
         setErrorLocation("");
-
       });
     }
   }, [isLoaded]);
@@ -340,8 +343,20 @@ const AddRoomForm = () => {
                   {roomImage.length} file(s) selected
                 </span>
               </div>
+              {roomImage.length > 0 && (
+                <div className="mt-3 flex overflow-x-auto">
+                  {roomImage.map((image, index) => (
+                    <img
+                      key={index}
+                      src={image}
+                      alt={`Room Image ${index + 1}`}
+                      className="w-32 h-32 mr-2 mb-2 object-cover rounded-md flex-shrink-0"
+                    />
+                  ))}
+                </div>
+              )}
               {roomImagesError && (
-                <p className="text-red-500 text-sm mt-1">{roomImagesError}</p>
+                <p className="text-red-500">{roomImagesError}</p>
               )}
             </div>
 

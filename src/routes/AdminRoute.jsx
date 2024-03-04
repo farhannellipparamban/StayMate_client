@@ -8,6 +8,7 @@ import AdminRoomListPage from "../pages/adminPages/AdminRoomListPage";
 import RoomDetailsPage from "../pages/adminPages/RoomDetailsPage";
 import AdminPublic from "./adminPrivate/AdminPublic";
 import AdminProtect from "./adminPrivate/AdminProtect";
+import RoomAddReqPage from "../pages/adminPages/RoomAddReqPage";
 
 const AdminRoute = () => {
   return (
@@ -57,6 +58,14 @@ const AdminRoute = () => {
         element={
           <AdminProtect>
             <RoomDetailsPage />
+          </AdminProtect>
+        }
+      />
+      <Route
+        path="/roomAddRequests"
+        element={
+          <AdminProtect>
+            <RoomAddReqPage />
           </AdminProtect>
         }
       />

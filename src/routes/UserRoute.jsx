@@ -15,6 +15,8 @@ import ResetPassword from "../pages/userPages/ResetPassword";
 import CheckOutPage from "../pages/userPages/CheckOutPage";
 import BookingSuccessPage from "../pages/userPages/BookingSuccessPage";
 import BookingListPage from "../pages/userPages/BookingListPage";
+import BookingDetailsUser from "../pages/userPages/BookingDetailsUser";
+import WalletHistoryPage from "../pages/userPages/WalletHistoryPage";
 
 const UserRoute = () => {
   return (
@@ -96,10 +98,23 @@ const UserRoute = () => {
           </UserProtect>
         }
       />
-
-
+      <Route
+        path="/bookingDetails"
+        element={
+          <UserProtect>
+            <BookingDetailsUser />
+          </UserProtect>
+        }
+      />
+      <Route
+        path="/walletHistory"
+        element={
+          <UserProtect>
+            <WalletHistoryPage />
+          </UserProtect>
+        }
+      />
     </Routes>
-    
   );
 };
 

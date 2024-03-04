@@ -23,12 +23,10 @@ const OwnerGoogleLogin = () => {
         const provider = new GoogleAuthProvider()
         const auth = getAuth(app)
         const result = await signInWithPopup(auth,provider)
-        console.log(result);
         const res = await ownerGoogleAuth(result);
   
         if (res?.status === 200) {
           const { owner, token } = res.data;
-          console.log(owner,token,"fhnseivkfdhnik");
           localStorage.setItem("ownerToken", token);
           dispatch(
             ownerLogin({

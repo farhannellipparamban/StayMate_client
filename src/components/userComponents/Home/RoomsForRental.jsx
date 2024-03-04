@@ -4,15 +4,17 @@ import { HomeRoomList } from "../../../api/userApi";
 import Loading from "../../loading/Loading";
 
 const RoomsForRental = ({ dataRef }) => {
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(false);
   const [roomList, setRoomList] = useState([]);
   useEffect(() => {
+    setLoading(true)
     HomeRoomList()
       .then((res) => {
-        setRoomList(res?.data?.rooms);
         setLoading(false);
+        setRoomList(res?.data?.rooms);
       })
       .catch((err) => {
+        setLoading(false);
         console.log(err.message);
       });
   }, []);

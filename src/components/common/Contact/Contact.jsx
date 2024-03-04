@@ -3,7 +3,10 @@ import React from "react";
 const Contact = () => {
   return (
     <>
-<section style={{backgroundImage: "url('/images/rooms4.jpg')"}} className="bg-white">
+      <section
+        style={{ backgroundImage: "url('/images/rooms4.jpg')" }}
+        className="bg-white"
+      >
         <div className="container px-6 py-12 mx-auto">
           <div className="lg:flex lg:items-center lg:-mx-6">
             <div className="lg:w-1/2 lg:mx-6">
@@ -70,12 +73,14 @@ const Contact = () => {
                     />
                   </svg>
                   <span className="mx-2 text-black truncate w-72 dark:text-black font-bold">
-                    bookbreeze@gmail.com
+                    staymate@gmail.com
                   </span>
                 </p>
               </div>
               <div className="mt-6 w-80 md:mt-8 font-serif">
-                <h3 className="text-white dark:text-white font-bold">Follow us</h3>
+                <h3 className="text-white dark:text-white font-bold">
+                  Follow us
+                </h3>
                 <div className="flex mt-4 -mx-1.5 ">
                   <a
                     className="mx-1.5 dark:hover:text-red-500 text-white transition-colors duration-300 transform hover:text-red-600"
@@ -162,7 +167,7 @@ const Contact = () => {
                     <input
                       type="text"
                       placeholder="Your Name"
-                      className="block w-full px-5 py-3 mt-2 text-gray-700 placeholder-gray-400 bg-white border border-gray-200 rounded-md dark:placeholder-gray-600  dark:text-gray-300 dark:border-gray-700 focus:border-blue-400 dark:focus:border-blue-400 focus:ring-blue-400 focus:outline-none focus:ring focus:ring-opacity-40"
+                      className="block w-full px-5 py-3 mt-2 text-black placeholder-gray-400 bg-white border border-gray-200 rounded-md dark:placeholder-gray-600  dark:text-black dark:border-gray-700 focus:border-blue-400 dark:focus:border-blue-400 focus:ring-blue-400 focus:outline-none focus:ring focus:ring-opacity-40"
                     />
                   </div>
                   <div className="flex-1 mt-6">
@@ -172,7 +177,7 @@ const Contact = () => {
                     <input
                       type="email"
                       placeholder="Email"
-                      className="block w-full px-5 py-3 mt-2 text-gray-700 placeholder-gray-400 bg-white border border-gray-200 rounded-md dark:placeholder-gray-600  dark:text-gray-300 dark:border-gray-700 focus:border-blue-400 dark:focus:border-blue-400 focus:ring-blue-400 focus:outline-none focus:ring focus:ring-opacity-40"
+                      className="block w-full px-5 py-3 mt-2 text-gray-700 placeholder-gray-400 bg-white border border-gray-200 rounded-md dark:placeholder-gray-600  dark:text-black dark:border-gray-700 focus:border-blue-400 dark:focus:border-blue-400 focus:ring-blue-400 focus:outline-none focus:ring focus:ring-opacity-40"
                     />
                   </div>
                   <div className="w-full mt-6">
@@ -180,7 +185,7 @@ const Contact = () => {
                       Message
                     </label>
                     <textarea
-                      className="block w-full h-32 px-5 py-3 mt-2 text-gray-700 placeholder-gray-400 bg-white border border-gray-200 rounded-md md:h-48 dark:placeholder-gray-600  dark:text-gray-300 dark:border-gray-700 focus:border-blue-400 dark:focus:border-blue-400 focus:ring-blue-400 focus:outline-none focus:ring focus:ring-opacity-40"
+                      className="block w-full h-32 px-5 py-3 mt-2 text-gray-700 placeholder-gray-400 bg-white border border-gray-200 rounded-md md:h-48 dark:placeholder-gray-600  dark:text-black dark:border-gray-700 focus:border-blue-400 dark:focus:border-blue-400 focus:ring-blue-400 focus:outline-none focus:ring focus:ring-opacity-40"
                       placeholder="Message"
                       defaultValue={""}
                     />

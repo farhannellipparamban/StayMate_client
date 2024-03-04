@@ -9,7 +9,7 @@ const UserHome = () => {
   return (
     <>
     <UserNavbar />
-    <UserHero />
+    <UserHero dataRef={dataRef}/>
     <RoomsForRental dataRef={dataRef} />
     <UserFooter/>
       

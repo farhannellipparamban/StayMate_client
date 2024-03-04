@@ -23,14 +23,13 @@ export const ownerLoginVerification = async (loginData) => {
 
 export const ownerGoogleAuth = async (authResult) => {
   try {
-    const { uid, displayName, email, photoURL } = authResult.owner;
+    const { uid, displayName, email, photoURL } = authResult.user;
     const data = await ownerAxiosInstance.post("/googleLogin", {
       uid,
       displayName,
       email,
       photoURL,
     });
-    console.log(data,"this daaat");
     return data;
   } catch (error) {
     console.error("Error during Google authentication:", error);
@@ -95,5 +94,29 @@ export const Customers = async ()=>{
 
 export const CustomersBlock = async (customerId,status)=>{
   const data = await ownerAxiosInstance.patch("/blockCustomers",{customerId,status})
+  return data
+}
+
+export const bookingsOwner = async(ownerId)=>{
+  const data = await ownerAxiosInstance.get(`/bookingsOwner/${ownerId}`)
+  return data
+}
+
+export const cancelBookingOwner = async(bookingId,reason)=>{
+  const data = await ownerAxiosInstance.post('/cancelBooking',{bookingId,reason})
+  return data
+}
+
+export const changeBookingStatus = async (status,bookingId,startDate,endDate,roomId) => {
+  const data = await ownerAxiosInstance.patch('/changeStatus',{status,bookingId,startDate,endDate,roomId})
+  return data
+}
+
+export const allRequestCancel = async (ownerId) => {
+  const data = await ownerAxiosInstance.get(`/cancelRequests/${ownerId}`)
+  return data
+}
+export const cancelRequestApproval = async (bookingId,status) => {
+  const data = await ownerAxiosInstance.patch('/approveCancel',{bookingId,status})
   return data
 }

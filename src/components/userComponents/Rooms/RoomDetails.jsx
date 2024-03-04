@@ -4,13 +4,13 @@ import Loading from "../../loading/Loading";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faHeart, faPhone } from "@fortawesome/free-solid-svg-icons";
 import ReactImageMagnify from "react-image-magnify";
-import img1 from "/images/visualsofdana-T5pL6ciEn-I-unsplash.jpg";
 
 const RoomDetails = () => {
   const [imageIndex, setImageIndex] = useState(0);
   const { loading, setLoading } = useState(false);
   const { state } = useLocation();
   const { room, values } = state;
+  console.log(state);
   const navigate = useNavigate();
   const imageUrl = room?.roomImages[imageIndex];
   return (
@@ -29,31 +29,31 @@ const RoomDetails = () => {
                   className="w-full h-auto rounded-md shadow-lg mb-4 object-cover  hover:scale-105 transition duration-500 cursor-pointer"
                 /> */}
                 <ReactImageMagnify
-      {...{
-        smallImage: {
-          alt: "Property Image",
-          isFluidWidth: true,
-          src: imageUrl, // Set the image URL here
-          style: {
-            width: '300px', // Customize the width of the small image
-            height: 'auto', // Auto adjust the height
-            border: '1px solid #ccc', // Add a border to the small image
-            borderRadius: '8px', // Apply border radius
-            boxShadow: '0px 0px 10px rgba(0, 0, 0, 0.1)', // Apply box shadow
-          }
-        },
-        largeImage: {
-          src: imageUrl, // Set the image URL here
-          width: 1200,
-          height: 1800,
-          style: {
-            width: '800px', // Customize the width of the large image
-            height: 'auto', // Auto adjust the height
-          }
-        },
-      }}
-      className="w-full h-auto rounded-md shadow-lg mb-4 object-cover " // Apply a CSS class to the component
-    />
+                  {...{
+                    smallImage: {
+                      alt: "Property Image",
+                      isFluidWidth: true,
+                      src: imageUrl, // Set the image URL here
+                      style: {
+                        width: "300px", // Customize the width of the small image
+                        height: "auto", // Auto adjust the height
+                        border: "1px solid #ccc", // Add a border to the small image
+                        borderRadius: "8px", // Apply border radius
+                        boxShadow: "0px 0px 10px rgba(0, 0, 0, 0.1)", // Apply box shadow
+                      },
+                    },
+                    largeImage: {
+                      src: imageUrl, // Set the image URL here
+                      width: 1200,
+                      height: 1800,
+                      style: {
+                        width: "800px", // Customize the width of the large image
+                        height: "auto", // Auto adjust the height
+                      },
+                    },
+                  }}
+                  className="w-full h-auto rounded-md shadow-lg mb-4 object-cover " // Apply a CSS class to the component
+                />
 
                 {/* Carousel with three small images in a line */}
                 <div className="flex flex-wrap justify-center items-center gap-4">

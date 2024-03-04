@@ -15,6 +15,9 @@ import OwnerProtect from "./ownerPrivate/OwnerProtect";
 import OwnerContactPage from "../pages/ownerPages/OwnerContactPage";
 import OwnerForgetPass from "../pages/ownerPages/OwnerForgetPass";
 import OwnerResetPass from "../pages/ownerPages/OwnerResetPass";
+import BookingListOwner from "../pages/ownerPages/BookingListOwner";
+import BookingDetailsOwner from "../pages/ownerPages/BookingDetailsOwner";
+import CancelRequestPage from "../pages/ownerPages/CancelRequestPage";
 
 const OwnerRoute = () => {
   return (
@@ -113,6 +116,30 @@ const OwnerRoute = () => {
         element={
           <OwnerProtect>
             <OwnerProfilePage />
+          </OwnerProtect>
+        }
+      />
+      <Route
+        path="/bookings"
+        element={
+          <OwnerProtect>
+            <BookingListOwner />
+          </OwnerProtect>
+        }
+      />
+      <Route
+        path="/bookingDetails"
+        element={
+          <OwnerProtect>
+            <BookingDetailsOwner />
+          </OwnerProtect>
+        }
+      />
+      <Route
+        path="/cancelRequests"
+        element={
+          <OwnerProtect>
+            <CancelRequestPage />
           </OwnerProtect>
         }
       />

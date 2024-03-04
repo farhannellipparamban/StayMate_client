@@ -58,7 +58,7 @@ export const allRoomList = async () => {
 };
 
 export const getRoomDetails = async (roomId) => {
-  const data = await userAxiosInstance.get(`roomDetails/${roomId}`);
+  const data = await userAxiosInstance.get(`/roomDetails/${roomId}`);
   return data;
 };
 
@@ -71,13 +71,26 @@ export const roomBooking = async(bookingData)=>{
   const data = await userAxiosInstance.post("/roomBooking",bookingData)
   return data
 }
+export const verifyPayment = async(response,bookingData)=>{
+  const data = await userAxiosInstance.post("/verifyPayment",{response,bookingData})
+  return data
+}
 
+export const filterDateLoacionRooms = async(formData)=>{
+  const data = await userAxiosInstance.post('/filterRooms',formData)
+  return data
+}
 export const myBookings = async(userId)=>{
   const data = await userAxiosInstance.get(`/myBookings/${userId}`)
   return data
 }
-// export const filterRooms = async(formData)=>{
-//   console.log(formData);
-//   const data = await userAxiosInstance.post('/filterRooms',formData)
-//   return data
-// }
+
+export const cancelBookingUser = async (bookingId,reason) => {
+  const data = await userAxiosInstance.post('/cancelBooking',{bookingId,reason})
+  return data
+}
+
+export const getUserDetails = async (userId) => {
+  const data = await userAxiosInstance.get(`/userDetails/${userId}`)
+  return data
+}
