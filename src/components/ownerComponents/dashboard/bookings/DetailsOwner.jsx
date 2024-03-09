@@ -56,21 +56,20 @@ const DetailsOwner = ({ bookingData, setBookingData }) => {
   };
   return (
     <>
-      <div className="flex flex-col items-center p-10 bg-white border border-gray-200 rounded-lg shadow md:flex-row md:w-full hover:bg-gray-100 dark:border-gray-500 dark:bg-gray-200 dark:hover:bg-gray-200">
-        <div className="md:w-2/4">
+      <div class="flex flex-col items-center p-4 md:p-10 bg-white border border-gray-200 rounded-lg shadow md:flex-row md:w-full hover:bg-gray-100 dark:border-gray-500 dark:bg-gray-200 dark:hover:bg-gray-200">
+        <div class="w-full md:w-2/4 md:mr-4">
           <img
-            className="object-cover w-full rounded-t-lg h-96 md:h-auto md:w-72 md:rounded-none md:rounded-l-lg"
+            class="object-cover w-full h-64 md:h-96 rounded-t-lg md:rounded-l-lg"
             src={bookingData?.room?.roomImages[0]}
             alt=""
           />
         </div>
-        <div className="flex flex-col justify-center p-4  w-full leading-normal font-serif">
-          <div className="flex justify-between">
-            <h1 className="mb-2 uppercase text-2xl font-bold tracking-tight text-gray-900 dark:text-black">
+        <div class="flex flex-col justify-center w-full leading-normal font-serif">
+          <div class="flex justify-between mb-4 md:flex md:items-center">
+            <h1 class="mb-2 uppercase text-xl md:text-2xl font-bold tracking-tight text-gray-900 dark:text-black">
               {bookingData?.room?.roomName}
             </h1>
-
-            <div className="flex justify-end">
+            <div class="flex justify-end">
               {new Date(bookingData?.endDate) > new Date() &&
                 bookingData?.bookingStatus === "Success" && (
                   <button
@@ -78,7 +77,7 @@ const DetailsOwner = ({ bookingData, setBookingData }) => {
                     onClick={() =>
                       handleBookingStatus("Checked In", bookingData?._id)
                     }
-                    className="text-white bg-gradient-to-r from-red-500 via-red-600 to-red-700 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-red-300 dark:focus:ring-red-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center mr-2 mb-2"
+                    class="btn-success"
                   >
                     Checked In
                   </button>
@@ -90,56 +89,49 @@ const DetailsOwner = ({ bookingData, setBookingData }) => {
                     onClick={() =>
                       handleBookingStatus("Checked Out", bookingData?._id)
                     }
-                    className="text-white bg-gradient-to-r from-red-500 via-red-600 to-red-700 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-red-300 dark:focus:ring-red-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center mr-2 mb-2"
+                    class="btn-success"
                   >
                     Checked Out
                   </button>
                 )}
             </div>
           </div>
-          <div className="flex justify-start gap-5">
-            <p className="my-3 text-lg font-semibold">
-              Booked User :
-              <span> {bookingData?.user.name}</span>
+          <div class="flex justify-start gap-5 mb-4 md:mb-0">
+            <p class="my-3 text-lg font-semibold">
+              Booked User : <span> {bookingData?.user.name}</span>
             </p>
           </div>
-          <h1 className="mb-2 text-xl font-bold tracking-tight text-gray-900 dark:text-red-600">
+          <h1 class="mb-2 text-xl font-bold tracking-tight text-gray-900 dark:text-red-600">
             Amount Paid : ₹ {bookingData?.totalBookingRent}
           </h1>
-          <p className="my-5 text-lg font-semibold">
+          <p class="my-5 text-lg font-semibold">
             Booking Status :{" "}
             {new Date() > new Date(bookingData?.endDate) ? (
-              <span className="text-green-700 font-semibold text-sm">
+              <span class="text-green-700 font-semibold text-sm">
                 Completed
               </span>
             ) : (
-              <span className={getStatusColor(bookingData?.bookingStatus)}>
+              <span class={getStatusColor(bookingData?.bookingStatus)}>
                 {getStatusText(bookingData?.bookingStatus)}
               </span>
             )}
           </p>
-          <div className="container">
-            <div className="flex justify-between items-center mb-4">
-              <div>
-                <p className="text-gray-800 text-sm font-medium">
-                  Check In Date{" "}
-                </p>
-                <p className="text-black text-sm font-semibold">
+          <div class="container">
+            <div class="flex flex-col md:flex-row justify-between items-center mb-4">
+              <div class="mb-4 md:mb-0">
+                <p class="text-gray-800 text-sm font-medium">Check In Date </p>
+                <p class="text-black text-sm font-semibold">
                   {new Date(bookingData?.startDate).toLocaleDateString(
                     "en-US",
-                    {
-                      year: "numeric",
-                      month: "long",
-                      day: "numeric",
-                    }
+                    { year: "numeric", month: "long", day: "numeric" }
                   )}
                 </p>
               </div>
               <div>
-                <p className="text-gray-800 text-start text-sm  font-medium">
+                <p class="text-gray-800 text-start text-sm  font-medium">
                   Check Out Date{" "}
                 </p>
-                <p className="text-black text-sm font-semibold">
+                <p class="text-black text-sm font-semibold">
                   {new Date(bookingData?.endDate).toLocaleDateString("en-US", {
                     year: "numeric",
                     month: "long",
@@ -149,17 +141,17 @@ const DetailsOwner = ({ bookingData, setBookingData }) => {
               </div>
             </div>
             <hr class="border-t-1 border-black" />
-            <div className="flex justify-center my-4">
-              <p className="text-gray-900 text-sm font-medium">
+            <div class="flex justify-center my-4">
+              <p class="text-gray-900 text-sm font-medium">
                 Total days selected{" "}
-                <span className="text-sm font-semibold">{dayDifference}</span>
+                <span class="text-sm font-semibold">{dayDifference}</span>
               </p>
             </div>
             <hr class="border-t-1 border-black" />
-            <div className="flex justify-between mb-4">
+            <div class="flex justify-between mb-4">
               <div>
-                <p className="text-gray-800 text-sm font-medium">Location </p>
-                <p className="text-black text-sm font-semibold">
+                <p class="text-gray-800 text-sm font-medium">Location </p>
+                <p class="text-black text-sm font-semibold">
                   {bookingData?.chooseLocation}
                 </p>
               </div>

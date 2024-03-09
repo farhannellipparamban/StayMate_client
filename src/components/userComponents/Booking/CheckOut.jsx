@@ -108,7 +108,7 @@ const CheckOut = () => {
         address: "Razorpay Corporate Office",
       },
       theme: {
-        color: "#3399cc",
+        color: "#FF0000",
       },
     };
     var rzp1 = new window.Razorpay(options);
@@ -126,12 +126,13 @@ const CheckOut = () => {
           </div>
         </div>
       ) : (
-        <div className="container mx-auto mt-10 mb-32 dark:border-gray-700 shadow border border-gray-200">
+        <div className="p-10 mt-12 md:mt-0 bg-white border border-gray-200 rounded-lg shadow-md  dark:border-gray-700 mx-10 md:mx-5">
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-            <div className="md:col-span-1 col-span-1">
-              <h1 className="text-2xl ml-4 uppercase hover:text-red-500 font-bold">
+            <div className="md:col-span-1 col-span-1 font-serif">
+              <h1 className="text-2xl md:text-3xl lg:text-4xl xl:text-4xl uppercase hover:text-red-500 font-bold">
                 {room.roomName}
               </h1>
+
               <div className="card h-auto bg-base-100 shadow-xl mb-9">
                 <figure className="px-10 pt-10 mb-5">
                   <img
@@ -224,7 +225,21 @@ const CheckOut = () => {
 
             <div className="md:col-span-1 col-span-1 mt-10 md:mt-0">
               <div className="p-6 mt-12 bg-white border border-gray-200 rounded-lg shadow-md dark:bg-gray-200 dark:border-gray-700">
-                <h1 className="text-xl font-semibold">Amount Details</h1>
+                <h1 className="text-2xl font-serif font-bold">Amount Details</h1>
+                <div className="mt-10 flex flex-col sm:flex-row mb-8 justify-between">
+                  <p className="text-black text-md font-bold">
+                    CheckInDate
+                    <h2 className="text-sm font-bold">
+                      {values?.values?.CheckInDate}
+                    </h2>
+                  </p>
+                  <p className="text-black text-md font-bold">
+                    CheckOutDate
+                    <h2 className="text-sm font-bold">
+                      {values?.values?.CheckOutDate}
+                    </h2>
+                  </p>
+                </div>
                 <div className="mt-3 flex flex-col sm:flex-row mb-4 justify-between">
                   <p className="text-gray-600 text-sm">Price / day :</p>
                   <h2 className="text-sm font-bold">₹ {room?.rent}</h2>
@@ -265,7 +280,7 @@ const CheckOut = () => {
                 )}
                 <button
                   onClick={handleSubmit}
-                  className="text-white w-full bg-red-700 hover:bg-red-800 focus:ring-4 focus:ring-red-300 font-medium rounded-lg text-sm px-5 py-2.5 mb-6 dark:bg-red-600 dark:hover:bg-red-700 focus:outline-none dark:focus:ring-red-800"
+                  className="text-white w-full md:w-auto bg-red-700 hover:bg-red-800 focus:ring-4 focus:ring-red-300 font-medium rounded-lg text-sm md:text-base lg:text-lg px-5 py-2.5 mb-6 dark:bg-red-600 dark:hover:bg-red-700 focus:outline-none dark:focus:ring-red-800"
                 >
                   Pay Now
                 </button>

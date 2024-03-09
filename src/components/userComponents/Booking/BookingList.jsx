@@ -111,7 +111,7 @@ const BookingList = ({ id, BookingListPage, cancelBooking, role }) => {
       ) : (
         <div
           className={
-            role === "user" ? "container mx-auto pb-20" : "container mx-auto"
+            role === "user" ? "md:mx-10 mx-auto pb-20" : " mx-auto"
           }
         >
           <h1 className="text-3xl px-3 mb-5 mt-5 font-serif">My bookings</h1>

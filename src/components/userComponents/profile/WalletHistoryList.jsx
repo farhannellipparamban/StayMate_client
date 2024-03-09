@@ -11,7 +11,7 @@ const WalletHistoryList = ({ user }) => {
   const numbers = [...Array(totalPages + 1).keys()].slice(1);
   return (
     <>
-      <div className="container mx-auto mb-40 mt-10">
+      <div className="md:mx-10 mx-auto mb-40 mt-10">
         <div className="flex justify-between my-5">
           <h1 className="text-3xl pt-2 mb-5 font-serif">Wallet History</h1>
           <button

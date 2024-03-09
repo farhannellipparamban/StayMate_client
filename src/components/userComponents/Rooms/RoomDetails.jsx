@@ -4,6 +4,10 @@ import Loading from "../../loading/Loading";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faHeart, faPhone } from "@fortawesome/free-solid-svg-icons";
 import ReactImageMagnify from "react-image-magnify";
+// import * as Yup from "yup";
+// import { useFormik } from "formik";
+// import { filterDateLoacionRooms } from "../../../api/userApi";
+// import { roomFilter } from "../../../validations/user/roomFilterValidation";
 
 const RoomDetails = () => {
   const [imageIndex, setImageIndex] = useState(0);
@@ -13,6 +17,65 @@ const RoomDetails = () => {
   console.log(state);
   const navigate = useNavigate();
   const imageUrl = room?.roomImages[imageIndex];
+
+  // const validationSchema = Yup.object().shape({
+  //   Persons: Yup.number().required("Number of persons is required"),
+  //   // checkInDate: Yup.date().required("Check-in date is required"),
+  //   // checkOutDate: Yup.date().required("Check-out date is required"),
+  // });
+
+  // const onSubmit = async (values) => {
+  //   try {
+  //     setLoading(true);
+  //     const res = await filterDateLoacionRooms({
+  //       ...values,
+  //     });
+
+  //     if (res?.status === 200) {
+  //       navigate("/checkOut", {
+  //         state: {
+  //           values: { ...values },
+  //           room,
+  //         },
+  //       });
+  //     }
+  //     setLoading(false);
+  //   } catch (error) {
+  //     setLoading(false);
+  //     console.log(error.message);
+  //   }
+  // };
+
+  // const {
+  //   getFieldProps,
+  //   handleSubmit,
+  //   values: FormikValue,
+  //   touched,
+  //   errors,
+  //   setValues,
+  // } = useFormik({
+  //   initialValues: {
+  //     CheckInDate: selectedData?.CheckInDate || "",
+  //     CheckOutDate: selectedData?.CheckOutDate || "",
+  //   },
+  //   validationSchema: roomFilter,
+  //   onSubmit,
+  // });
+
+  // const handleChange = (event) => {
+  //   const { name, value } = event.target;
+  //   setValues((prevValues) => ({
+  //     ...prevValues,
+  //     [name]: value,
+  //   }));
+  // };
+
+  // const minNextDay = values?.CheckInDate
+  //   ? new Date(values.CheckInDate)
+  //   : new Date();
+
+  // minNextDay.setDate(minNextDay.getDate() + 1);
+  // const nextDay = minNextDay.toISOString().split("T")[0];
   return (
     <>
       {loading ? (
@@ -90,7 +153,7 @@ const RoomDetails = () => {
                       </span>
                     </span>
                   </div>
-                  <h3 className="mt-10">
+                  <h3 className="mt-2 mb-6">
                     <span className="text-red-600 font-bold text-xl">
                       ₹ {room?.rent} Per Night
                     </span>
@@ -98,10 +161,44 @@ const RoomDetails = () => {
                       Taxes and fees not included
                     </p>
                   </h3>
+                  <div className="font-bold">
+                    <p className="text-xl mb-4">
+                      Location :{" "}
+                      <span className="text-lg font-extralight">
+                        {room?.location}
+                      </span>
+                    </p>
+                    <p className="text-xl">
+                      Room Type :{" "}
+                      <span className="text-lg font-extralight">
+                        {" "}
+                        {room?.roomType}
+                      </span>
+                    </p>
+                  </div>
                 </div>
-                <form action="">
-                  <div className="w-full border-b-2 border-b-red-400 my-2 mt-8">
-                    {/* <div className="flex mt-16">
+                <form >
+                  <div className="w-full border-b-2 border-b-red-400 my-2">
+                    <div className="flex items-center mb-4">
+                      <label
+                        htmlFor="numberOfPersons"
+                        className="mr-2 text-gray-700 font-semibold"
+                      >
+                        Number of Persons:
+                      </label>
+
+                      <input
+                        type="number"
+                        id="Persons"
+                        name="Persons"
+                        // value={values.Persons}
+                        // onChange={handleChange}
+                        // onBlur={handleBlur}
+                        className="px-3 py-2 border border-gray-500 rounded-md focus:outline-none focus:border-blue-500"
+                      />
+                    </div>
+
+                    {/* <div className="flex mt-8">
                       <div className="w-1/2 pr-2">
                         <label
                           htmlFor="check-in-date"
@@ -113,8 +210,15 @@ const RoomDetails = () => {
                           type="date"
                           id="CheckInDate"
                           name="CheckInDate"
+                          min={new Date().toISOString().split("T")[0]}
+                          value={values.CheckInDate}
+                          onChange={handleChange}
                           className="mt-1 p-2 border mb-3 bg-green-50 text-black rounded-md focus:outline-none focus:border-white"
                         />
+
+                        {errors.CheckInDate && touched.CheckInDate && (
+                          <p className="text-red-600">{errors.CheckInDate}</p>
+                        )}
                       </div>
                       <div className="w-1/2 pl-2">
                         <label
@@ -127,33 +231,26 @@ const RoomDetails = () => {
                           type="date"
                           id="CheckOutDate"
                           name="CheckOutDate"
+                          min={nextDay}
+                          value={values.CheckOutDate}
+                          onChange={handleChange}
                           className="mt-1 p-2 border mb-3 bg-green-50 text-black rounded-md focus:outline-none focus:border-white"
                         />
+
+                        {errors.CheckOutDate && touched.CheckOutDate && (
+                          <p className="text-red-600">{errors.CheckOutDate}</p>
+                        )}
                       </div>
                     </div> */}
-                    <div className="mb-4 font-bold">
-                      <p className="text-xl mb-4">
-                        Location :{" "}
-                        <span className="text-lg font-extralight">
-                          {room?.location}
-                        </span>
-                      </p>
-                      <p className="text-xl mb-4">
-                        Room Type :{" "}
-                        <span className="text-lg font-extralight">
-                          {" "}
-                          {room?.roomType}
-                        </span>
-                      </p>
-                    </div>
                   </div>
 
                   {/* Continue to booking button */}
                   <button
+                    type="submit"
                     onClick={() =>
                       navigate("/checkOut", { state: { room, values } })
                     }
-                    className="mt-14 bg-red-600 text-white px-6 py-3 rounded-md hover:bg-red-800 transition duration-300 ease-in-out"
+                    className="mt-6 bg-red-600 text-white px-6 py-3 rounded-md hover:bg-red-800 transition duration-300 ease-in-out"
                   >
                     Book Now
                   </button>
