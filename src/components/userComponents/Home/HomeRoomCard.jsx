@@ -8,7 +8,8 @@ const HomeRoomCard = ({ room }) => {
   const navigate = useNavigate();
   const [showFullDescription, setShowFullDescription] = useState(false);
 
-  const toggleDescription = () => {
+  const toggleDescription = (event) => {
+    event.preventDefault();
     setShowFullDescription(!showFullDescription);
   };
   return (

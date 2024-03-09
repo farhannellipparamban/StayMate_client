@@ -101,12 +101,12 @@ const RoomsList = () => {
             <div>
               <div className="flex justify-between items-center bg-white p-4 mb-8">
                 <div className="flex flex-col">
-                  <h1 className="text-2xl font-semibold mb-7 text-gray-700">
+                  <h1 className="text-2xl font-semibold mb-7 text-black font-serif">
                     Rooms
                   </h1>
                   <button
                     onClick={() => navigate("/owner/addroom")}
-                    className="text-2xl font-sans bg-red-500 hover:bg-red-600 text-white py-2 px-4 rounded-full shadow-md hover:shadow-lg transition duration-300 ease-in-out"
+                    className="text-lg font-serif font-semibold bg-red-600 hover:bg-red-700 text-white py-2 px-4 rounded-full shadow-md hover:shadow-lg transition duration-300 ease-in-out"
                   >
                     Add Rooms
                   </button>
@@ -166,7 +166,7 @@ const RoomsList = () => {
                   return (
                     <>
                       <Card
-                        className="w-full max-w-[80rem] mb-6 flex-row"
+                        className="w-full max-w-[80rem] mb-6 flex-row " 
                         key={room._id}
                       >
                         <CardHeader
@@ -184,7 +184,7 @@ const RoomsList = () => {
                           <Typography
                             variant="h4"
                             color="gray"
-                            className="mb-4 uppercase"
+                            className="mb-4 uppercase text-red-600 font-serif"
                           >
                             {room.roomName}
                           </Typography>

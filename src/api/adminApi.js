@@ -38,8 +38,8 @@ export const singleRoomDetails = async(roomId)=>{
   return data
 }
 
-export const roomAddRequest = async (adminId) => {
-  const data = await adminAxiosInstance.get(`/roomAddRequest/${adminId}`)
+export const roomAddRequest = async () => {
+  const data = await adminAxiosInstance.get("/roomAddRequest")
   return data
 }
 export const verifyRoom = async(roomId,status)=>{

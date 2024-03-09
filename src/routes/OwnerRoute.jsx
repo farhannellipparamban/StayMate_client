@@ -18,6 +18,9 @@ import OwnerResetPass from "../pages/ownerPages/OwnerResetPass";
 import BookingListOwner from "../pages/ownerPages/BookingListOwner";
 import BookingDetailsOwner from "../pages/ownerPages/BookingDetailsOwner";
 import CancelRequestPage from "../pages/ownerPages/CancelRequestPage";
+import OwnerAboutPage from "../pages/ownerPages/OwnerAboutPage";
+import Error404 from "../components/error/Error404";
+import Error500 from "../components/error/Error500";
 
 const OwnerRoute = () => {
   return (
@@ -71,6 +74,7 @@ const OwnerRoute = () => {
         }
       />
       <Route path="/contact" element={<OwnerContactPage />} />
+      <Route path="/about" element={<OwnerAboutPage />} />
       <Route
         path="/dashboard"
         element={
@@ -143,6 +147,9 @@ const OwnerRoute = () => {
           </OwnerProtect>
         }
       />
+      <Route path="*" element={<Error404 />} />
+      <Route path="/pageNotFound" element={<Error404 />} />
+      <Route path="/error-500" element={<Error500 />} />
     </Routes>
   );
 };

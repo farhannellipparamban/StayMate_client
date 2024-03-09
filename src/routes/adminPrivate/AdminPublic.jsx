@@ -18,7 +18,7 @@ const AdminPublic = (props) => {
         localStorage.removeItem("adminToken");
         dispatch(adminLogout());
         <Navigate to="/admin" />;
-        toast.success("You need to login first");
+        toast.info("You need to login first");
         return props.children;
       }
     } else {

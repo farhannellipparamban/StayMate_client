@@ -18,7 +18,7 @@ const UserPublic = (props) => {
         localStorage.removeItem("userToken");
         dispatch(userLogout());
         <Navigate to="/login" />;
-        toast.success("You must login first");
+        toast.info("You must login first");
         return props.children;
       }
     } else {

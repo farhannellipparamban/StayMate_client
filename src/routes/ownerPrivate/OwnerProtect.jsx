@@ -17,7 +17,7 @@ const OwnerProtect = (props) => {
       } else {
         localStorage.removeItem("ownerToken");
         dispatch(ownerLogout());
-        toast.success("You must login first");
+        toast.info("You must login first");
         return <Navigate to="/owner/login" />;
       }
     } else {

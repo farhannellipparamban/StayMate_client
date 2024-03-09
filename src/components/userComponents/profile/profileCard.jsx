@@ -143,11 +143,12 @@ const ProfileCard = () => {
                       <input
                         className="w-full px-4 py-2 border rounded-md"
                         type="text"
-                        id="phone"
+                        id="mobile"
+                        name="mobile"
                         value={values.mobile}
                         disabled
                       />
-                      <h1 className="font-bold text-lg mt-5">
+                      <h1 className="font-bold text-lg mt-5 text-[#ff0808] font-serif ">
                         Wallet Amount : {userData?.wallet}
                       </h1>
                     </div>
@@ -157,7 +158,7 @@ const ProfileCard = () => {
                         onClick={() =>
                           navigate("/walletHistory", { state: userData })
                         }
-                        className="text-white mt-4 bg-gradient-to-r from-blue-500 via-blue-600 to-blue-700 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-blue-300 dark:focus:ring-blue-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2"
+                        className="text-white mt-4 bg-gradient-to-r from-red-500 via-red-600 to-red-700 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-red-300 dark:focus:ring-red-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2"
                       >
                         Wallet History
                       </button>
@@ -224,8 +225,8 @@ const ProfileCard = () => {
                             Phone
                           </label>
                           <input
-                            type="number"
-                            name="number"
+                            type="text"
+                            name="mobile"
                             className="border rounded p-3 w-full text-slate-700"
                             value={values.mobile}
                             onChange={handleChange}
@@ -238,7 +239,7 @@ const ProfileCard = () => {
                         <div className="mt-5 text-sm">
                           <button
                             type="submit"
-                            className="text-white w-full bg-[#ff0808] hover:bg-[#ff4848] focus:outline-none focus:ring-4 focus:ring-blue-300 font-medium rounded-full text-sm px-5 py-3 text-center mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-900"
+                            className="text-white w-full bg-[#ff0808] hover:bg-[#ff4848] focus:outline-none focus:ring-4 focus:ring-red-300 font-medium rounded-full text-sm px-5 py-3 text-center mb-2 "
                           >
                             Save Changes
                           </button>

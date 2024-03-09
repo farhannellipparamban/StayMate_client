@@ -16,7 +16,7 @@ const OwnerPublic = (props) => {
       } else {
         localStorage.removeItem("ownerToken");
         dispatch(ownerLogout());
-        toast.success("You must login first");
+        toast.info("You must login first");
         <Navigate to="/owner/login" />;
         return props.children;
       }

@@ -53,15 +53,17 @@ export const updateOwnerProfile = async (ownerData) => {
   return data;
 };
 
-export const addRooms = async (roomFormData, roomImage, location) => {
+export const addRooms = async (roomFormData, imgAfterCrop, location,ownerId) => {
+
   const data = await ownerAxiosInstance.post(
     "/addRoom",
-    { ...roomFormData },
-    roomImage,
-    location
+    { ...roomFormData, imgAfterCrop, location ,ownerId}
   );
+  console.log(data);
+
   return data;
 };
+
 
 export const MyRoomsList = async(ownerId)=>{
   const data = await ownerAxiosInstance.get(`/roomList/${ownerId}`)

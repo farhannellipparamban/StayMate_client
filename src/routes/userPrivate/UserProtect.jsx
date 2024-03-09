@@ -17,11 +17,11 @@ const UserProtect = (props) => {
       } else {
         localStorage.removeItem("userToken");
         dispatch(userLogout());
-        toast.success("You must login first");
+        toast.info("You must login first");
         return <Navigate to="/login" />;
       }
     } else {
-      toast.success("You must login first");
+      toast.info("You must login first");
       return <Navigate to="/login" />;
     }
   } catch (error) {

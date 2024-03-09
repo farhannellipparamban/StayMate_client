@@ -2,11 +2,12 @@ import React, { useEffect, useState } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCalendar, faLocationDot } from "@fortawesome/free-solid-svg-icons";
 import useGoogleMapApi from "../../coustomHook/useGoogleMapApi";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { filterDateLoacionRooms } from "../../../api/userApi";
 import { useFormik } from "formik";
 import { roomFilter } from "../../../validations/user/roomFilterValidation";
 import { Autocomplete } from "@react-google-maps/api";
+import "./UserHero.css";
 
 const UserHero = ({ dataRef }) => {
   const { isLoaded } = useGoogleMapApi();
@@ -18,7 +19,7 @@ const UserHero = ({ dataRef }) => {
     try {
       if (!chooseLocation.trim()) {
         setLocationError("Location is required");
-        return
+        return;
       }
 
       const res = await filterDateLoacionRooms({
@@ -96,17 +97,16 @@ const UserHero = ({ dataRef }) => {
                 </label>
                 {isLoaded && (
                   <Autocomplete>
-                  <input
-                    type="text"
-                    ref={dataRef}
-                    id="chooseLocation"
-                    className="text-xs md:text-sm lg:text-md font-bold text-gray-700 font-serif bg-gray-200 border-double border-gray-100 px-4 py-2 rounded-full w-full"
-                    placeholder="Select place"
-                    value={chooseLocation}
-                    onChange={(e) => setChooseLocation(e.target.value)}
-                  />
-                </Autocomplete>
-                
+                    <input
+                      type="text"
+                      ref={dataRef}
+                      id="chooseLocation"
+                      className="text-xs md:text-sm lg:text-md font-bold text-gray-700 font-serif bg-gray-200 border-double border-gray-100 px-4 py-2 rounded-full w-full"
+                      placeholder="Select place"
+                      value={chooseLocation}
+                      onChange={(e) => setChooseLocation(e.target.value)}
+                    />
+                  </Autocomplete>
                 )}
                 {loactionError && (
                   <p className="text-red-600">{loactionError}</p>
@@ -176,18 +176,18 @@ const UserHero = ({ dataRef }) => {
         </div>
 
         <div className="flex flex-col md:flex-row w-full h-full">
-          <div className="md:flex-1 rounded-lg overflow-hidden text-center relative">
+          <div className="md:flex-1 rounded-lg overflow-hidden text-center relative ">
             <img
-              className="rounded-full w-full md:w-[35rem] h-[35rem] mx-auto md:mx-24 mt-4 md:mt-28 shadow-lg"
+              className="img rounded-full w-full md:w-[35rem] h-[35rem] mx-auto md:mx-24 mt-4 md:mt-28 shadow-lg"
               src="/images/visualsofdana-T5pL6ciEn-I-unsplash.jpg"
               alt="image description"
             />
           </div>
-          <div className="md:flex-1 mt-4 md:mt-16 py-4 md:py-32">
-            <h3 className="text-2xl md:text-3xl font-bold mb-4 md:mb-14">
+          <div className="main md:flex-1 mt-4 md:mt-16 py-4 md:py-32">
+            <h3 className="heading text-2xl md:text-3xl font-bold mb-4 md:mb-14">
               About Us
             </h3>
-            <p className="text-lg md:text-xl font-italic leading-relaxed mb-4 md:mb-8">
+            <p className="para text-lg md:text-xl font-italic leading-relaxed mb-4 md:mb-8">
               "Welcome to our hotel! We are located in the heart of the city,
               close to all the major attractions. We offer a variety of rooms
               and amenities to suit your needs, and our staff is always happy to
@@ -197,9 +197,11 @@ const UserHero = ({ dataRef }) => {
               home, including a comfortable bed, a private bathroom, and a TV.
               Book your room today and start your vacation off right!"
             </p>
-            <button className="bg-red-600 hover:bg-black text-white font-bold py-2 md:py-3 px-4 md:px-8 rounded-xl focus:outline-none focus:shadow-outline-blue mt-4 md:mt-16">
-              Read more
-            </button>
+            <Link to="/about">
+              <button className="btn bg-red-600 hover:bg-black text-white font-bold py-2 md:py-3 px-4 md:px-8 rounded-xl focus:outline-none focus:shadow-outline-blue mt-4 md:mt-16">
+                Read more
+              </button>
+            </Link>
           </div>
         </div>
       </div>

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
@@ -7,10 +7,15 @@ import { roomValidation } from "../../../validations/owner/roomValidation";
 import { useFormik } from "formik";
 import useGoogleMapApi from "../../coustomHook/useGoogleMapApi";
 import { Autocomplete } from "@react-google-maps/api";
+import CroppedImages from "./CroppedImages";
+import "./Crop.css";
 
 const AddRoomForm = () => {
   const { isLoaded } = useGoogleMapApi();
+  const inputRef = useRef();
   const [roomImage, setRoomImage] = useState([]);
+  const [currentPage, setCurrentPage] = useState("choose-img");
+  const [imgAfterCrop, setImgAfterCrop] = useState([]);
   // const [roomImages, setRoomImages] = useState([]);
   const [roomImagesError, setRoomImagesError] = useState(null);
   const [location, setLocation] = useState("");
@@ -18,6 +23,41 @@ const AddRoomForm = () => {
   const navigate = useNavigate();
   const { _id } = useSelector((state) => state.ownerReducer.owner);
   const ownerId = _id;
+  const onChooseImg = () => {
+    inputRef.current.click();
+  };
+  const onCropDone = (imgCroppedArea) => {
+    const canvasEle = document.createElement("canvas");
+    canvasEle.width = imgCroppedArea.width;
+    canvasEle.height = imgCroppedArea.height;
+
+    const context = canvasEle.getContext("2d");
+
+    let imageObj1 = new Image();
+    imageObj1.src = roomImage;
+    imageObj1.onload = function () {
+      context.drawImage(
+        imageObj1,
+        imgCroppedArea.x,
+        imgCroppedArea.y,
+        imgCroppedArea.width,
+        imgCroppedArea.height,
+        0,
+        0,
+        imgCroppedArea.width,
+        imgCroppedArea.height
+      );
+      const dataURl = canvasEle.toDataURL("image/jpeg");
+      setImgAfterCrop((prevArray) => [...prevArray, dataURl]);
+      setCurrentPage("img-cropped");
+    };
+  };
+
+  const onCropCancel = () => {
+    setCurrentPage("choose-img");
+    setRoomImage("");
+  };
+  // const onSelectedImage = (selectedImage) => {};
 
   const onSubmit = async () => {
     try {
@@ -25,11 +65,17 @@ const AddRoomForm = () => {
         setErrorLocation("Location required");
         return;
       }
-      if (roomImage.length === 0) {
+      if (imgAfterCrop.length === 0) {
         setRoomImagesError("Please select at least one image for the room. ");
         return;
       }
-      const res = await addRooms({ ...values, roomImage, ownerId, location });
+      const res = await addRooms(
+        { ...values },
+        imgAfterCrop,
+        location,
+        ownerId
+      );
+      console.log(res);
       if (res?.status === 201) {
         navigate("/owner", { state: { ownerId: ownerId } });
         toast.success(res?.data?.message);
@@ -55,6 +101,31 @@ const AddRoomForm = () => {
       onSubmit,
     });
 
+  const handleOnChange = (event) => {
+    if (event.target.files && event.target.files.length > 0) {
+      const reader = new FileReader();
+      reader.readAsDataURL(event.target.files[0]);
+      reader.onload = function (e) {
+        setRoomImage(reader.result);
+        setCurrentPage("crop-img");
+        const isValid = files.every(
+          (files) =>
+            files.type.startsWith("image/jpeg") ||
+            files.type.startsWith("image/png")
+        );
+        if (isValid) {
+          setRoomImageToBase(files);
+          setRoomImagesError(null);
+        } else {
+          setRoomImagesError(
+            "Invalid files type. Please select valid image files."
+          );
+        }
+        setRoomImage([]);
+        event.target.value = null;
+      };
+    }
+  };
   const handleRoomImagesChange = (event) => {
     const files = Array.from(event.target.files);
     const isValid = files.every(
@@ -327,25 +398,60 @@ const AddRoomForm = () => {
               >
                 Upload Room Images
               </label>
+              <button className="btn" onClick={onChooseImg}>
+                Choose File{" "}
+              </button>
+              {/* </label> */}
+              <span className="ml-2">{roomImage.length} file(s) selected</span>
               <div className="mt-3 flex items-center">
-                <label className="cursor-pointer bg-black text-white p-1 text-sm px-2 rounded-md hover:bg-gray-800 transition duration-300">
-                  Choose File
+                {/* <label className="cursor-pointer bg-black text-white p-1 text-sm px-2 rounded-md hover:bg-gray-800 transition duration-300"> */}
+                {/* Choose File */}
+
+                {currentPage === "choose-img" && (
                   <input
                     type="file"
                     id="file_input"
                     accept="image/*"
                     multiple
-                    onChange={handleRoomImagesChange}
+                    ref={inputRef}
+                    onChange={handleOnChange}
                     className="hidden"
+                    style={{ display: "none" }}
                   />
-                </label>
-                <span className="ml-2">
-                  {roomImage.length} file(s) selected
-                </span>
+                )}
+                {currentPage === "crop-img" ? (
+                  <CroppedImages
+                    roomImage={roomImage}
+                    onCropDone={onCropDone}
+                    onCropCancel={onCropCancel}
+                  />
+                ) : (
+                  <div>
+                    <div>
+                      <img src={imgAfterCrop} className="cropped-img" alt="" />
+                    </div>
+                    <button
+                      onClick={() => setCurrentPage("crop-img")}
+                      className="btn"
+                    >
+                      Crop
+                    </button>
+                    <button
+                      onClick={() => {
+                        setCurrentPage("choose-img");
+                        setRoomImage("");
+                      }}
+                      className="btn"
+                    >
+                      New Image
+                    </button>
+                  </div>
+                )}
               </div>
-              {roomImage.length > 0 && (
+
+              {imgAfterCrop.length > 0 && (
                 <div className="mt-3 flex overflow-x-auto">
-                  {roomImage.map((image, index) => (
+                  {imgAfterCrop.map((image, index) => (
                     <img
                       key={index}
                       src={image}
@@ -355,6 +461,7 @@ const AddRoomForm = () => {
                   ))}
                 </div>
               )}
+
               {roomImagesError && (
                 <p className="text-red-500">{roomImagesError}</p>
               )}

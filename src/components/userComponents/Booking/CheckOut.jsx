@@ -255,7 +255,7 @@ const CheckOut = () => {
                       />
                       <label
                         htmlFor="default-checkbox"
-                        className="ms-2 text-sm font-semibold text-gray-900 dark:text-gray-300"
+                        className="ms-2 text-sm font-semibold text-gray-900 dark:text-gray-900"
                       >
                         Use wallet payment
                       </label>

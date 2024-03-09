@@ -1,0 +1,51 @@
+/* Default styles for the image */
+.img {
+  width: 100%; /* Default width */
+}
+
+/* Media query for screens with a minimum width of 768px */
+
+@media only screen and (min-width: 771px) and (max-width: 900px) {
+  .img {
+    height: 68% !important;
+    width: 92% !important;
+    margin-left: 10px !important;
+    margin-top: 55px !important;
+  }
+  .para {
+    font-size: 11px !important;
+  }
+  .btn {
+    margin-top: -9px !important;
+  }
+  .heading {
+    margin: 0 !important;
+    margin-top: -40px !important;
+  }
+  .main {
+    margin: 0 !important;
+  }
+}
+@media only screen and (min-width: 900px) and (max-width: 1315px) {
+  .img {
+    margin-top: 55px !important;
+    margin-left: 10 !important;
+    height: 76% !important;
+    width: 75% !important;
+  }
+  .para {
+    font-size: 18px !important;
+    margin: 15px !important;
+  }
+  .btn {
+    margin-top: 9px !important;
+  }
+  .heading {
+    margin: 0px !important;
+    margin-top: -40px !important;
+    margin-left: 20px !important;
+  }
+  .main {
+    margin: 0 !important;
+  }
+}

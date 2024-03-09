@@ -39,17 +39,17 @@ const BookingList = ({ id, BookingListPage, cancelBooking, role }) => {
   function getStatusColor(status) {
     switch (status) {
       case "Pending":
-        return "bg-yellow-500";
+        return "bg-yellow-600";
       case "Success":
-        return "bg-green-500";
+        return "bg-green-600";
       case "Cancelled":
-        return "bg-red-500";
+        return "bg-red-600";
       case "Checked In":
-        return "bg-green-500";
+        return "bg-green-600";
       case "Checked Out":
-        return "bg-blue-500";
+        return "bg-blue-600";
       default:
-        return "bg-gray-500";
+        return "bg-gray-600";
     }
   }
 
@@ -58,7 +58,7 @@ const BookingList = ({ id, BookingListPage, cancelBooking, role }) => {
       case "Pending":
         return "Payment not done";
       case "Success":
-        return "Room boocked successfully";
+        return "Room booked successfully";
       case "Cancelled":
         return "Booking cancelled";
       case "Checked In":
@@ -66,7 +66,7 @@ const BookingList = ({ id, BookingListPage, cancelBooking, role }) => {
       case "Checked Out":
         return "Room Checked Out";
       default:
-        return "Unknown Status";
+        return "Payment Failed !!";
     }
   }
   const openModal = (bookingId) => {
@@ -114,7 +114,7 @@ const BookingList = ({ id, BookingListPage, cancelBooking, role }) => {
             role === "user" ? "container mx-auto pb-20" : "container mx-auto"
           }
         >
-          <h1 className="text-3xl px-3 mb-5 mt-5">My bookings</h1>
+          <h1 className="text-3xl px-3 mb-5 mt-5 font-serif">My bookings</h1>
           <div className="relative overflow-x-auto shadow-md sm:rounded-lg">
             <table className="w-full text-sm text-left">
               <thead className="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-500 dark:text-gray-900">
@@ -151,7 +151,7 @@ const BookingList = ({ id, BookingListPage, cancelBooking, role }) => {
                   roomsInSinglePage.map((data) => (
                     <tr
                       key={data?._id}
-                      className="bg-white border-b dark:bg-gray-400 dark:border-gray-300 hover:bg-gray-50 dark:hover:bg-gray-300"
+                      className="bg-white border-b dark:bg-gray-300 dark:border-gray-400 hover:bg-gray-50 dark:hover:bg-gray-200"
                     >
                       <td className="pl-6 py-4">{data?._id}</td>
                       <th
@@ -200,17 +200,17 @@ const BookingList = ({ id, BookingListPage, cancelBooking, role }) => {
                       </td>
                       <td className="pl-6 py-4">
                         {new Date() > new Date(data?.endDate) ? (
-                          <p className="text-green-700 font-semibold text-sm">
+                          <p className="text-green-700 font-bold text-sm">
                             Completed
                           </p>
                         ) : (
                           <div className="flex items-center gap-1">
                             <div
-                              className={`h-2.5 w-2.5 rounded-full  ${getStatusColor(
+                              className={`h-2.5 w-2.5 rounded-full ${getStatusColor(
                                 data?.bookingStatus
                               )}`}
-                            ></div>
-                            {getStatusText(data?.bookingStatus)}
+                              ></div>
+                              <span className="font-semibold">{getStatusText(data?.bookingStatus)}</span>
                           </div>
                         )}
                       </td>
@@ -236,26 +236,26 @@ const BookingList = ({ id, BookingListPage, cancelBooking, role }) => {
                             </button>
                           )}
                         {new Date() > new Date(data?.endDate) && (
-                          <p className="text-green-700 font-semibold text-sm">
+                          <p className="text-green-700 font-bold text-sm">
                             Completed
                           </p>
                         )}
 
                         {new Date(data?.endDate) > new Date() &&
                           data?.cancelStatus === "Pending" && (
-                            <p className="text-red-700 font-semibold text-sm">
+                            <p className="text-red-700 font-bold text-sm">
                               Cancel request Pending
                             </p>
                           )}
                         {new Date(data?.endDate) > new Date() &&
                           data?.bookingStatus === "Cancelled" && (
-                            <p className="text-red-700 font-semibold text-sm">
+                            <p className="text-red-700 font-bold text-sm">
                               Booking Cancelled
                             </p>
                           )}
                         {new Date(data?.endDate) > new Date() &&
                           data?.cancelStatus === "Rejected" && (
-                            <p className="text-blue-700 font-semibold text-sm">
+                            <p className="text-blue-700 font-bold text-sm">
                               Cancel request rejected by owner
                             </p>
                           )}
@@ -281,7 +281,7 @@ const BookingList = ({ id, BookingListPage, cancelBooking, role }) => {
                         }`}
                       >
                         <div className="relative w-full max-w-md max-h-full">
-                          <div className="relative bg-white rounded-lg shadow dark:bg-gray-700">
+                          <div className="relative bg-black rounded-lg shadow dark:bg-gray-200">
                             <button
                               type="button"
                               className="absolute top-3 right-2.5 text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm w-8 h-8 ml-auto inline-flex justify-center items-center dark:hover-bg-gray-600 dark:hover-text-white"
@@ -308,7 +308,7 @@ const BookingList = ({ id, BookingListPage, cancelBooking, role }) => {
                             <div className="p-6 text-start">
                               <label
                                 htmlFor="message"
-                                className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+                                className="block mb-2 text-sm font-medium text-gray-900 dark:text-black"
                               >
                                 Reason for Cancel the booking
                               </label>
@@ -317,11 +317,11 @@ const BookingList = ({ id, BookingListPage, cancelBooking, role }) => {
                                 rows={4}
                                 value={reason}
                                 onChange={handleReasonChange}
-                                className="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                                className="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-900 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-300 dark:border-gray-900 dark:placeholder-gray-800 dark:text-black dark:focus:ring-blue-500 dark:focus:border-blue-500"
                                 placeholder="Write your reason here..."
                               />
                               {role === "user" && (
-                                <p className="text-red-600 mt-2 text-sm">
+                                <p className="text-red-700 mt-2 text-sm font-semibold">
                                   Note: Only 90% of the booking charge will be
                                   credited to your wallet.
                                 </p>
@@ -350,14 +350,14 @@ const BookingList = ({ id, BookingListPage, cancelBooking, role }) => {
               </tbody>
             </table>
           </div>
-          {roomsInSinglePage.length > 1 && (
+          {/* {roomsInSinglePage.length > 1 && ( */}
             <Pagination
               totalPages={totalPages}
               numbers={numbers}
               setCurrentPage={setCurrentPage}
               currentPage={currentPage}
             />
-          )}
+          {/* )} */}
         </div>
       )}
     </>

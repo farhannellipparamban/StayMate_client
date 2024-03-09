@@ -9,6 +9,8 @@ import RoomDetailsPage from "../pages/adminPages/RoomDetailsPage";
 import AdminPublic from "./adminPrivate/AdminPublic";
 import AdminProtect from "./adminPrivate/AdminProtect";
 import RoomAddReqPage from "../pages/adminPages/RoomAddReqPage";
+import Error404 from "../components/error/Error404";
+import Error500 from "../components/error/Error500";
 
 const AdminRoute = () => {
   return (
@@ -69,6 +71,9 @@ const AdminRoute = () => {
           </AdminProtect>
         }
       />
+      <Route path="*" element={<Error404 />} />
+      <Route path="/pageNotFound" element={<Error404 />} />
+      <Route path="/error-500" element={<Error500 />} />
     </Routes>
   );
 };

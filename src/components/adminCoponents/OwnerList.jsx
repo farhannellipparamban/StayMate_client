@@ -81,7 +81,7 @@ const OwnerList = () => {
       ) : (
         <div className="mx-auto w-full px-4 py-8 sm:px-8">
           <div className="flex items-center justify-between pb-6">
-            <div className="pb-6">
+            <div className="pb-6 font-serif">
               <h2 className="font-bold text-gray-700">Owner List</h2>
               <span className="text-xs text-gray-500">
                 View accounts of registered owners
@@ -133,14 +133,14 @@ const OwnerList = () => {
                     <th className="px-5 py-3">Actions</th>
                   </tr>
                 </thead>
-                <tbody className="text-gray-500">
+                <tbody className="text-black">
                   {ownerInSinglePage.length > 0 ? (
                     ownerInSinglePage.map((data) => (
                       <tr key={data?._id}>
-                        <td className="border-b border-gray-200 bg-white px-5 py-5 text-sm">
+                        <td className="border-b border-gray-200 bg-gray-300 px-5 py-5 text-sm">
                           <p className="whitespace-no-wrap">{data?._id}</p>
                         </td>
-                        <td className="border-b border-gray-200 bg-white px-5 py-5 text-sm">
+                        <td className="border-b border-gray-200 bg-gray-300 px-5 py-5 text-sm">
                           <div className="flex items-center">
                             <div className="h-10 w-10 flex-shrink-0">
                               <img
@@ -153,14 +153,14 @@ const OwnerList = () => {
                               <div className="text-base font-semibold">
                                 {data?.name}
                               </div>
-                              <div className="font-normal text-gray-500">
+                              <div className="font-normal">
                                 {data?.email}
                               </div>
                             </div>
                           </div>
                         </td>
-                        <td className="">{data?.mobile}</td>
-                        <td className="px-4 py-4">
+                        <td className="bg-gray-300 border-gray-200 border-b">{data?.mobile}</td>
+                        <td className="px-4 py-4 bg-gray-300 border-gray-200 border-b">
                           {data?.isVerified ? (
                             <span className="rounded-full bg-green-200 px-3 py-1 text-xs font-semibold text-green-900">
                               Verified
@@ -171,7 +171,7 @@ const OwnerList = () => {
                             </span>
                           )}
                         </td>
-                        <td className="">
+                        <td className="bg-gray-300 border-gray-200 border-b">
                           {data?.isBlocked ? (
                             <button
                               type="button"
@@ -198,10 +198,10 @@ const OwnerList = () => {
                           }`}
                         >
                           <div className="relative w-full max-w-md max-h-full">
-                            <div className="relative bg-white rounded-lg shadow dark:bg-gray-700">
+                            <div className="relative bg-black rounded-lg shadow dark:bg-gray-100">
                               <button
                                 type="button"
-                                className="absolute top-3 right-2.5 text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm w-8 h-8 ml-auto inline-flex justify-center items-center dark:hover-bg-gray-600 dark:hover-text-white"
+                                className="absolute top-3 right-2.5 text-gray-400 bg-transparent hover:bg-gray-200 hover:text-black rounded-lg text-sm w-8 h-8 ml-auto inline-flex justify-center items-center dark:hover-bg-gray-600 dark:hover-text-white"
                                 data-modal-hide={`popup-modal-${data?._id}`}
                                 onClick={() => closeModal()}
                               >
@@ -224,7 +224,7 @@ const OwnerList = () => {
                               </button>
                               <div className="p-6 text-center">
                                 <svg
-                                  className="mx-auto mb-4 text-gray-400 w-12 h-12 dark:text-gray-200"
+                                  className="mx-auto mb-4 text-gray-900 w-12 h-12 dark:text-gray-600"
                                   aria-hidden="true"
                                   xmlns="http://www.w3.org/2000/svg"
                                   fill="none"
@@ -239,12 +239,12 @@ const OwnerList = () => {
                                   />
                                 </svg>
                                 {data?.isBlocked ? (
-                                  <h3 className="mb-5 text-lg font-normal text-gray-500 dark:text-gray-400">
-                                    Are you sure you want to Unblock this{" "}
+                                  <h3 className="mb-5 text-lg font-normal text-gray-900 dark:text-gray-900">
+                                  Are you sure you want to Unblock this{" "}
                                     {data?.name}?
                                   </h3>
                                 ) : (
-                                  <h3 className="mb-5 text-lg font-normal text-gray-500 dark:text-gray-400">
+                                  <h3 className="mb-5 text-lg font-normal text-gray-900 dark:text-gray-900">
                                     Are you sure you want to Block this{" "}
                                     {data?.name}?
                                   </h3>

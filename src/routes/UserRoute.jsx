@@ -17,12 +17,16 @@ import BookingSuccessPage from "../pages/userPages/BookingSuccessPage";
 import BookingListPage from "../pages/userPages/BookingListPage";
 import BookingDetailsUser from "../pages/userPages/BookingDetailsUser";
 import WalletHistoryPage from "../pages/userPages/WalletHistoryPage";
+import UserAboutPage from "../pages/userPages/UserAboutPage";
+import Error404 from "../components/error/Error404";
+import Error500 from "../components/error/Error500";
 
 const UserRoute = () => {
   return (
     <Routes>
       <Route path="/" element={<UserHome />} />
       <Route path="/contact" element={<UserContactPage />} />
+      <Route path="/about" element={<UserAboutPage />} />
       <Route path="/allRooms" element={<AllRoomsPage />} />
       <Route path="/roomDetails" element={<RoomDetailsPage />} />
       <Route
@@ -114,6 +118,9 @@ const UserRoute = () => {
           </UserProtect>
         }
       />
+      <Route path="*" element={<Error404 />} />
+      <Route path="/pageNotFound" element={<Error404 />} />
+      <Route path="/error-500" element={<Error500 />} />
     </Routes>
   );
 };
