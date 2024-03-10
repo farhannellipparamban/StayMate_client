@@ -144,16 +144,7 @@ const RoomDetails = () => {
                     {room?.mobile}
                   </p>
 
-                  <div className="mt-2 flex">
-                    {/* Wishlist icon */}
-                    <span className="text-3xl text-red-500 cursor-pointer inline-block mt-1">
-                      <FontAwesomeIcon icon={faHeart} />{" "}
-                      <span className="text-lg text-red-500 font-serif font-bold cursor-pointer inline-block my-4">
-                        Add to WishList
-                      </span>
-                    </span>
-                  </div>
-                  <h3 className="mt-2 mb-6">
+                  <h3 className="mt-12 mb-6">
                     <span className="text-red-600 font-bold text-xl">
                       ₹ {room?.rent} Per Night
                     </span>
@@ -162,6 +153,12 @@ const RoomDetails = () => {
                     </p>
                   </h3>
                   <div className="font-bold">
+                    <p className="text-xl mb-4">
+                    Capacity :{" "}
+                      <span className="text-lg font-extralight">
+                        {room?.capacity}
+                      </span>
+                    </p>
                     <p className="text-xl mb-4">
                       Location :{" "}
                       <span className="text-lg font-extralight">
@@ -177,9 +174,9 @@ const RoomDetails = () => {
                     </p>
                   </div>
                 </div>
-                <form >
+                <form>
                   <div className="w-full border-b-2 border-b-red-400 my-2">
-                    <div className="flex items-center mb-4">
+                    {/* <div className="flex items-center mb-4">
                       <label
                         htmlFor="numberOfPersons"
                         className="mr-2 text-gray-700 font-semibold"
@@ -191,12 +188,12 @@ const RoomDetails = () => {
                         type="number"
                         id="Persons"
                         name="Persons"
-                        // value={values.Persons}
-                        // onChange={handleChange}
-                        // onBlur={handleBlur}
+                        value={values.Persons}
+                        onChange={handleChange}
+                        onBlur={handleBlur}
                         className="px-3 py-2 border border-gray-500 rounded-md focus:outline-none focus:border-blue-500"
                       />
-                    </div>
+                    </div> */}
 
                     {/* <div className="flex mt-8">
                       <div className="w-1/2 pr-2">
@@ -243,17 +240,26 @@ const RoomDetails = () => {
                       </div>
                     </div> */}
                   </div>
+                  <div className="mt-2 flex">
+                    {/* Wishlist icon */}
+                    <span className="text-3xl text-red-500 cursor-pointer inline-block mt-6 mr-4">
+                      <FontAwesomeIcon icon={faHeart} className="mr-1" />{" "}
+                      <span className="text-lg text-red-500 font-serif font-bold cursor-pointer inline-block">
+                        Add to WishList
+                      </span>
+                    </span>
+                  </div>
 
-                  {/* Continue to booking button */}
-                  <button
-                    type="submit"
-                    onClick={() =>
-                      navigate("/checkOut", { state: { room, values } })
-                    }
-                    className="mt-6 bg-red-600 text-white px-6 py-3 rounded-md hover:bg-red-800 transition duration-300 ease-in-out"
-                  >
-                    Book Now
-                  </button>
+                    {/* Continue to booking button */}
+                    <button
+                      type="submit"
+                      onClick={() =>
+                        navigate("/checkOut", { state: { room, values } })
+                      }
+                      className="mt-10 md:mt-10 bg-red-600 text-white px-6 py-3 rounded-md hover:bg-red-800 transition duration-300 ease-in-out"
+                    >
+                      Book Now
+                    </button>
                 </form>
               </div>
               <div className="md:col-span-2">

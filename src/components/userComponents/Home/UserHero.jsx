@@ -1,6 +1,10 @@
 import React, { useEffect, useState } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faCalendar, faLocationDot } from "@fortawesome/free-solid-svg-icons";
+import {
+  faCalendar,
+  faLocationDot,
+  faUser,
+} from "@fortawesome/free-solid-svg-icons";
 import useGoogleMapApi from "../../coustomHook/useGoogleMapApi";
 import { Link, useNavigate } from "react-router-dom";
 import { filterDateLoacionRooms } from "../../../api/userApi";
@@ -26,6 +30,7 @@ const UserHero = ({ dataRef }) => {
         ...values,
         chooseLocation,
       });
+      console.log(res);
       if (res?.status === 200) {
         navigate("/allRooms", {
           state: {
@@ -40,10 +45,11 @@ const UserHero = ({ dataRef }) => {
     }
   };
 
-  const { getFieldProps, values, errors, touched, handleSubmit } = useFormik({
+  const { getFieldProps, values, errors, touched, handleSubmit,handleChange,handleBlur } = useFormik({
     initialValues: {
       CheckInDate: "",
       CheckOutDate: "",
+      Persons:"",
     },
     validationSchema: roomFilter,
     onSubmit,
@@ -84,7 +90,7 @@ const UserHero = ({ dataRef }) => {
         <div className="bg-slate-100 bg-opacity-70 backdrop-filter backdrop-blur-0 border border-gray-500 border-opacity-50 rounded-lg m-auto w-full md:w-4/5 p-6 md:p-12 lg:p-20 mb-5 md:mb-0 -mt-16 z-50 relative">
           <form onSubmit={handleSubmit}>
             <div className="relative flex flex-col md:flex-row justify-between items-center">
-              <div className="mb-2 md:mb-0 md:mr-2 w-full md:w-auto">
+              <div className="md:mb-0 md:mr-2 w-full mb-4 md:w-1/4">
                 <label
                   htmlFor="destination"
                   className="text-xs md:text-xl font-bold font-serif text-black"
@@ -112,7 +118,7 @@ const UserHero = ({ dataRef }) => {
                   <p className="text-red-600">{loactionError}</p>
                 )}
               </div>
-              <div className="mb-2 md:mb-0 md:mr-2 w-full md:w-auto">
+              <div className="md:mb-0 md:mr-2 w-full mb-4 md:w-1/4">
                 <label
                   htmlFor="check-in"
                   className="text-xs md:text-xl font-bold font-serif text-black"
@@ -134,7 +140,7 @@ const UserHero = ({ dataRef }) => {
                   <p className="text-red-600">{errors.CheckInDate}</p>
                 )}
               </div>
-              <div className="mb-2 md:mb-0 md:mr-2 w-full md:w-auto">
+              <div className="md:mb-0 md:mr-2 w-full mb-4 md:w-1/4">
                 <label
                   htmlFor="check-out"
                   className="text-xs md:text-xl font-bold font-serif text-black"
@@ -156,14 +162,30 @@ const UserHero = ({ dataRef }) => {
                   <p className="text-red-600">{errors.CheckOutDate}</p>
                 )}
               </div>
+              <div className="md:mb-0 md:mr-2 w-full mb-4 md:w-1/4">
+                <label
+                  htmlFor="person"
+                  className="flex items-center text-xs md:text-xl font-bold font-serif text-black"
+                >
+                  <FontAwesomeIcon
+                    icon={faUser}
+                    className="mr-2 text-gray-700"
+                  />
+                  <span className="ml-2">Person</span>
+                </label>
+                <input
+                  type="number"
+                  id="Persons"
+                  name="Persons"
+                  placeholder="Number of Persons"
+                  value={values.Persons}
+                  onChange={handleChange}
+                  onBlur={handleBlur}
+                  className="text-xs md:text-sm lg:text-md text-gray-700 font-bold font-serif bg-gray-200 border-solid border-gray-300 px-4 py-2 rounded-full w-full"
+                />
+                
+              </div>
               <div className="w-full md:w-auto">
-                {/* <label
-                htmlFor="person"
-                className="flex items-center text-xs md:text-xl font-bold font-serif text-black"
-              >
-                <FontAwesomeIcon icon={faUser} className="mr-2 text-gray-700" />
-                <span className="ml-2">Person</span>
-              </label> */}
                 <button
                   type="submit"
                   className="text-xs mt-7 md:text-sm lg:text-lg font-bold font-serif bg-red-600 w-full md:w-auto border-solid rounded-full text-white px-4 py-2 hover:bg-red-700 focus:outline-none focus:bg-red-700"

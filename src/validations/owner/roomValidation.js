@@ -27,4 +27,9 @@ export const roomValidation = yup.object().shape({
   roomType: yup.string().required("Room type required"),
   model: yup.string().required("Room model required"),
   acType: yup.string().required("Room Ac Type required"),
+  capacity: yup
+    .number()
+    .required("Capacity is required")
+    .positive("Capacity must be a positive number")
+    .integer("Capacity must be an integer"),
 });

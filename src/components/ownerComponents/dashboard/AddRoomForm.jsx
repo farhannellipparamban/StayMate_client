@@ -126,24 +126,24 @@ const AddRoomForm = () => {
       };
     }
   };
-  const handleRoomImagesChange = (event) => {
-    const files = Array.from(event.target.files);
-    const isValid = files.every(
-      (files) =>
-        files.type.startsWith("image/jpeg") ||
-        files.type.startsWith("image/png")
-    );
-    if (isValid) {
-      setRoomImageToBase(files);
-      setRoomImagesError(null);
-    } else {
-      setRoomImagesError(
-        "Invalid files type. Please select valid image files."
-      );
-    }
-    setRoomImage([]);
-    event.target.value = null;
-  };
+  // const handleRoomImagesChange = (event) => {
+  //   const files = Array.from(event.target.files);
+  //   const isValid = files.every(
+  //     (files) =>
+  //       files.type.startsWith("image/jpeg") ||
+  //       files.type.startsWith("image/png")
+  //   );
+  //   if (isValid) {
+  //     setRoomImageToBase(files);
+  //     setRoomImagesError(null);
+  //   } else {
+  //     setRoomImagesError(
+  //       "Invalid files type. Please select valid image files."
+  //     );
+  //   }
+  //   setRoomImage([]);
+  //   event.target.value = null;
+  // };
 
   const setRoomImageToBase = async (files) => {
     const imagesData = [];
@@ -183,87 +183,106 @@ const AddRoomForm = () => {
     <>
       <div className="flex justify-center items-center h-4/5 w-full bg-gray-100 py-10">
         <div className="w-full md:w-2/3 lg:w-2/3 xl:w-2/3 p-8 bg-white rounded-lg shadow-lg mt-3 mb-3">
-          <h1 className="text-2xl font-semibold mb-6 text-gray-800 text-center">
+          <h1 className="text-2xl font-semibold mb-6 text-gray-800 text-center font-serif">
             Add Room Form
           </h1>
           <form onSubmit={handleSubmit} className="space-y-4">
-            <div className="flex flex-col">
-              <label htmlFor="roomName" className="font-medium text-gray-600">
-                Room Name
-              </label>
-              <input
-                type="text"
-                id="roomName"
-                name="roomName"
-                value={values.roomName}
-                onChange={handleChange}
-                onBlur={handleBlur}
-                className="mt-1 p-2 border rounded-md focus:outline-none focus:border-blue-500"
-              />
-              {touched.roomName && errors.roomName && (
-                <p className="text-red-600">{errors.roomName}</p>
-              )}
+            <div className="mb-8 flex flex-col md:flex-row md:space-x-4">
+              <div className="w-full md:w-1/2">
+                <label
+                  htmlFor="roomName"
+                  className="block text-sm font-medium text-gray-600 mb-1"
+                >
+                  Room Name
+                </label>
+                <input
+                  type="text"
+                  id="roomName"
+                  name="roomName"
+                  value={values.roomName}
+                  onChange={handleChange}
+                  onBlur={handleBlur}
+                  className="mt-1 p-2 border border-gray-400 rounded-md focus:outline-none focus:border-blue-500 w-full"
+                />
+                {touched.roomName && errors.roomName && (
+                  <p className="text-red-600 text-sm mt-1">{errors.roomName}</p>
+                )}
+              </div>
+              <div className="w-full md:w-1/2">
+                <label
+                  htmlFor="capacity"
+                  className="block text-sm font-medium text-gray-600 mb-1"
+                >
+                  Capacity
+                </label>
+                <input
+                  id="capacity"
+                  name="capacity"
+                  type="number"
+                  value={values.capacity}
+                  onChange={handleChange}
+                  onBlur={handleBlur}
+                  className="w-full p-2 border border-gray-400 rounded-md focus:outline-none focus:border-blue-500"
+                />
+                {touched.capacity && errors.capacity && (
+                  <p className="text-red-600 text-sm mt-1">{errors.capacity}</p>
+                )}
+              </div>
             </div>
 
-            <div className="mb-4">
-              <label
-                htmlFor="roomType"
-                className="block text-sm font-medium text-gray-600"
-              >
-                Room Category
-              </label>
-              <select
-                id="roomType"
-                name="roomType"
-                value={values.roomType}
-                onChange={handleChange}
-                onBlur={handleBlur}
-                className="mt-1 p-2 w-full border rounded-md focus:outline-none focus:border-blue-500"
-              >
-                <option value="" label="Select Room Type">
-                  Select Room Type
-                </option>
-                <option value="Single Room" label="Single Room" />
-                <option value="Double Room" label="Double Room" />
-                <option value="Family Room" label="Family Room" />
-                <option value="Deluxe Room" label="Deluxe Room" />
-                <option value="Presidential Suite" label="Presidential Suite" />
-                <option value="Hollywood Twin" label="Hollywood Twin" />
-              </select>
-              {touched.roomType && errors.roomType && (
-                <p className="text-red-600">{errors.roomType}</p>
-              )}
-            </div>
+            <div className="mb-8 flex flex-col md:flex-row md:space-x-4">
+              <div className="w-full md:w-1/2">
+                <label
+                  htmlFor="roomType"
+                  className="block text-sm font-medium text-gray-600 mb-1"
+                >
+                  Room Category
+                </label>
+                <select
+                  id="roomType"
+                  name="roomType"
+                  value={values.roomType}
+                  onChange={handleChange}
+                  onBlur={handleBlur}
+                  className="w-full p-2 border border-gray-400 rounded-md focus:outline-none focus:border-blue-500"
+                >
+                  <option value="">Select Room Type</option>
+                  <option value="Single Room">Single Room</option>
+                  <option value="Double Room">Double Room</option>
+                  <option value="Family Room">Family Room</option>
+                  <option value="Deluxe Room">Deluxe Room</option>
+                  <option value="Presidential Suite">Presidential Suite</option>
+                  <option value="Hollywood Twin">Hollywood Twin</option>
+                </select>
+                {touched.roomType && errors.roomType && (
+                  <p className="text-red-600 text-sm mt-1">{errors.roomType}</p>
+                )}
+              </div>
 
-            <div className="mb-4">
-              <label
-                htmlFor="model"
-                className="block text-sm font-medium text-gray-600"
-              >
-                Model
-              </label>
-              <select
-                id="model"
-                name="model"
-                value={values.model}
-                onChange={handleChange}
-                onBlur={handleBlur}
-                className="mt-1 p-2 w-full border rounded-md focus:outline-none focus:border-blue-500"
-              >
-                {/* <option value="" disabled>
-                  Select Model
-                </option>
-                <option value="Normal">Normal</option>
-                <option value="Medium">Medium</option>
-                <option value="Luxury">Luxury</option> */}
-                <option value="" label="Select Room Type" />
-                <option value="Normal" label="Normal" />
-                <option value="Medium" label="Medium" />
-                <option value="Luxury" label="Luxury" />
-              </select>
-              {touched.model && errors.model && (
-                <p className="text-red-600">{errors.model}</p>
-              )}
+              <div className="w-full md:w-1/2">
+                <label
+                  htmlFor="model"
+                  className="block text-sm font-medium text-gray-600 mb-1"
+                >
+                  Model
+                </label>
+                <select
+                  id="model"
+                  name="model"
+                  value={values.model}
+                  onChange={handleChange}
+                  onBlur={handleBlur}
+                  className="w-full p-2 border border-gray-400 rounded-md focus:outline-none focus:border-blue-500"
+                >
+                  <option value="">Select Model</option>
+                  <option value="Normal">Normal</option>
+                  <option value="Medium">Medium</option>
+                  <option value="Luxury">Luxury</option>
+                </select>
+                {touched.model && errors.model && (
+                  <p className="text-red-600 text-sm mt-1">{errors.model}</p>
+                )}
+              </div>
             </div>
 
             <div className="mb-4">
@@ -279,9 +298,9 @@ const AddRoomForm = () => {
                     value="AC"
                     checked={values.acType === "AC"}
                     onChange={handleChange}
-                    className="form-radio h-4 w-4 text-slate-600"
+                    className="form-radio h-4 w-4 text-slate-700"
                   />
-                  <span className="ml-2 text-sm text-gray-700">Available</span>
+                  <span className="ml-2 text-sm text-gray-800">Available</span>
                 </label>
                 <label className="inline-flex items-center">
                   <input
@@ -291,9 +310,9 @@ const AddRoomForm = () => {
                     value="Non-AC"
                     checked={values.acType === "Non-AC"}
                     onChange={handleChange}
-                    className="form-radio h-4 w-4 text-slate-600"
+                    className="form-radio h-4 w-4 text-slate-700"
                   />
-                  <span className="ml-2 text-sm text-gray-700">Non-AC</span>
+                  <span className="ml-2 text-sm text-gray-800">Non-AC</span>
                 </label>
               </div>
               {touched.acType && errors.acType && (
@@ -317,7 +336,7 @@ const AddRoomForm = () => {
                 value={values.description}
                 onChange={handleChange}
                 onBlur={handleBlur}
-                className="mt-1 p-2 w-full border rounded-md focus:outline-none focus:border-blue-500"
+                className="w-full p-2 border border-gray-400 rounded-md focus:outline-none focus:border-blue-500"
               />
               {touched.description && errors.description && (
                 <p className="text-red-500 text-sm mt-1">
@@ -335,7 +354,7 @@ const AddRoomForm = () => {
                     name="location"
                     value={location}
                     onChange={(e) => setLocation(e.target.value)}
-                    className="mt-1 p-2 w-full border rounded-md"
+                    className="mt-1 p-2 w-full border rounded-md border-gray-400"
                     required=""
                   />
                 </Autocomplete>
@@ -361,7 +380,7 @@ const AddRoomForm = () => {
                   value={values.rent}
                   onChange={handleChange}
                   onBlur={handleBlur}
-                  className="mt-1 p-2 w-full border rounded-md focus:outline-none focus:border-blue-500"
+                  className="w-full p-2 border border-gray-400 rounded-md focus:outline-none focus:border-blue-500"
                 />
                 {touched.rent && errors.rent && (
                   <p className="text-red-500 text-sm mt-1">{errors.rent}</p>
@@ -381,7 +400,7 @@ const AddRoomForm = () => {
                   value={values.mobile}
                   onChange={handleChange}
                   onBlur={handleBlur}
-                  className="mt-1 p-2 w-full border rounded-md focus:outline-none focus:border-blue-500"
+                  className="w-full p-2 border border-gray-400 rounded-md focus:outline-none focus:border-blue-500"
                 />
                 {touched.mobile && errors.mobile && (
                   <p className="text-red-500 text-sm mt-1">{errors.mobile}</p>
@@ -397,10 +416,11 @@ const AddRoomForm = () => {
                 className="block text-sm font-medium text-gray-600"
               >
                 Upload Room Images
-              </label>
               <button className="btn" onClick={onChooseImg}>
                 Choose File{" "}
               </button>
+              </label>
+
               {/* </label> */}
               <span className="ml-2">{roomImage.length} file(s) selected</span>
               <div className="mt-3 flex items-center">

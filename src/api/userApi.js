@@ -77,7 +77,6 @@ export const verifyPayment = async(response,bookingData)=>{
 }
 
 export const filterDateLoacionRooms = async(formData)=>{
-  console.log(formData);
   const data = await userAxiosInstance.post('/filterRooms',formData)
   return data
 }

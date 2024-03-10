@@ -108,6 +108,9 @@ const RoomDetails = () => {
                     <strong>Location :</strong> {room?.location}
                   </p>
                   <p className="text-black mb-2">
+                    <strong>Capacity :</strong> {room?.capacity}
+                  </p>
+                  <p className="text-black mb-2">
                     <strong>Model :</strong> {room?.model}
                   </p>
                   <p className="text-black mb-2">

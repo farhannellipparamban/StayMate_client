@@ -41,7 +41,7 @@ const DetailsUser = ({ bookingData }) => {
     <div className="flex flex-col items-center p-6 md:p-10 bg-white border border-gray-200 rounded-lg shadow-md md:flex-row md:w-full hover:bg-gray-100 dark:border-gray-500 dark:bg-gray-200 dark:hover:bg-gray-200">
       <div className="md:w-1/2 lg:w-2/4">
         <img
-          className="object-cover w-full h-64 md:h-auto rounded-lg md:rounded-none md:rounded-lg"
+          className="object-cover w-full h-64 md:h-auto rounded-lg md:rounded-lg"
           src={bookingData?.room?.roomImages[0]}
           alt=""
         />

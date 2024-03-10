@@ -17,6 +17,7 @@ const CheckOut = () => {
   const [walletChecked, setWalletChecked] = useState(false);
   const { user, token } = useSelector((state) => state.userReducer);
   const { room, values } = state;
+  console.log(values);
 
   const startDate = values.values.CheckInDate;
   const endDate = values.values.CheckOutDate;

@@ -11,7 +11,7 @@ const BookingDetailsUser = () => {
   return (
     <>
       <UserNavbar />
-      <div className="mx-10 md:mx-10 mx-auto mt-10 pb-40">
+      <div className="md:mx-10 mx-auto mt-10 pb-40">
         <DetailsUser bookingData={bookingData} />
       </div>
       <UserFooter />

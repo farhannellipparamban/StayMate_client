@@ -154,13 +154,13 @@ const LocationDateFilter = ({ selectedData, setLoading }) => {
               )}
             </div>
             <div className="w-full md:w-auto">
-              {/* <label
+              <label
                 htmlFor="person"
                 className="flex items-center text-xs md:text-xl font-bold font-serif text-black"
               >
-                <FontAwesomeIcon icon={faUser} className="mr-2 text-gray-700" />
+                <FontAwesomeIcon icon={faUser} className="mr-2 text-black" />
                 <span className="ml-2">Person</span>
-              </label> */}
+              </label>
               <button
                 type="submit"
                 className="text-xs mt-7 md:text-sm lg:text-lg font-bold font-serif bg-red-600 w-full md:w-auto border-solid rounded-full text-white px-4 py-2 hover:bg-red-700 focus:outline-none focus:bg-red-700"
