@@ -62,35 +62,51 @@ export const getRoomDetails = async (roomId) => {
   return data;
 };
 
+export const checkRoomAvailability = async (roomId, startDate, endDate) => {
+  const data = await userAxiosInstance.post("/checkAvailable", {
+    roomId,
+    startDate,
+    endDate,
+  });
+  console.log(data, "jhfeugdujh");
+  return data;
+};
+
 export const updateUserProfile = async (userData) => {
   const data = await userAxiosInstance.put("/editProfile", userData);
   return data;
 };
 
-export const roomBooking = async(bookingData)=>{
-  const data = await userAxiosInstance.post("/roomBooking",bookingData)
-  return data
-}
-export const verifyPayment = async(response,bookingData)=>{
-  const data = await userAxiosInstance.post("/verifyPayment",{response,bookingData})
-  return data
-}
+export const roomBooking = async (bookingData) => {
+  const data = await userAxiosInstance.post("/roomBooking", bookingData);
+  return data;
+};
+export const verifyPayment = async (response, bookingData) => {
+  const data = await userAxiosInstance.post("/verifyPayment", {
+    response,
+    bookingData,
+  });
+  return data;
+};
 
-export const filterDateLoacionRooms = async(formData)=>{
-  const data = await userAxiosInstance.post('/filterRooms',formData)
-  return data
-}
-export const myBookings = async(userId)=>{
-  const data = await userAxiosInstance.get(`/myBookings/${userId}`)
-  return data
-}
+export const filterDateLoacionRooms = async (formData) => {
+  const data = await userAxiosInstance.post("/filterRooms", formData);
+  return data;
+};
+export const myBookings = async (userId) => {
+  const data = await userAxiosInstance.get(`/myBookings/${userId}`);
+  return data;
+};
 
-export const cancelBookingUser = async (bookingId,reason) => {
-  const data = await userAxiosInstance.post('/cancelBooking',{bookingId,reason})
-  return data
-}
+export const cancelBookingUser = async (bookingId, reason) => {
+  const data = await userAxiosInstance.post("/cancelBooking", {
+    bookingId,
+    reason,
+  });
+  return data;
+};
 
 export const getUserDetails = async (userId) => {
-  const data = await userAxiosInstance.get(`/userDetails/${userId}`)
-  return data
-}
+  const data = await userAxiosInstance.get(`/userDetails/${userId}`);
+  return data;
+};

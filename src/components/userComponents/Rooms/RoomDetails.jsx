@@ -1,9 +1,11 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import Loading from "../../loading/Loading";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faHeart, faPhone } from "@fortawesome/free-solid-svg-icons";
 import ReactImageMagnify from "react-image-magnify";
+import { checkRoomAvailability } from "../../../api/userApi";
+import { toast } from "react-toastify";
 // import * as Yup from "yup";
 // import { useFormik } from "formik";
 // import { filterDateLoacionRooms } from "../../../api/userApi";
@@ -12,11 +14,43 @@ import ReactImageMagnify from "react-image-magnify";
 const RoomDetails = () => {
   const [imageIndex, setImageIndex] = useState(0);
   const { loading, setLoading } = useState(false);
+
   const { state } = useLocation();
   const { room, values } = state;
-  console.log(state);
+  // console.log(state);
   const navigate = useNavigate();
+  const [selectedDates, setSelectedDates] = useState({
+    startDate: values.values.CheckInDate,
+    endDate: values.values.CheckOutDate,
+  });
+  const [isRoomAvailable, setIsRoomAvailable] = useState(false);
   const imageUrl = room?.roomImages[imageIndex];
+
+  useEffect(() => {
+    const checkAvailability = async () => {
+      if (selectedDates.startDate && selectedDates.endDate&& state?.room?._id) {
+        try {
+          const res = await checkRoomAvailability(
+            state.room._id,
+            selectedDates.startDate,
+            selectedDates.endDate
+          );
+          if (res?.status === 200) {
+            setIsRoomAvailable(res.data.available);
+          }
+        } catch (error) {
+          console.error("Error checking room availability:", error);
+        }
+      }
+    };
+
+    checkAvailability();
+  }, [selectedDates, state?.room?._id]);
+
+  const handleBookNow = () => {
+    navigate("/checkOut", { state: { room: state.room, values: state.values } });
+    // navigate("/checkOut", { state: { room, values } });
+  };
 
   // const validationSchema = Yup.object().shape({
   //   Persons: Yup.number().required("Number of persons is required"),
@@ -154,7 +188,7 @@ const RoomDetails = () => {
                   </h3>
                   <div className="font-bold">
                     <p className="text-xl mb-4">
-                    Capacity :{" "}
+                      Capacity :{" "}
                       <span className="text-lg font-extralight">
                         {room?.capacity}
                       </span>
@@ -249,9 +283,17 @@ const RoomDetails = () => {
                       </span>
                     </span>
                   </div>
-
-                    {/* Continue to booking button */}
+                  {!isRoomAvailable && (
                     <button
+                      onClick={handleBookNow}
+                      className="mt-10 md:mt-10 bg-red-600 text-white px-6 py-3 rounded-md hover:bg-red-800 transition duration-300 ease-in-out"
+                    >
+                      Book Now
+                    </button>
+                  )}
+
+                  {/* Continue to booking button */}
+                  {/* <button
                       type="submit"
                       onClick={() =>
                         navigate("/checkOut", { state: { room, values } })
@@ -259,7 +301,7 @@ const RoomDetails = () => {
                       className="mt-10 md:mt-10 bg-red-600 text-white px-6 py-3 rounded-md hover:bg-red-800 transition duration-300 ease-in-out"
                     >
                       Book Now
-                    </button>
+                    </button> */}
                 </form>
               </div>
               <div className="md:col-span-2">
