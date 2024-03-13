@@ -19,12 +19,12 @@ const CheckOut = () => {
   const { room, values } = state;
   console.log(values);
 
-  const startDate = values.values.CheckInDate;
-  const endDate = values.values.CheckOutDate;
-  const chooseLocation = values.values.chooseLocation;
+  const startDate = values.CheckInDate;
+  const endDate = values.CheckOutDate;
+  const chooseLocation = values.chooseLocation;
 
-  const startTimestamp = new Date(values.values.CheckInDate).getTime();
-  const endTimestamp = new Date(values.values.CheckOutDate).getTime();
+  const startTimestamp = new Date(values.CheckInDate).getTime();
+  const endTimestamp = new Date(values.CheckOutDate).getTime();
   const dayDiffrence = (endTimestamp - startTimestamp) / (1000 * 3600 * 24);
   const totalAmount = dayDiffrence * room.rent;
   const rezorpayKey = import.meta.env.VITE_RAZORPAY_KEY;

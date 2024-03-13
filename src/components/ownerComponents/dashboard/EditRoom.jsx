@@ -74,6 +74,7 @@ const EditRoom = () => {
         roomType: room.roomType,
         model: room.model,
         acType: room.acType,
+        capacity:room.capacity,
       },
       validationSchema: roomValidation,
       onSubmit,
@@ -140,86 +141,115 @@ const EditRoom = () => {
               Edit Room
             </h1>
             <form onSubmit={handleSubmit} className="space-y-4">
-              <div className="flex flex-col">
-                <label htmlFor="roomName" className="font-medium text-gray-600">
-                  Room Name
-                </label>
-                <input
-                  type="text"
-                  id="roomName"
-                  name="roomName"
-                  value={values.roomName}
-                  onChange={handleChange}
-                  onBlur={handleBlur}
-                  className="mt-1 p-2 border rounded-md focus:outline-none focus:border-blue-500"
-                />
-                {touched.roomName && errors.roomName && (
-                  <p className="text-red-600">{errors.roomName}</p>
-                )}
+              <div className="mb-8 flex flex-col md:flex-row md:space-x-4">
+                <div className="w-full md:w-1/2">
+                  <label
+                    htmlFor="roomName"
+                    className="block text-sm font-medium text-gray-600 mb-1"
+                  >
+                    Room Name
+                  </label>
+                  <input
+                    type="text"
+                    id="roomName"
+                    name="roomName"
+                    value={values.roomName}
+                    onChange={handleChange}
+                    onBlur={handleBlur}
+                    className="mt-1 p-2 border border-gray-400 rounded-md focus:outline-none focus:border-blue-500 w-full"
+                    />
+                  {touched.roomName && errors.roomName && (
+                    <p className="text-red-600">{errors.roomName}</p>
+                  )}
+                </div>
+                <div className="w-full md:w-1/2">
+                  <label
+                    htmlFor="capacity"
+                    className="block text-sm font-medium text-gray-600 mb-1"
+                  >
+                    Capacity
+                  </label>
+                  <input
+                    id="capacity"
+                    name="capacity"
+                    type="number"
+                    value={values.capacity}
+                    onChange={handleChange}
+                    onBlur={handleBlur}
+                    className="w-full p-2 border border-gray-400 rounded-md focus:outline-none focus:border-blue-500"
+                    />
+                  {touched.capacity && errors.capacity && (
+                    <p className="text-red-600 text-sm mt-1">
+                      {errors.capacity}
+                    </p>
+                  )}
+                </div>
               </div>
 
-              <div className="mb-4">
-                <label
-                  htmlFor="roomType"
-                  className="block text-sm font-medium text-gray-600"
-                >
-                  Room Category
-                </label>
-                <select
-                  id="roomType"
-                  name="roomType"
-                  value={values.roomType}
-                  onChange={handleChange}
-                  onBlur={handleBlur}
-                  className="mt-1 p-2 w-full border rounded-md focus:outline-none focus:border-blue-500"
-                >
-                  <option value="" label="Select Room Type">
-                    Select Room Type
-                  </option>
-                  <option value="Single Room" label="Single Room" />
-                  <option value="Double Room" label="Double Room" />
-                  <option value="Family Room" label="Family Room" />
-                  <option value="Deluxe Room" label="Deluxe Room" />
-                  <option
-                    value="Presidential Suite"
-                    label="Presidential Suite"
-                  />
-                  <option value="Hollywood Twin" label="Hollywood Twin" />
-                </select>
-                {touched.roomType && errors.roomType && (
-                  <p className="text-red-600">{errors.roomType}</p>
-                )}
-              </div>
+              <div className="mb-8 flex flex-col md:flex-row md:space-x-4">
+                <div className="w-full md:w-1/2">
+                  <label
+                    htmlFor="roomType"
+                    className="block text-sm font-medium text-gray-600"
+                  >
+                    Room Category
+                  </label>
+                  <select
+                    id="roomType"
+                    name="roomType"
+                    value={values.roomType}
+                    onChange={handleChange}
+                    onBlur={handleBlur}
+                    className="w-full p-2 border border-gray-400 rounded-md focus:outline-none focus:border-blue-500"
+                    >
+                    <option value="" label="Select Room Type">
+                      Select Room Type
+                    </option>
+                    <option value="Single Room" label="Single Room" />
+                    <option value="Double Room" label="Double Room" />
+                    <option value="Family Room" label="Family Room" />
+                    <option value="Deluxe Room" label="Deluxe Room" />
+                    <option
+                      value="Presidential Suite"
+                      label="Presidential Suite"
+                    />
+                    <option value="Hollywood Twin" label="Hollywood Twin" />
+                  </select>
+                  {touched.roomType && errors.roomType && (
+                    <p className="text-red-600">{errors.roomType}</p>
+                  )}
+                </div>
 
-              <div className="mb-4">
-                <label
-                  htmlFor="model"
-                  className="block text-sm font-medium text-gray-600"
-                >
-                  Model
-                </label>
-                <select
-                  id="model"
-                  name="model"
-                  value={values.model}
-                  onChange={handleChange}
-                  onBlur={handleBlur}
-                  className="mt-1 p-2 w-full border rounded-md focus:outline-none focus:border-blue-500"
-                >
-                  {/* <option value="" disabled>
+                <div className="w-full md:w-1/2">
+                  <label
+                    htmlFor="model"
+                    className="block text-sm font-medium text-gray-600"
+                  >
+                    Model
+                  </label>
+                  <select
+                    id="model"
+                    name="model"
+                    value={values.model}
+                    onChange={handleChange}
+                    onBlur={handleBlur}
+                    className="w-full p-2 border border-gray-400 rounded-md focus:outline-none focus:border-blue-500"
+                    >
+                    {/* <option value="" disabled>
                   Select Model
                 </option>
                 <option value="Normal">Normal</option>
                 <option value="Medium">Medium</option>
                 <option value="Luxury">Luxury</option> */}
-                  <option value="" label="Select Room Type" />
-                  <option value="Normal" label="Normal" />
-                  <option value="Medium" label="Medium" />
-                  <option value="Luxury" label="Luxury" />
-                </select>
-                {touched.model && errors.model && (
-                  <p className="text-red-600">{errors.model}</p>
-                )}
+                    <option value="" label="Select Room Type" />
+                    <option value="Normal" label="Normal" />
+                    <option value="Medium" label="Medium" />
+                    <option value="Luxury" label="Luxury" />
+                  </select>
+                  {touched.model && errors.model && (
+                    <p className="text-red-600">{errors.model}</p>
+                  )}
+                </div>
               </div>
 
               <div className="mb-4">
@@ -235,8 +265,8 @@ const EditRoom = () => {
                       value="AC"
                       checked={values.acType === "AC"}
                       onChange={handleChange}
-                      className="form-radio h-4 w-4 text-slate-600"
-                    />
+                      className="form-radio h-4 w-4 text-slate-700"
+                      />
                     <span className="ml-2 text-sm text-gray-700">
                       Available
                     </span>
@@ -249,8 +279,8 @@ const EditRoom = () => {
                       value="Non-AC"
                       checked={values.acType === "Non-AC"}
                       onChange={handleChange}
-                      className="form-radio h-4 w-4 text-slate-600"
-                    />
+                      className="form-radio h-4 w-4 text-slate-700"
+                      />
                     <span className="ml-2 text-sm text-gray-700">Non-AC</span>
                   </label>
                 </div>
@@ -277,8 +307,8 @@ const EditRoom = () => {
                   value={values.description}
                   onChange={handleChange}
                   onBlur={handleBlur}
-                  className="mt-1 p-2 w-full border rounded-md focus:outline-none focus:border-blue-500"
-                />
+                  className="w-full p-2 border border-gray-400 rounded-md focus:outline-none focus:border-blue-500"
+                  />
                 {touched.description && errors.description && (
                   <p className="text-red-500 text-sm mt-1">
                     {errors.description}
@@ -293,7 +323,7 @@ const EditRoom = () => {
                   name="location"
                   value={location}
                   onChange={(e) => setLocation(e.target.value)}
-                  className="mt-1 p-2 w-full border rounded-md"
+                  className="mt-1 p-2 w-full border rounded-md border-gray-400"
                   required=""
                 />
 
@@ -317,8 +347,8 @@ const EditRoom = () => {
                     value={values.rent}
                     onChange={handleChange}
                     onBlur={handleBlur}
-                    className="mt-1 p-2 w-full border rounded-md focus:outline-none focus:border-blue-500"
-                  />
+                    className="w-full p-2 border border-gray-400 rounded-md focus:outline-none focus:border-blue-500"
+                    />
                   {touched.rent && errors.rent && (
                     <p className="text-red-500 text-sm mt-1">{errors.rent}</p>
                   )}
@@ -337,8 +367,8 @@ const EditRoom = () => {
                     value={values.mobile}
                     onChange={handleChange}
                     onBlur={handleBlur}
-                    className="mt-1 p-2 w-full border rounded-md focus:outline-none focus:border-blue-500"
-                  />
+                    className="w-full p-2 border border-gray-400 rounded-md focus:outline-none focus:border-blue-500"
+                    />
                   {touched.mobile && errors.mobile && (
                     <p className="text-red-500 text-sm mt-1">{errors.mobile}</p>
                   )}

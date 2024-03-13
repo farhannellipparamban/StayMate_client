@@ -64,7 +64,6 @@ export const addRooms = async (roomFormData, imgAfterCrop, location,ownerId) => 
   return data;
 };
 
-
 export const MyRoomsList = async(ownerId)=>{
   const data = await ownerAxiosInstance.get(`/roomList/${ownerId}`)
   return data
@@ -122,3 +121,5 @@ export const cancelRequestApproval = async (bookingId,status) => {
   const data = await ownerAxiosInstance.patch('/approveCancel',{bookingId,status})
   return data
 }
+
+export const dashboardReport = async(ownerId)=>await ownerAxiosInstance.get(`/report/${ownerId}`)

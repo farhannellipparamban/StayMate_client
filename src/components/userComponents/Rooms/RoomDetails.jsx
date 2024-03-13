@@ -20,8 +20,8 @@ const RoomDetails = () => {
   // console.log(state);
   const navigate = useNavigate();
   const [selectedDates, setSelectedDates] = useState({
-    startDate: values.values.CheckInDate,
-    endDate: values.values.CheckOutDate,
+    startDate: values.CheckInDate,
+    endDate: values.CheckOutDate,
   });
   const [isRoomAvailable, setIsRoomAvailable] = useState(false);
   const imageUrl = room?.roomImages[imageIndex];
