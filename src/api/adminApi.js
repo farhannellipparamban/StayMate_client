@@ -46,3 +46,8 @@ export const verifyRoom = async(roomId,status)=>{
   const data = await adminAxiosInstance.patch("/verifyRoom",{roomId,status})
   return data
 }
+
+export const dashboardReport  = async ()=>{
+  const data = await adminAxiosInstance.get("/report")
+  return data
+}

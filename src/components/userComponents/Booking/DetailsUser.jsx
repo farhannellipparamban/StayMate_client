@@ -12,9 +12,9 @@ const DetailsUser = ({ bookingData }) => {
         return "text-green-600";
       case "Cancelled":
         return "text-red-500";
-      case "Checked In":
+      case "CheckedIn":
         return "text-green-600";
-      case "Checked Out":
+      case "CheckedOut":
         return "text-blue-600";
       default:
         return "text-gray-700";
@@ -29,9 +29,9 @@ const DetailsUser = ({ bookingData }) => {
         return "Room booked Successfully";
       case "Cancelled":
         return "Booking cancelled";
-      case "Checked In":
+      case "CheckedIn":
         return "Room Checked In";
-      case "Checked Out":
+      case "CheckedOut":
         return "Room Checked Out";
       default:
         return "Payment Failed !!";

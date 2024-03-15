@@ -14,9 +14,9 @@ const DetailsOwner = ({ bookingData, setBookingData }) => {
         return "text-green-600";
       case "Cancelled":
         return "text-red-500";
-      case "Checked In":
+      case "CheckedIn":
         return "text-green-600";
-      case "Checked Out":
+      case "CheckedOut":
         return "text-blue-600";
       default:
         return "text-gray-700";
@@ -31,9 +31,9 @@ const DetailsOwner = ({ bookingData, setBookingData }) => {
         return "Room booked Successfully";
       case "Cancelled":
         return "Booking cancelled";
-      case "Checked In":
+      case "CheckedIn":
         return "Room Checked In";
-      case "Checked Out":
+      case "CheckedOut":
         return "Room Checked Out";
       default:
         return "Payment Failed !!";
@@ -75,7 +75,7 @@ const DetailsOwner = ({ bookingData, setBookingData }) => {
                   <button
                     type="button"
                     onClick={() =>
-                      handleBookingStatus("Checked In", bookingData?._id)
+                      handleBookingStatus("CheckedIn", bookingData?._id)
                     }
                     class="btn-success"
                   >
@@ -83,11 +83,11 @@ const DetailsOwner = ({ bookingData, setBookingData }) => {
                   </button>
                 )}
               {new Date(bookingData?.endDate) > new Date() &&
-                bookingData?.bookingStatus === "Checked In" && (
+                bookingData?.bookingStatus === "CheckedIn" && (
                   <button
                     type="button"
                     onClick={() =>
-                      handleBookingStatus("Checked Out", bookingData?._id)
+                      handleBookingStatus("CheckedOut", bookingData?._id)
                     }
                     class="btn-success"
                   >
