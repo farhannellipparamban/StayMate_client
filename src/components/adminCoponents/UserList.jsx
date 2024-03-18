@@ -154,13 +154,13 @@ const UserList = () => {
                               <div className="text-base font-semibold">
                                 {data?.name}
                               </div>
-                              <div className="font-normal">
-                                {data?.email}
-                              </div>
+                              <div className="font-normal">{data?.email}</div>
                             </div>
                           </div>
                         </td>
-                        <td className="bg-gray-300 border-gray-200 border-b">{data?.mobile}</td>
+                        <td className="bg-gray-300 border-gray-200 border-b">
+                          {data?.mobile}
+                        </td>
                         <td className="px-4 py-4 bg-gray-300 border-gray-200 border-b">
                           {data?.isVerified ? (
                             <span className="rounded-full bg-green-200 px-3 py-1 text-xs font-semibold text-green-900">

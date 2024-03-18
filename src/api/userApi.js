@@ -68,7 +68,6 @@ export const checkRoomAvailability = async (roomId, startDate, endDate) => {
     startDate,
     endDate,
   });
-  console.log(data, "jhfeugdujh");
   return data;
 };
 
@@ -108,5 +107,14 @@ export const cancelBookingUser = async (bookingId, reason) => {
 
 export const getUserDetails = async (userId) => {
   const data = await userAxiosInstance.get(`/userDetails/${userId}`);
+  return data;
+};
+
+export const allCoupons = async ()=>{
+  const data = await userAxiosInstance.get("/allCoupons")
+  return data
+}
+export const applyCoupon = async (couponCode) => {
+  const data = await userAxiosInstance.post("/applyCoupon", couponCode);
   return data;
 };

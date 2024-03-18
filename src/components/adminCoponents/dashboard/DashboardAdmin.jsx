@@ -127,7 +127,7 @@ const DashboardAdmin = () => {
                             className="text-2xl text-red-500"
                           />
                           <h6 className="mb-2 text-lg font-semibold text-gray-800">
-                            Total Partners
+                            Total Owners
                           </h6>
                         </div>
                         <span className="text-2xl font-bold text-red-600">
@@ -152,7 +152,7 @@ const DashboardAdmin = () => {
                   <div className="w-full max-w-md p-4 bg-white border border-gray-200 rounded-lg shadow sm:p-8 dark:bg-gray-200 dark:border-gray-200">
                     <div className="flex items-center justify-between mb-4">
                       <h5 className="text-xl font-bold leading-none text-gray-900 dark:text-black">
-                        Trending Cars
+                        Most Booked Rooms
                       </h5>
                     </div>
                     {reportData?.trendingRoomDetails &&

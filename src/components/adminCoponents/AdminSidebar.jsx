@@ -10,20 +10,20 @@ const AdminSidebar = () => {
     <div className="w-full sm:w-64 bg-white">
       <div className="h-screen pb-10">
         <div className="flex flex-col h-full overflow-y-auto rounded-br-lg rounded-tr-lg bg-white">
-          
           <div className="flex mt-6 flex-1 flex-col">
             <nav className="flex-1">
               <Link
                 to="/admin/dashboard"
-              
                 className={
                   location.pathname === "/admin/dashboard"
                     ? "flex cursor-pointer items-center border-l-4 border-l-rose-600 py-5 px-5 text-sm font-medium text-rose-600 outline-none transition-all duration-100 ease-in-out focus:border-l-4"
                     : "flex cursor-pointer items-center border-l-rose-600 py-5 px-5 text-sm font-medium text-gray-600 outline-none transition-all duration-100 ease-in-out hover:border-l-4 hover:border-l-rose-600 hover:text-rose-600 focus:border-l-4"
                 }
               >
-                <FontAwesomeIcon className="mr-4 h-5 w-5 align-middle" icon={faHome}/>
-                
+                <FontAwesomeIcon
+                  className="mr-4 h-5 w-5 align-middle"
+                  icon={faHome}
+                />
                 Dashboard
               </Link>
 
@@ -90,25 +90,51 @@ const AdminSidebar = () => {
                 Properties
               </Link>
               <Link
-                    to="/admin/roomAddRequests"
-                    className={
-                      location.pathname === "/admin/roomAddRequests"
-                      ? "flex cursor-pointer items-center border-l-4 border-l-rose-600 py-5 px-5 text-sm font-medium text-rose-600 outline-none transition-all duration-100 ease-in-out focus:border-l-4"
-                      : "flex cursor-pointer items-center border-l-rose-600 py-5 px-5 text-sm font-medium text-gray-600 outline-none transition-all duration-100 ease-in-out hover:border-l-4 hover:border-l-rose-600 hover:text-rose-600 focus:border-l-4"
-                    }
-                  >
-                    <svg
-                      viewBox="0 0 24 24"
-                      fill="currentColor"
-                      height="1.5em"
-                      width="1.5em"
-                    >
-                      <path d="M13 9h5.5L13 3.5V9M6 2h8l6 6v12a2 2 0 01-2 2H6a2 2 0 01-2-2V4c0-1.11.89-2 2-2m4.5 9C8 11 6 13 6 15.5S8 20 10.5 20s4.5-2 4.5-4.5-2-4.5-4.5-4.5m0 1.5a3 3 0 013 3c0 .56-.15 1.08-.42 1.5L9 12.92c.42-.27.94-.42 1.5-.42m-3 3c0-.56.15-1.08.42-1.5L12 18.08c-.42.27-.94.42-1.5.42a3 3 0 01-3-3z" />
-                    </svg>
-                    <span className="flex-1 ml-3 whitespace-nowrap">
-                      Room Add Requests
-                    </span>
-                  </Link>
+                to="/admin/roomAddRequests"
+                className={
+                  location.pathname === "/admin/roomAddRequests"
+                    ? "flex cursor-pointer items-center border-l-4 border-l-rose-600 py-5 px-5 text-sm font-medium text-rose-600 outline-none transition-all duration-100 ease-in-out focus:border-l-4"
+                    : "flex cursor-pointer items-center border-l-rose-600 py-5 px-5 text-sm font-medium text-gray-600 outline-none transition-all duration-100 ease-in-out hover:border-l-4 hover:border-l-rose-600 hover:text-rose-600 focus:border-l-4"
+                }
+              >
+                <svg
+                  viewBox="0 0 24 24"
+                  fill="currentColor"
+                  height="1.5em"
+                  width="1.5em"
+                >
+                  <path d="M13 9h5.5L13 3.5V9M6 2h8l6 6v12a2 2 0 01-2 2H6a2 2 0 01-2-2V4c0-1.11.89-2 2-2m4.5 9C8 11 6 13 6 15.5S8 20 10.5 20s4.5-2 4.5-4.5-2-4.5-4.5-4.5m0 1.5a3 3 0 013 3c0 .56-.15 1.08-.42 1.5L9 12.92c.42-.27.94-.42 1.5-.42m-3 3c0-.56.15-1.08.42-1.5L12 18.08c-.42.27-.94.42-1.5.42a3 3 0 01-3-3z" />
+                </svg>
+                <span className="flex-1 ml-3 whitespace-nowrap">
+                  Room Add Requests
+                </span>
+              </Link>
+              <Link
+                to="/admin/couponList"
+                className={
+                  location.pathname === "/admin/couponList"
+                    ? "flex cursor-pointer items-center border-l-4 border-l-rose-600 py-5 px-5 text-sm font-medium text-rose-600 outline-none transition-all duration-100 ease-in-out focus:border-l-4"
+                    : "flex cursor-pointer items-center border-l-rose-600 py-5 px-5 text-sm font-medium text-gray-600 outline-none transition-all duration-100 ease-in-out hover:border-l-4 hover:border-l-rose-600 hover:text-rose-600 focus:border-l-4"
+                }
+              >
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  height="1.5em"
+                  width="1.5em"
+                >
+                  <path d="M13 9h5.5L13 3.5V9M6 2h8l6 6v12a2 2 0 01-2 2H6a2 2 0 01-2-2V4c0-1.11.89-2 2-2m4.5 9C8 11 6 13 6 15.5S8 20 10.5 20s4.5-2 4.5-4.5-2-4.5-4.5-4.5m0 1.5a3 3 0 013 3c0 .56-.15 1.08-.42 1.5L9 12.92c.42-.27.94-.42 1.5-.42m-3 3c0-.56.15-1.08.42-1.5L12 18.08c-.42.27-.94.42-1.5.42a3 3 0 01-3-3z" />
+                </svg>
+
+                <span className="flex-1 ml-3 whitespace-nowrap">
+                  Coupon List
+                </span>
+              </Link>
             </nav>
           </div>
         </div>

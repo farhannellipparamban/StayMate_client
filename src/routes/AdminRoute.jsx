@@ -11,6 +11,9 @@ import AdminProtect from "./adminPrivate/AdminProtect";
 import RoomAddReqPage from "../pages/adminPages/RoomAddReqPage";
 import Error404 from "../components/error/Error404";
 import Error500 from "../components/error/Error500";
+import CouponListPage from "../pages/adminPages/CouponListPage";
+import AddCouponPage from "../pages/adminPages/AddCouponPage";
+import EditCouponPage from "../pages/adminPages/EditCouponPage";
 
 const AdminRoute = () => {
   return (
@@ -68,6 +71,30 @@ const AdminRoute = () => {
         element={
           <AdminProtect>
             <RoomAddReqPage />
+          </AdminProtect>
+        }
+      />
+      <Route
+        path="/couponList"
+        element={
+          <AdminProtect>
+            <CouponListPage />
+          </AdminProtect>
+        }
+      />
+      <Route
+        path="/addCoupons"
+        element={
+          <AdminProtect>
+            <AddCouponPage />
+          </AdminProtect>
+        }
+      />
+      <Route
+        path="/editCoupon/:couponId"
+        element={
+          <AdminProtect>
+            <EditCouponPage />
           </AdminProtect>
         }
       />
