@@ -47,8 +47,6 @@ const EditCoupons = () => {
       initialValues: {
         code: coupon.code,
         discountType: coupon.discountType,
-        originalPrice: coupon.originalPrice,
-        finalPrice: coupon.finalPrice,
         maxUsers: coupon.maxUsers,
         discountAmount: coupon.discountAmount,
         expiryDate: coupon.expiryDate,
@@ -151,7 +149,7 @@ const EditCoupons = () => {
               </div>
             </div>
 
-            <div className="flex flex-col md:flex-row md:space-x-4">
+            {/* <div className="flex flex-col md:flex-row md:space-x-4">
               <div className="w-full md:w-1/2">
                 <label
                   htmlFor="originalPrice"
@@ -198,7 +196,7 @@ const EditCoupons = () => {
                   </p>
                 )}
               </div>
-            </div>
+            </div> */}
 
             <div className="flex flex-col md:flex-row md:space-x-4">
               <div className="w-full md:w-1/2">

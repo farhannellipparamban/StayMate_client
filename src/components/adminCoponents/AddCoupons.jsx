@@ -32,8 +32,6 @@ const AddCoupons = () => {
     initialValues: {
       code: "",
       discountType: "",
-      originalPrice: "",
-      finalPrice: "",
       maxUsers: "",
       discountAmount: "",
       expiryDate: "",
@@ -127,7 +125,7 @@ const AddCoupons = () => {
               </div>
             </div>
 
-            <div className="flex flex-col md:flex-row md:space-x-4">
+            {/* <div className="flex flex-col md:flex-row md:space-x-4">
               <div className="w-full md:w-1/2">
                 <label
                   htmlFor="originalPrice"
@@ -174,7 +172,7 @@ const AddCoupons = () => {
                   </p>
                 )}
               </div>
-            </div>
+            </div> */}
 
             <div className="flex flex-col md:flex-row md:space-x-4">
               <div className="w-full md:w-1/2">

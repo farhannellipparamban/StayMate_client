@@ -22,8 +22,9 @@ const CheckOut = () => {
   const [walletChecked, setWalletChecked] = useState(false);
   const [couponCode, setCouponCode] = useState("");
   const [coupons, setCoupons] = useState([]);
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [totalAmounts, setTotalAmounts] = useState(0);
 
-  const [openModal, setOpenModal] = useState(false);
   const { user, token } = useSelector((state) => state.userReducer);
   const { room, values } = state;
   console.log(values);
@@ -46,27 +47,50 @@ const CheckOut = () => {
     try {
       const res = await allCoupons(); // Fetch available coupons from backend
       setCoupons(res.data.coupons);
+      console.log(res, "cdiojd"); // Assuming `coupon` is the array containing coupons
     } catch (error) {
       console.log(error.message);
       toast.error("Failed to fetch coupons");
     }
   };
 
+  const calculateDiscountedAmount = (coupon) => {
+    if (coupon.discountType === "Percentage Type") {
+      return totalAmount - (totalAmount * coupon.discountAmount) / 100;
+    } else {
+      return totalAmount - coupon.discountAmount;
+    }
+  };
+
   const handleApplyCoupon = async () => {
     try {
       setLoading(true);
-      const res = await applyCoupon({ couponCode }); // Send a request to apply coupon with the entered code
+      const res = await applyCoupon(couponCode, user._id);
+      console.log(res);
       setLoading(false);
       if (res?.status === 200) {
-        // If coupon applied successfully
         toast.success(res?.data?.message);
-        // Update the total amount or any other relevant UI changes here
+        // Calculate discounted amount and update totalAmounts state
+        const appliedCoupon = coupons.find(
+          (coupon) => coupon.code === couponCode
+        );
+        if (appliedCoupon) {
+          const discountedAmount = calculateDiscountedAmount(appliedCoupon);
+          setTotalAmounts(discountedAmount);
+        } else {
+          // If coupon code is not valid, reset totalAmounts to original totalAmount
+          setTotalAmounts(totalAmount);
+        }
       }
     } catch (error) {
       setLoading(false);
       console.log(error.message);
       toast.error(error.response?.data?.message);
     }
+  };
+
+  const toggleModal = () => {
+    setIsModalOpen(!isModalOpen);
   };
 
   const handleSubmit = async () => {
@@ -76,7 +100,7 @@ const CheckOut = () => {
         ...room,
         startDate,
         endDate,
-        totalAmount,
+        totalAmount: totalAmounts,
         chooseLocation,
         userId: user._id,
         walletChecked,
@@ -272,14 +296,12 @@ const CheckOut = () => {
                 <div className="mt-10 flex flex-col sm:flex-row mb-8 justify-between">
                   <p className="text-black text-md font-bold">
                     CheckInDate
-                    <h2 className="text-sm font-bold">
-                      {values?.values?.CheckInDate}
-                    </h2>
+                    <h2 className="text-sm font-bold">{values?.CheckInDate}</h2>
                   </p>
                   <p className="text-black text-md font-bold">
                     CheckOutDate
                     <h2 className="text-sm font-bold">
-                      {values?.values?.CheckOutDate}
+                      {values?.CheckOutDate}
                     </h2>
                   </p>
                 </div>
@@ -295,191 +317,138 @@ const CheckOut = () => {
                   <p className="text-gray-600 text-sm">Total Rent Amount :</p>
                   <h2 className="text-sm font-bold">₹ {totalAmount}</h2>
                 </div>
-                <input
-                  type="text"
-                  value={couponCode}
-                  onChange={(e) => setCouponCode(e.target.value)}
-                  placeholder="Enter coupon code"
-                />
-                {/* Apply Coupon Button */}
-                <button onClick={handleApplyCoupon}>Apply Coupon</button>
+                <div className="flex flex-row">
+                  <input
+                    type="text"
+                    value={couponCode}
+                    onChange={(e) => setCouponCode(e.target.value)}
+                    placeholder="Enter coupon code"
+                    className="border border-gray-300 rounded-md py-2 px-4 focus:outline-none focus:ring focus:ring-blue-200 focus:border-blue-400"
+                  />
+                  <button
+                    onClick={handleApplyCoupon}
+                    className="ml-3 block bg-red-600 text-white font-semibold rounded-md py-2 px-4 transition duration-300 hover:bg-red-700 focus:outline-none focus:ring focus:ring-red-200 focus:border-red-400"
+                    type="button"
+                  >
+                    Apply Coupon
+                  </button>
+                </div>
 
                 <button
-                  data-modal-target="select-modal"
-                  data-modal-toggle="select-modal"
-                  class="block text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
+                  onClick={toggleModal}
+                  className="block bg-red-600 text-white font-semibold rounded-md py-2 px-4 mt-2 transition duration-300 hover:bg-red-700 focus:outline-none focus:ring focus:ring-red-200 focus:border-red-400"
                   type="button"
                 >
-                  Toggle modal
+                  Available Coupons
                 </button>
-
-                <div
-                  id="select-modal"
-                  tabindex="-1"
-                  aria-hidden="true"
-                  class="hidden overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 justify-center items-center w-full md:inset-0 h-[calc(100%-1rem)] max-h-full"
-                >
-                  <div class="relative p-4 w-full max-w-md max-h-full">
-                    <div class="relative bg-white rounded-lg shadow dark:bg-gray-700">
-                      <div class="flex items-center justify-between p-4 md:p-5 border-b rounded-t dark:border-gray-600">
-                        <h3 class="text-lg font-semibold text-gray-900 dark:text-white">
-                          Open positions
-                        </h3>
-                        <button
-                          type="button"
-                          class="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm h-8 w-8 ms-auto inline-flex justify-center items-center dark:hover:bg-gray-600 dark:hover:text-white"
-                          data-modal-toggle="select-modal"
-                        >
-                          <svg
-                            class="w-3 h-3"
-                            aria-hidden="true"
-                            xmlns="http://www.w3.org/2000/svg"
-                            fill="none"
-                            viewBox="0 0 14 14"
+                {isModalOpen && (
+                  <div
+                    id="select-modal"
+                    tabIndex="-1"
+                    aria-hidden="true"
+                    className={`fixed top-0 right-0 bottom-0 left-0 flex justify-center items-center z-50 bg-black bg-opacity-50 transition-opacity duration-300 ${
+                      isModalOpen
+                        ? "opacity-100"
+                        : "opacity-0 pointer-events-none"
+                    }`}
+                  >
+                    <div class="bg-gradient-to-br from-gray-200 to-gray-300 rounded-lg shadow-md w-full max-w-3xl mx-4 sm:mx-0">
+                      <div class="p-6">
+                        <div class="flex justify-between items-center mb-6">
+                          <h3 class="text-2xl font-semibold text-gray-900">
+                            Available Coupons
+                          </h3>
+                          <button
+                            onClick={toggleModal}
+                            type="button"
+                            class="text-gray-600 hover:text-gray-800 focus:outline-none"
+                            aria-label="Close modal"
                           >
-                            <path
+                            <svg
+                              class="w-8 h-8"
+                              fill="none"
                               stroke="currentColor"
-                              stroke-linecap="round"
-                              stroke-linejoin="round"
-                              stroke-width="2"
-                              d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6"
-                            />
-                          </svg>
-                          <span class="sr-only">Close modal</span>
-                        </button>
-                      </div>
-                      <div class="p-4 md:p-5">
-                        <p class="text-gray-500 dark:text-gray-400 mb-4">
-                          Select your desired position:
-                        </p>
-                        <ul class="space-y-4 mb-4">
-                          <li>
-                            <input
-                              type="radio"
-                              id="job-1"
-                              name="job"
-                              value="job-1"
-                              class="hidden peer"
-                              required
-                            />
-                            <label
-                              for="job-1"
-                              class="inline-flex items-center justify-between w-full p-5 text-gray-900 bg-white border border-gray-200 rounded-lg cursor-pointer dark:hover:text-gray-300 dark:border-gray-500 dark:peer-checked:text-blue-500 peer-checked:border-blue-600 peer-checked:text-blue-600 hover:text-gray-900 hover:bg-gray-100 dark:text-white dark:bg-gray-600 dark:hover:bg-gray-500"
+                              viewBox="0 0 24 24"
+                              xmlns="http://www.w3.org/2000/svg"
                             >
-                              <div class="block">
-                                <div class="w-full text-lg font-semibold">
-                                  UI/UX Engineer
+                              <path
+                                strokeLinecap="round"
+                                strokeLinejoin="round"
+                                strokeWidth="2"
+                                d="M6 18L18 6M6 6l12 12"
+                              />
+                            </svg>
+                          </button>
+                        </div>
+                        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 font-semibold">
+                          {coupons &&
+                            coupons.map((coupon) => (
+                              <div
+                                key={coupon._id}
+                                class="bg-white rounded-lg p-6 hover:shadow-2xl transition duration-300 ease-in-out transform hover:-translate-y-1 relative overflow-hidden"
+                              >
+                                <div class="absolute  top-0 right-0 bg-gray-900 py-1 px-2 rounded-bl-lg">
+                                  <span
+                                    class={`text-sm font-semibold ${
+                                      coupon.discountType === "Percentage Type"
+                                        ? "text-green-500"
+                                        : "text-red-500"
+                                    }`}
+                                  >
+                                    {" "}
+                                    {coupon.discountType === "Percentage Type"
+                                      ? `${coupon.discountAmount}% OFF`
+                                      : `₹${coupon.discountAmount} OFF`}
+                                  </span>
                                 </div>
-                                <div class="w-full text-gray-500 dark:text-gray-400">
-                                  Flowbite
+                                <div class="flex items-center justify-between mb-4">
+                                  <h4 class="text-lg font-bold text-gray-900">
+                                    {coupon.code}
+                                  </h4>
+                                </div>
+                                <div class="text-gray-600 mb-2">
+                                  Expires:{" "}
+                                  {new Date(
+                                    coupon.expiryDate
+                                  ).toLocaleDateString("en-US", {
+                                    year: "numeric",
+                                    month: "long",
+                                    day: "numeric",
+                                  })}
+                                </div>
+                                <div class="text-gray-600 mb-2">
+                                  Balance: {coupon.maxUsers}
                                 </div>
                               </div>
-                              <svg
-                                class="w-4 h-4 ms-3 rtl:rotate-180 text-gray-500 dark:text-gray-400"
-                                aria-hidden="true"
-                                xmlns="http://www.w3.org/2000/svg"
-                                fill="none"
-                                viewBox="0 0 14 10"
-                              >
-                                <path
-                                  stroke="currentColor"
-                                  stroke-linecap="round"
-                                  stroke-linejoin="round"
-                                  stroke-width="2"
-                                  d="M1 5h12m0 0L9 1m4 4L9 9"
-                                />
-                              </svg>
-                            </label>
-                          </li>
-                          <li>
-                            <input
-                              type="radio"
-                              id="job-2"
-                              name="job"
-                              value="job-2"
-                              class="hidden peer"
-                            />
-                            <label
-                              for="job-2"
-                              class="inline-flex items-center justify-between w-full p-5 text-gray-900 bg-white border border-gray-200 rounded-lg cursor-pointer dark:hover:text-gray-300 dark:border-gray-500 dark:peer-checked:text-blue-500 peer-checked:border-blue-600 peer-checked:text-blue-600 hover:text-gray-900 hover:bg-gray-100 dark:text-white dark:bg-gray-600 dark:hover:bg-gray-500"
-                            >
-                              <div class="block">
-                                <div class="w-full text-lg font-semibold">
-                                  React Developer
-                                </div>
-                                <div class="w-full text-gray-500 dark:text-gray-400">
-                                  Alphabet
-                                </div>
-                              </div>
-                              <svg
-                                class="w-4 h-4 ms-3 rtl:rotate-180 text-gray-500 dark:text-gray-400"
-                                aria-hidden="true"
-                                xmlns="http://www.w3.org/2000/svg"
-                                fill="none"
-                                viewBox="0 0 14 10"
-                              >
-                                <path
-                                  stroke="currentColor"
-                                  stroke-linecap="round"
-                                  stroke-linejoin="round"
-                                  stroke-width="2"
-                                  d="M1 5h12m0 0L9 1m4 4L9 9"
-                                />
-                              </svg>
-                            </label>
-                          </li>
-                          <li>
-                            <input
-                              type="radio"
-                              id="job-3"
-                              name="job"
-                              value="job-3"
-                              class="hidden peer"
-                            />
-                            <label
-                              for="job-3"
-                              class="inline-flex items-center justify-between w-full p-5 text-gray-900 bg-white border border-gray-200 rounded-lg cursor-pointer dark:hover:text-gray-300 dark:border-gray-500 dark:peer-checked:text-blue-500 peer-checked:border-blue-600 peer-checked:text-blue-600 hover:text-gray-900 hover:bg-gray-100 dark:text-white dark:bg-gray-600 dark:hover:bg-gray-500"
-                            >
-                              <div class="block">
-                                <div class="w-full text-lg font-semibold">
-                                  Full Stack Engineer
-                                </div>
-                                <div class="w-full text-gray-500 dark:text-gray-400">
-                                  Apple
-                                </div>
-                              </div>
-                              <svg
-                                class="w-4 h-4 ms-3 rtl:rotate-180 text-gray-500 dark:text-gray-400"
-                                aria-hidden="true"
-                                xmlns="http://www.w3.org/2000/svg"
-                                fill="none"
-                                viewBox="0 0 14 10"
-                              >
-                                <path
-                                  stroke="currentColor"
-                                  stroke-linecap="round"
-                                  stroke-linejoin="round"
-                                  stroke-width="2"
-                                  d="M1 5h12m0 0L9 1m4 4L9 9"
-                                />
-                              </svg>
-                            </label>
-                          </li>
-                        </ul>
-                        <button class="text-white inline-flex w-full justify-center bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
-                          Next step
-                        </button>
+                            ))}
+                        </div>
                       </div>
                     </div>
                   </div>
-                </div>
+                )}
 
                 <hr className="my-4" />
-                <div className="flex justify-end">
+                {/* <div className="flex justify-end">
                   <h1 className="font-bold text-2xl mb-4 text-black">
                     ₹ {totalAmount}
                   </h1>
-                </div>
+                </div> */}
+                {!couponCode ? (
+                  <div className="flex justify-end">
+                    <h1 className="font-bold text-2xl mb-4 text-black">
+                      ₹ {totalAmount}
+                    </h1>
+                  </div>
+                ) : (
+                  <div className="mt-3 flex flex-col sm:flex-row mb-4 justify-between">
+                    <p className="text-gray-600 text-lg ">
+                      Discounted Amount :
+                    </p>
+                    <h1 className="font-bold text-2xl mb-4 text-black">
+                      ₹ {totalAmounts}
+                    </h1>
+                  </div>
+                )}
                 {user?.wallet >= totalAmount && (
                   <div className="flex items-center justify-between mb-4">
                     <div>

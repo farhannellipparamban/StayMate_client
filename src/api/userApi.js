@@ -114,7 +114,7 @@ export const allCoupons = async ()=>{
   const data = await userAxiosInstance.get("/allCoupons")
   return data
 }
-export const applyCoupon = async (couponCode) => {
-  const data = await userAxiosInstance.post("/applyCoupon", couponCode);
+export const applyCoupon = async (couponCode,userId) => {
+  const data = await userAxiosInstance.post("/applyCoupon", {couponCode,userId});
   return data;
 };
