@@ -45,9 +45,8 @@ const CheckOut = () => {
 
   const fetchCoupons = async () => {
     try {
-      const res = await allCoupons(); // Fetch available coupons from backend
+      const res = await allCoupons(); 
       setCoupons(res.data.coupons);
-      console.log(res, "cdiojd"); // Assuming `coupon` is the array containing coupons
     } catch (error) {
       console.log(error.message);
       toast.error("Failed to fetch coupons");
@@ -70,15 +69,15 @@ const CheckOut = () => {
       setLoading(false);
       if (res?.status === 200) {
         toast.success(res?.data?.message);
-        // Calculate discounted amount and update totalAmounts state
         const appliedCoupon = coupons.find(
           (coupon) => coupon.code === couponCode
         );
         if (appliedCoupon) {
           const discountedAmount = calculateDiscountedAmount(appliedCoupon);
           setTotalAmounts(discountedAmount);
+        setCoupons(prevCoupons => prevCoupons.filter(coupon => coupon.code !== couponCode));
+        setCouponCode("");
         } else {
-          // If coupon code is not valid, reset totalAmounts to original totalAmount
           setTotalAmounts(totalAmount);
         }
       }
@@ -135,13 +134,13 @@ const CheckOut = () => {
     }
     setLoading(false);
     var options = {
-      key: rezorpayKey, // Enter the Key ID generated from the Dashboard
-      amount: bookingData.amount, // Amount is in currency subunits. Default currency is INR. Hence, 50000 refers to 50000 paise
+      key: rezorpayKey, 
+      amount: bookingData.amount, 
       currency: bookingData.currency,
       name: "Stay Mate",
       description: "Test Transaction",
       image: "https://example.com/your_logo",
-      order_id: bookingData.id, //This is a sample Order ID. Pass the `id` obtained in the response of Step 1
+      order_id: bookingData.id, 
       handler: async (response) => {
         try {
           const res = await verifyPayment(response, {
@@ -428,11 +427,7 @@ const CheckOut = () => {
                 )}
 
                 <hr className="my-4" />
-                {/* <div className="flex justify-end">
-                  <h1 className="font-bold text-2xl mb-4 text-black">
-                    ₹ {totalAmount}
-                  </h1>
-                </div> */}
+              
                 {!couponCode ? (
                   <div className="flex justify-end">
                     <h1 className="font-bold text-2xl mb-4 text-black">

@@ -82,7 +82,7 @@ const AllRoomsPage = () => {
                 <FilterSidebar
                   setRooms={setRooms}
                   filterRooms={filterRooms}
-                  setCurrentPage={setCurrentPage}
+                  setCurrentPage={setCurrentPage} // Ensure setCurrentPage is passed here
                 />
               </div>
             </div>

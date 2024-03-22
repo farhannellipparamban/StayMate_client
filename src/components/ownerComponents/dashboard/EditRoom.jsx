@@ -11,8 +11,11 @@ import { roomValidation } from "../../../validations/owner/roomValidation";
 import Loading from "../../loading/Loading";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faTrash } from "@fortawesome/free-solid-svg-icons";
+import useGoogleMapApi from "../../coustomHook/useGoogleMapApi";
+import { Autocomplete } from "@react-google-maps/api";
 
 const EditRoom = () => {
+  const { isLoaded } = useGoogleMapApi();
   const [room, setRoom] = useState({});
   const [selectedImages, setSelectedImages] = useState([]);
   const [roomImagesError, setRoomImagesError] = useState(null);
@@ -74,7 +77,7 @@ const EditRoom = () => {
         roomType: room.roomType,
         model: room.model,
         acType: room.acType,
-        capacity:room.capacity,
+        capacity: room.capacity,
       },
       validationSchema: roomValidation,
       onSubmit,
@@ -126,6 +129,25 @@ const EditRoom = () => {
       console.log(error.message);
     }
   };
+
+  useEffect(() => {
+    if (isLoaded) {
+      const autocomplete = new window.google.maps.places.Autocomplete(
+        document.getElementById("location"),
+        {
+          componentRestrictions: { country: "IN" },
+          types: ["(cities)"],
+        }
+      );
+
+      autocomplete.addListener("place_changed", () => {
+        const place = autocomplete.getPlace();
+        const firstName = place.formatted_address.split(",")[0];
+        setLocation(firstName);
+        setErrorLocation("");
+      });
+    }
+  }, [isLoaded]);
   return (
     <>
       {loading ? (
@@ -157,7 +179,7 @@ const EditRoom = () => {
                     onChange={handleChange}
                     onBlur={handleBlur}
                     className="mt-1 p-2 border border-gray-400 rounded-md focus:outline-none focus:border-blue-500 w-full"
-                    />
+                  />
                   {touched.roomName && errors.roomName && (
                     <p className="text-red-600">{errors.roomName}</p>
                   )}
@@ -177,7 +199,7 @@ const EditRoom = () => {
                     onChange={handleChange}
                     onBlur={handleBlur}
                     className="w-full p-2 border border-gray-400 rounded-md focus:outline-none focus:border-blue-500"
-                    />
+                  />
                   {touched.capacity && errors.capacity && (
                     <p className="text-red-600 text-sm mt-1">
                       {errors.capacity}
@@ -201,7 +223,7 @@ const EditRoom = () => {
                     onChange={handleChange}
                     onBlur={handleBlur}
                     className="w-full p-2 border border-gray-400 rounded-md focus:outline-none focus:border-blue-500"
-                    >
+                  >
                     <option value="" label="Select Room Type">
                       Select Room Type
                     </option>
@@ -234,7 +256,7 @@ const EditRoom = () => {
                     onChange={handleChange}
                     onBlur={handleBlur}
                     className="w-full p-2 border border-gray-400 rounded-md focus:outline-none focus:border-blue-500"
-                    >
+                  >
                     {/* <option value="" disabled>
                   Select Model
                 </option>
@@ -266,7 +288,7 @@ const EditRoom = () => {
                       checked={values.acType === "AC"}
                       onChange={handleChange}
                       className="form-radio h-4 w-4 text-slate-700"
-                      />
+                    />
                     <span className="ml-2 text-sm text-gray-700">
                       Available
                     </span>
@@ -280,7 +302,7 @@ const EditRoom = () => {
                       checked={values.acType === "Non-AC"}
                       onChange={handleChange}
                       className="form-radio h-4 w-4 text-slate-700"
-                      />
+                    />
                     <span className="ml-2 text-sm text-gray-700">Non-AC</span>
                   </label>
                 </div>
@@ -308,7 +330,7 @@ const EditRoom = () => {
                   onChange={handleChange}
                   onBlur={handleBlur}
                   className="w-full p-2 border border-gray-400 rounded-md focus:outline-none focus:border-blue-500"
-                  />
+                />
                 {touched.description && errors.description && (
                   <p className="text-red-500 text-sm mt-1">
                     {errors.description}
@@ -317,15 +339,19 @@ const EditRoom = () => {
               </div>
 
               <div className="mb-6">
-                <input
-                  type="search"
-                  id="location"
-                  name="location"
-                  value={location}
-                  onChange={(e) => setLocation(e.target.value)}
-                  className="mt-1 p-2 w-full border rounded-md border-gray-400"
-                  required=""
-                />
+                {isLoaded && (
+                  <Autocomplete>
+                    <input
+                      type="search"
+                      id="location"
+                      name="location"
+                      value={location}
+                      onChange={(e) => setLocation(e.target.value)}
+                      className="mt-1 p-2 w-full border rounded-md border-gray-400"
+                      required=""
+                    />
+                  </Autocomplete>
+                )}
 
                 {errorLocation && (
                   <div className="text-red-500 text-sm">{errorLocation}</div>
@@ -348,7 +374,7 @@ const EditRoom = () => {
                     onChange={handleChange}
                     onBlur={handleBlur}
                     className="w-full p-2 border border-gray-400 rounded-md focus:outline-none focus:border-blue-500"
-                    />
+                  />
                   {touched.rent && errors.rent && (
                     <p className="text-red-500 text-sm mt-1">{errors.rent}</p>
                   )}
@@ -368,7 +394,7 @@ const EditRoom = () => {
                     onChange={handleChange}
                     onBlur={handleBlur}
                     className="w-full p-2 border border-gray-400 rounded-md focus:outline-none focus:border-blue-500"
-                    />
+                  />
                   {touched.mobile && errors.mobile && (
                     <p className="text-red-500 text-sm mt-1">{errors.mobile}</p>
                   )}
