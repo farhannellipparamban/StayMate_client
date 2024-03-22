@@ -57,7 +57,6 @@ export const dashboardReport = async () => {
 
 export const addCoupons = async (couponData) => {
   const data = await adminAxiosInstance.post("/addCoupon", couponData);
-  console.log(data);
   return data;
 };
 

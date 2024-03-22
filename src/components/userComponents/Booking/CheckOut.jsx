@@ -47,6 +47,7 @@ const CheckOut = () => {
     try {
       const res = await allCoupons(); 
       setCoupons(res.data.coupons);
+      console.log(res, "cdiojd"); 
     } catch (error) {
       console.log(error.message);
       toast.error("Failed to fetch coupons");
@@ -76,7 +77,7 @@ const CheckOut = () => {
           const discountedAmount = calculateDiscountedAmount(appliedCoupon);
           setTotalAmounts(discountedAmount);
         setCoupons(prevCoupons => prevCoupons.filter(coupon => coupon.code !== couponCode));
-        setCouponCode("");
+
         } else {
           setTotalAmounts(totalAmount);
         }
@@ -427,7 +428,11 @@ const CheckOut = () => {
                 )}
 
                 <hr className="my-4" />
-              
+                {/* <div className="flex justify-end">
+                  <h1 className="font-bold text-2xl mb-4 text-black">
+                    ₹ {totalAmount}
+                  </h1>
+                </div> */}
                 {!couponCode ? (
                   <div className="flex justify-end">
                     <h1 className="font-bold text-2xl mb-4 text-black">

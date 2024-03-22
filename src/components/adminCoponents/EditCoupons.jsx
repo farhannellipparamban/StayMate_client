@@ -50,6 +50,9 @@ const EditCoupons = () => {
         maxUsers: coupon.maxUsers,
         discountAmount: coupon.discountAmount,
         expiryDate: coupon.expiryDate,
+        minRoomRent:coupon.minRoomRent,
+        maxDiscount:coupon.maxDiscount,
+
       },
       validationSchema: CouponValidation,
       onSubmit,
@@ -149,55 +152,6 @@ const EditCoupons = () => {
               </div>
             </div>
 
-            {/* <div className="flex flex-col md:flex-row md:space-x-4">
-              <div className="w-full md:w-1/2">
-                <label
-                  htmlFor="originalPrice"
-                  className="block text-sm font-medium text-gray-600 mb-1"
-                >
-                  Original Price
-                </label>
-                <input
-                  placeholder="Enter the amount"
-                  id="originalPrice"
-                  name="originalPrice"
-                  type="number"
-                  value={values.originalPrice}
-                  onChange={handleChange}
-                  onBlur={handleBlur}
-                  className="mt-1 p-2 border border-gray-400 rounded-md focus:outline-none focus:border-blue-500 w-full"
-                />
-                {touched.originalPrice && errors.originalPrice && (
-                  <p className="text-red-600 text-sm mt-1">
-                    {errors.originalPrice}
-                  </p>
-                )}
-              </div>
-              <div className="w-full md:w-1/2">
-                <label
-                  htmlFor="finalPrice"
-                  className="block text-sm font-medium text-gray-600 mb-1"
-                >
-                  Final Price
-                </label>
-                <input
-                  placeholder="Enter the final Amount"
-                  id="finalPrice"
-                  name="finalPrice"
-                  type="number"
-                  value={values.finalPrice}
-                  onChange={handleChange}
-                  onBlur={handleBlur}
-                  className="mt-1 p-2 border border-gray-400 rounded-md focus:outline-none focus:border-blue-500 w-full"
-                />
-                {touched.finalPrice && errors.finalPrice && (
-                  <p className="text-red-600 text-sm mt-1">
-                    {errors.finalPrice}
-                  </p>
-                )}
-              </div>
-            </div> */}
-
             <div className="flex flex-col md:flex-row md:space-x-4">
               <div className="w-full md:w-1/2">
                 <label
@@ -241,6 +195,54 @@ const EditCoupons = () => {
                 {touched.discountAmount && errors.discountAmount && (
                   <p className="text-red-600 text-sm mt-1">
                     {errors.discountAmount}
+                  </p>
+                )}
+              </div>
+            </div>
+            <div className="flex flex-col md:flex-row md:space-x-4">
+              <div className="w-full md:w-1/2">
+                <label
+                  htmlFor="minRoomRent"
+                  className="block text-sm font-medium text-gray-600 mb-1"
+                >
+                  Minimum Room Rent
+                </label>
+                <input
+                  placeholder="Enter the minimum room rent"
+                  id="minRoomRent"
+                  name="minRoomRent"
+                  type="number"
+                  value={values.minRoomRent}
+                  onChange={handleChange}
+                  onBlur={handleBlur}
+                  className="mt-1 p-2 border border-gray-400 rounded-md focus:outline-none focus:border-blue-500 w-full"
+                />
+                {touched.minRoomRent && errors.minRoomRent && (
+                  <p className="text-red-600 text-sm mt-1">
+                    {errors.minRoomRent}
+                  </p>
+                )}
+              </div>
+              <div className="w-full md:w-1/2">
+                <label
+                  htmlFor="maxDiscount"
+                  className="block text-sm font-medium text-gray-600 mb-1"
+                >
+                  Maximum Discount
+                </label>
+                <input
+                  placeholder="Enter the maximum discount amount"
+                  id="maxDiscount"
+                  name="maxDiscount"
+                  type="number"
+                  value={values.maxDiscount}
+                  onChange={handleChange}
+                  onBlur={handleBlur}
+                  className="mt-1 p-2 border border-gray-400 rounded-md focus:outline-none focus:border-blue-500 w-full"
+                />
+                {touched.maxDiscount && errors.maxDiscount && (
+                  <p className="text-red-600 text-sm mt-1">
+                    {errors.maxDiscount}
                   </p>
                 )}
               </div>
