@@ -21,6 +21,7 @@ import CancelRequestPage from "../pages/ownerPages/CancelRequestPage";
 import OwnerAboutPage from "../pages/ownerPages/OwnerAboutPage";
 import Error404 from "../components/error/Error404";
 import Error500 from "../components/error/Error500";
+import AddOfferPage from "../pages/ownerPages/AddOfferPage";
 
 const OwnerRoute = () => {
   return (
@@ -144,6 +145,14 @@ const OwnerRoute = () => {
         element={
           <OwnerProtect>
             <CancelRequestPage />
+          </OwnerProtect>
+        }
+      />
+      <Route
+        path="/addOffer"
+        element={
+          <OwnerProtect>
+            <AddOfferPage />
           </OwnerProtect>
         }
       />
