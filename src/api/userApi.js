@@ -110,11 +110,20 @@ export const getUserDetails = async (userId) => {
   return data;
 };
 
-export const allCoupons = async ()=>{
-  const data = await userAxiosInstance.get("/allCoupons")
-  return data
-}
-export const applyCoupon = async (couponCode,userId) => {
-  const data = await userAxiosInstance.post("/applyCoupon", {couponCode,userId});
+export const allCoupons = async () => {
+  const data = await userAxiosInstance.get("/allCoupons");
+  return data;
+};
+export const applyCoupon = async (couponCode, userId) => {
+  const data = await userAxiosInstance.post("/applyCoupon", {
+    couponCode,
+    userId,
+  });
+  return data;
+};
+
+export const loadOffer = async () => {
+  const data = await userAxiosInstance.get("/loadOffer");
+  console.log(data,"hruygc");
   return data;
 };

@@ -65,16 +65,16 @@ export const couponList = async () => {
   return data;
 };
 
-export const editCouponDetails = async(couponId)=>{
-  const data = await adminAxiosInstance.get(`/editCouponDetails/${couponId}`)
-  return data
-}
-export const editCoupon = async(couponData)=>{
-  const data = await adminAxiosInstance.put("/editCoupon",{...couponData})
-  return data
-}
+export const editCouponDetails = async (couponId) => {
+  const data = await adminAxiosInstance.get(`/editCouponDetails/${couponId}`);
+  return data;
+};
+export const editCoupon = async (couponData) => {
+  const data = await adminAxiosInstance.put("/editCoupon", { ...couponData });
+  return data;
+};
 
-export const deleteCoupon = async(couponId)=>{
-  const data = await adminAxiosInstance.patch(`/deleteCoupon/${couponId}`)
-  return data
-}
+export const deleteCoupon = async (couponId) => {
+  const data = await adminAxiosInstance.patch(`/deleteCoupon/${couponId}`);
+  return data;
+};

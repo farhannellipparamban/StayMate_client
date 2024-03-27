@@ -6,18 +6,15 @@ import { faHeart, faPhone } from "@fortawesome/free-solid-svg-icons";
 import ReactImageMagnify from "react-image-magnify";
 import { checkRoomAvailability } from "../../../api/userApi";
 import { toast } from "react-toastify";
-// import * as Yup from "yup";
-// import { useFormik } from "formik";
-// import { filterDateLoacionRooms } from "../../../api/userApi";
-// import { roomFilter } from "../../../validations/user/roomFilterValidation";
 
 const RoomDetails = () => {
   const [imageIndex, setImageIndex] = useState(0);
-  const { loading, setLoading } = useState(false);
+  const [loading, setLoading] = useState(false);
 
   const { state } = useLocation();
-  const { room, values } = state;
-  // console.log(state);
+  console.log(state);
+  const { room, values, offers } = state;
+
   const navigate = useNavigate();
   const [selectedDates, setSelectedDates] = useState({
     startDate: values.CheckInDate,
@@ -28,7 +25,11 @@ const RoomDetails = () => {
 
   useEffect(() => {
     const checkAvailability = async () => {
-      if (selectedDates.startDate && selectedDates.endDate&& state?.room?._id) {
+      if (
+        selectedDates.startDate &&
+        selectedDates.endDate &&
+        state?.room?._id
+      ) {
         try {
           const res = await checkRoomAvailability(
             state.room._id,
@@ -48,68 +49,22 @@ const RoomDetails = () => {
   }, [selectedDates, state?.room?._id]);
 
   const handleBookNow = () => {
-    navigate("/checkOut", { state: { room: state.room, values: state.values } });
-    // navigate("/checkOut", { state: { room, values } });
+    navigate("/checkOut", {
+      state: { room: state.room, values: state.values,offers:state.offers },
+    });
   };
+ // Find the offer for the current room
+const roomOffer = offers.find(offer => offer.rooms === room.roomName);
 
-  // const validationSchema = Yup.object().shape({
-  //   Persons: Yup.number().required("Number of persons is required"),
-  //   // checkInDate: Yup.date().required("Check-in date is required"),
-  //   // checkOutDate: Yup.date().required("Check-out date is required"),
-  // });
+// Check if an offer was found and calculate discounted rent accordingly
+const discountedRent = roomOffer && roomOffer.percentage
+  ? room.rent - (room.rent * roomOffer.percentage) / 100
+  : room.rent;
 
-  // const onSubmit = async (values) => {
-  //   try {
-  //     setLoading(true);
-  //     const res = await filterDateLoacionRooms({
-  //       ...values,
-  //     });
+console.log(roomOffer, "offer for the room");
+console.log(roomOffer?.percentage, "offer percentage");
+console.log(discountedRent, "discounted rent");
 
-  //     if (res?.status === 200) {
-  //       navigate("/checkOut", {
-  //         state: {
-  //           values: { ...values },
-  //           room,
-  //         },
-  //       });
-  //     }
-  //     setLoading(false);
-  //   } catch (error) {
-  //     setLoading(false);
-  //     console.log(error.message);
-  //   }
-  // };
-
-  // const {
-  //   getFieldProps,
-  //   handleSubmit,
-  //   values: FormikValue,
-  //   touched,
-  //   errors,
-  //   setValues,
-  // } = useFormik({
-  //   initialValues: {
-  //     CheckInDate: selectedData?.CheckInDate || "",
-  //     CheckOutDate: selectedData?.CheckOutDate || "",
-  //   },
-  //   validationSchema: roomFilter,
-  //   onSubmit,
-  // });
-
-  // const handleChange = (event) => {
-  //   const { name, value } = event.target;
-  //   setValues((prevValues) => ({
-  //     ...prevValues,
-  //     [name]: value,
-  //   }));
-  // };
-
-  // const minNextDay = values?.CheckInDate
-  //   ? new Date(values.CheckInDate)
-  //   : new Date();
-
-  // minNextDay.setDate(minNextDay.getDate() + 1);
-  // const nextDay = minNextDay.toISOString().split("T")[0];
   return (
     <>
       {loading ? (
@@ -130,26 +85,26 @@ const RoomDetails = () => {
                     smallImage: {
                       alt: "Property Image",
                       isFluidWidth: true,
-                      src: imageUrl, // Set the image URL here
+                      src: imageUrl,
                       style: {
-                        width: "300px", // Customize the width of the small image
-                        height: "auto", // Auto adjust the height
-                        border: "1px solid #ccc", // Add a border to the small image
-                        borderRadius: "8px", // Apply border radius
-                        boxShadow: "0px 0px 10px rgba(0, 0, 0, 0.1)", // Apply box shadow
+                        width: "300px",
+                        height: "auto",
+                        border: "1px solid #ccc",
+                        borderRadius: "8px",
+                        boxShadow: "0px 0px 10px rgba(0, 0, 0, 0.1)",
                       },
                     },
                     largeImage: {
-                      src: imageUrl, // Set the image URL here
+                      src: imageUrl,
                       width: 1200,
                       height: 1800,
                       style: {
-                        width: "800px", // Customize the width of the large image
-                        height: "auto", // Auto adjust the height
+                        width: "800px",
+                        height: "auto",
                       },
                     },
                   }}
-                  className="w-full h-auto rounded-md shadow-lg mb-4 object-cover " // Apply a CSS class to the component
+                  className="w-full h-auto rounded-md shadow-lg mb-4 object-cover "
                 />
 
                 {/* Carousel with three small images in a line */}
@@ -180,7 +135,7 @@ const RoomDetails = () => {
 
                   <h3 className="mt-12 mb-6">
                     <span className="text-red-600 font-bold text-xl">
-                      ₹ {room?.rent} Per Night
+                      ₹ {discountedRent} Per Night
                     </span>
                     <p className="text-sm text-gray-600 mt-1">
                       Taxes and fees not included
@@ -209,71 +164,7 @@ const RoomDetails = () => {
                   </div>
                 </div>
                 <form>
-                  <div className="w-full border-b-2 border-b-red-400 my-2">
-                    {/* <div className="flex items-center mb-4">
-                      <label
-                        htmlFor="numberOfPersons"
-                        className="mr-2 text-gray-700 font-semibold"
-                      >
-                        Number of Persons:
-                      </label>
-
-                      <input
-                        type="number"
-                        id="Persons"
-                        name="Persons"
-                        value={values.Persons}
-                        onChange={handleChange}
-                        onBlur={handleBlur}
-                        className="px-3 py-2 border border-gray-500 rounded-md focus:outline-none focus:border-blue-500"
-                      />
-                    </div> */}
-
-                    {/* <div className="flex mt-8">
-                      <div className="w-1/2 pr-2">
-                        <label
-                          htmlFor="check-in-date"
-                          className="block text-sm font-medium text-gray-900 dark:text-gray-600"
-                        >
-                          Check In Date
-                        </label>
-                        <input
-                          type="date"
-                          id="CheckInDate"
-                          name="CheckInDate"
-                          min={new Date().toISOString().split("T")[0]}
-                          value={values.CheckInDate}
-                          onChange={handleChange}
-                          className="mt-1 p-2 border mb-3 bg-green-50 text-black rounded-md focus:outline-none focus:border-white"
-                        />
-
-                        {errors.CheckInDate && touched.CheckInDate && (
-                          <p className="text-red-600">{errors.CheckInDate}</p>
-                        )}
-                      </div>
-                      <div className="w-1/2 pl-2">
-                        <label
-                          htmlFor="check-out-date"
-                          className="block text-sm font-medium text-gray-900 dark:text-gray-600"
-                        >
-                          Check Out Date
-                        </label>
-                        <input
-                          type="date"
-                          id="CheckOutDate"
-                          name="CheckOutDate"
-                          min={nextDay}
-                          value={values.CheckOutDate}
-                          onChange={handleChange}
-                          className="mt-1 p-2 border mb-3 bg-green-50 text-black rounded-md focus:outline-none focus:border-white"
-                        />
-
-                        {errors.CheckOutDate && touched.CheckOutDate && (
-                          <p className="text-red-600">{errors.CheckOutDate}</p>
-                        )}
-                      </div>
-                    </div> */}
-                  </div>
+                  <div className="w-full border-b-2 border-b-red-400 my-2"></div>
                   <div className="mt-2 flex">
                     {/* Wishlist icon */}
                     <span className="text-3xl text-red-500 cursor-pointer inline-block mt-6 mr-4">

@@ -22,6 +22,8 @@ import OwnerAboutPage from "../pages/ownerPages/OwnerAboutPage";
 import Error404 from "../components/error/Error404";
 import Error500 from "../components/error/Error500";
 import AddOfferPage from "../pages/ownerPages/AddOfferPage";
+import OfferListPage from "../pages/ownerPages/OfferListPage";
+import EditOfferPage from "../pages/ownerPages/EditOfferPage";
 
 const OwnerRoute = () => {
   return (
@@ -153,6 +155,22 @@ const OwnerRoute = () => {
         element={
           <OwnerProtect>
             <AddOfferPage />
+          </OwnerProtect>
+        }
+      />
+      <Route
+        path="/offerList"
+        element={
+          <OwnerProtect>
+            <OfferListPage />
+          </OwnerProtect>
+        }
+      />
+      <Route
+        path="/editOffer/:offerId"
+        element={
+          <OwnerProtect>
+            <EditOfferPage />
           </OwnerProtect>
         }
       />

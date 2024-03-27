@@ -5,7 +5,7 @@ import Loading from "../../components/loading/Loading";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faBed } from "@fortawesome/free-solid-svg-icons";
 import Pagination from "../../components/common/Pagination";
-import { allRoomList } from "../../api/userApi";
+import { allRoomList, loadOffer } from "../../api/userApi";
 import { useLocation } from "react-router-dom";
 import LocationDateFilter from "../../components/userComponents/FilterRoom/LocationDateFilter";
 import FilterSidebar from "../../components/userComponents/FilterRoom/FilterSidebar";
@@ -20,7 +20,7 @@ const AllRoomsPage = () => {
   const location = useLocation();
   const { filterRooms, values } = location.state || {};
   const [rooms, setRooms] = useState(filterRooms || []);
-
+  const [offer, setOffer] = useState([]);
   const handleSelectChange = (e) => {
     const selectedValue = e.target.value;
     let sortedRooms = [...rooms];
@@ -44,6 +44,20 @@ const AllRoomsPage = () => {
         setLoading(false);
       });
   }, []);
+  useEffect(() => {
+    setLoading(true);
+    loadOffer()
+      .then((res) => {
+        setOffer(res?.data);
+        setLoading(false);
+      })
+      .catch((err) => {
+        console.log(err.message);
+        setLoading(false);
+      });
+  }, []);
+
+
 
   const roomPerPage = 4;
   const lastIndex = currentPage * roomPerPage;
@@ -141,7 +155,10 @@ const AllRoomsPage = () => {
               >
                 {roomsInSinglePage &&
                   roomsInSinglePage.map((room) => (
-                    <RoomCardList key={room._id} room={room} values={values} />
+                    <RoomCardList
+                      key={room._id}
+                      room={room} values={values} offers={offer}
+                    />
                   ))}
               </div>
             )}

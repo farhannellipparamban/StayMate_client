@@ -26,17 +26,30 @@ const CheckOut = () => {
   const [totalAmounts, setTotalAmounts] = useState(0);
 
   const { user, token } = useSelector((state) => state.userReducer);
-  const { room, values } = state;
-  console.log(values);
+  const { room, values, offers } = state;
+  console.log(offers);
 
   const startDate = values.CheckInDate;
   const endDate = values.CheckOutDate;
   const chooseLocation = values.chooseLocation;
 
+  
+  const calculateRent = (room, offers) => {
+    if (offers && offers.length > 0) {
+      const offer = offers.find((offer) => offer.rooms === room.roomName);
+      if (offer) {
+        return room.rent - (room.rent * offer.percentage) / 100;
+      }
+    }
+    return room.rent;
+  };
+
+  const rent = calculateRent(room, offers);
+
   const startTimestamp = new Date(values.CheckInDate).getTime();
   const endTimestamp = new Date(values.CheckOutDate).getTime();
   const dayDiffrence = (endTimestamp - startTimestamp) / (1000 * 3600 * 24);
-  const totalAmount = dayDiffrence * room.rent;
+  const totalAmount = dayDiffrence * rent;
   const rezorpayKey = import.meta.env.VITE_RAZORPAY_KEY;
 
   useEffect(() => {
@@ -45,9 +58,9 @@ const CheckOut = () => {
 
   const fetchCoupons = async () => {
     try {
-      const res = await allCoupons(); 
+      const res = await allCoupons();
       setCoupons(res.data.coupons);
-      console.log(res, "cdiojd"); 
+      console.log(res, "cdiojd");
     } catch (error) {
       console.log(error.message);
       toast.error("Failed to fetch coupons");
@@ -76,8 +89,9 @@ const CheckOut = () => {
         if (appliedCoupon) {
           const discountedAmount = calculateDiscountedAmount(appliedCoupon);
           setTotalAmounts(discountedAmount);
-        setCoupons(prevCoupons => prevCoupons.filter(coupon => coupon.code !== couponCode));
-
+          setCoupons((prevCoupons) =>
+            prevCoupons.filter((coupon) => coupon.code !== couponCode)
+          );
         } else {
           setTotalAmounts(totalAmount);
         }
@@ -135,13 +149,13 @@ const CheckOut = () => {
     }
     setLoading(false);
     var options = {
-      key: rezorpayKey, 
-      amount: bookingData.amount, 
+      key: rezorpayKey,
+      amount: bookingData.amount,
       currency: bookingData.currency,
       name: "Stay Mate",
       description: "Test Transaction",
       image: "https://example.com/your_logo",
-      order_id: bookingData.id, 
+      order_id: bookingData.id,
       handler: async (response) => {
         try {
           const res = await verifyPayment(response, {
@@ -307,7 +321,7 @@ const CheckOut = () => {
                 </div>
                 <div className="mt-3 flex flex-col sm:flex-row mb-4 justify-between">
                   <p className="text-gray-600 text-sm">Price / day :</p>
-                  <h2 className="text-sm font-bold">₹ {room?.rent}</h2>
+                  <h2 className="text-sm font-bold">₹ {rent}</h2>
                 </div>
                 <div className="mt-3 flex mb-4 justify-between">
                   <p className="text-gray-600 text-sm">Days selected :</p>

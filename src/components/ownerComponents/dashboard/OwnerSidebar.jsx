@@ -1,7 +1,11 @@
 import React from "react";
 import { Link, useLocation } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faBed, faHotel } from "@fortawesome/free-solid-svg-icons";
+import {
+  faBed,
+  faHotel,
+  faPercentage,
+} from "@fortawesome/free-solid-svg-icons";
 
 const OwnerSidebar = () => {
   const location = useLocation();
@@ -45,7 +49,10 @@ const OwnerSidebar = () => {
                       : "flex cursor-pointer items-center border-l-rose-600 py-5 px-5 text-sm font-medium text-gray-600 outline-none transition-all duration-100 ease-in-out hover:border-l-4 hover:border-l-rose-600 hover:text-rose-600 focus:border-l-4"
                   }
                 >
-                  <FontAwesomeIcon className="mr-4 h-5 w-5 align-middle" icon={faBed} />
+                  <FontAwesomeIcon
+                    className="mr-4 h-5 w-5 align-middle"
+                    icon={faBed}
+                  />
                   Rooms
                 </Link>
 
@@ -84,30 +91,57 @@ const OwnerSidebar = () => {
                       : "flex cursor-pointer items-center border-l-rose-600 py-5 px-5 text-sm font-medium text-gray-600 outline-none transition-all duration-100 ease-in-out hover:border-l-4 hover:border-l-rose-600 hover:text-rose-600 focus:border-l-4"
                   }
                 >
-                  <FontAwesomeIcon icon={faHotel} className="mr-4 h-5 w-5 align-middle"/>
+                  <FontAwesomeIcon
+                    icon={faHotel}
+                    className="mr-4 h-5 w-5 align-middle"
+                  />
                   Booking Details
                 </Link>
 
-                  <Link
-                    to="/owner/cancelRequests"
-                    className={
-                      location.pathname === "/owner/cancelRequests"
-                        ? "flex cursor-pointer items-center border-l-4 border-l-rose-600 py-5 px-5 text-sm font-medium text-rose-600 outline-none transition-all duration-100 ease-in-out focus:border-l-4"
+                <Link
+                  to="/owner/cancelRequests"
+                  className={
+                    location.pathname === "/owner/cancelRequests"
+                      ? "flex cursor-pointer items-center border-l-4 border-l-rose-600 py-5 px-5 text-sm font-medium text-rose-600 outline-none transition-all duration-100 ease-in-out focus:border-l-4"
                       : "flex cursor-pointer items-center border-l-rose-600 py-5 px-5 text-sm font-medium text-gray-600 outline-none transition-all duration-100 ease-in-out hover:border-l-4 hover:border-l-rose-600 hover:text-rose-600 focus:border-l-4"
-                    }
+                  }
+                >
+                  <svg
+                    viewBox="0 0 24 24"
+                    fill="currentColor"
+                    height="1.5em"
+                    width="1.5em"
                   >
-                    <svg
-                      viewBox="0 0 24 24"
-                      fill="currentColor"
-                      height="1.5em"
-                      width="1.5em"
-                    >
-                      <path d="M13 9h5.5L13 3.5V9M6 2h8l6 6v12a2 2 0 01-2 2H6a2 2 0 01-2-2V4c0-1.11.89-2 2-2m4.5 9C8 11 6 13 6 15.5S8 20 10.5 20s4.5-2 4.5-4.5-2-4.5-4.5-4.5m0 1.5a3 3 0 013 3c0 .56-.15 1.08-.42 1.5L9 12.92c.42-.27.94-.42 1.5-.42m-3 3c0-.56.15-1.08.42-1.5L12 18.08c-.42.27-.94.42-1.5.42a3 3 0 01-3-3z" />
-                    </svg>
-                    <span className="flex-1 ml-3 whitespace-nowrap">
-                      Cancel requests
-                    </span>
-                  </Link>
+                    <path d="M13 9h5.5L13 3.5V9M6 2h8l6 6v12a2 2 0 01-2 2H6a2 2 0 01-2-2V4c0-1.11.89-2 2-2m4.5 9C8 11 6 13 6 15.5S8 20 10.5 20s4.5-2 4.5-4.5-2-4.5-4.5-4.5m0 1.5a3 3 0 013 3c0 .56-.15 1.08-.42 1.5L9 12.92c.42-.27.94-.42 1.5-.42m-3 3c0-.56.15-1.08.42-1.5L12 18.08c-.42.27-.94.42-1.5.42a3 3 0 01-3-3z" />
+                  </svg>
+                  <span className="flex-1 ml-3 whitespace-nowrap">
+                    Cancel requests
+                  </span>
+                </Link>
+                <Link
+                  to="/owner/offerList"
+                  className={
+                    location.pathname === "/owner/offerList"
+                      ? "flex cursor-pointer items-center border-l-4 border-l-rose-600 py-5 px-5 text-sm font-medium text-rose-600 outline-none transition-all duration-100 ease-in-out focus:border-l-4"
+                      : "flex cursor-pointer items-center border-l-rose-600 py-5 px-5 text-sm font-medium text-gray-600 outline-none transition-all duration-100 ease-in-out hover:border-l-4 hover:border-l-rose-600 hover:text-rose-600 focus:border-l-4"
+                  }
+                >
+                  {/* <svg
+                    viewBox="0 0 24 24"
+                    fill="currentColor"
+                    height="1.5em"
+                    width="1.5em"
+                  >
+                    <path d="M13 9h5.5L13 3.5V9M6 2h8l6 6v12a2 2 0 01-2 2H6a2 2 0 01-2-2V4c0-1.11.89-2 2-2m4.5 9C8 11 6 13 6 15.5S8 20 10.5 20s4.5-2 4.5-4.5-2-4.5-4.5-4.5m0 1.5a3 3 0 013 3c0 .56-.15 1.08-.42 1.5L9 12.92c.42-.27.94-.42 1.5-.42m-3 3c0-.56.15-1.08.42-1.5L12 18.08c-.42.27-.94.42-1.5.42a3 3 0 01-3-3z" />
+                  </svg> */}
+                  <FontAwesomeIcon
+                    className="mr-4 h-5 w-5 align-middle"
+                    icon={faPercentage}
+                  />
+                  <span className="flex-1 ml-3 whitespace-nowrap">
+                    Offer List
+                  </span>
+                </Link>
               </nav>
             </div>
           </div>

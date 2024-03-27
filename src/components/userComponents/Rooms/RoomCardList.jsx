@@ -1,21 +1,34 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 
-const RoomCardList = ({ room, values }) => {
-  console.log(values);
+const RoomCardList = ({ room, values, offers }) => {
+  console.log(offers);
   const navigate = useNavigate();
   const { _id, roomName, location, rent, roomImages, acType, model } = room;
+  const [discountedRent, setDiscountedRent] = useState(rent);
+
+  useEffect(() => {
+    const roomOffer = offers.find((item) => {
+      return item.rooms === room.roomName && item.status === "active";
+    });
+
+    if (roomOffer) {
+      const discountAmount = (rent * roomOffer.percentage) / 100;
+      const discountedRent = rent - discountAmount;
+      setDiscountedRent(discountedRent);
+    } else {
+      setDiscountedRent(rent);
+    }
+
+  }, [room, rent, offers]);
+
   return (
     <>
       <section className="flex flex-col items-center bg-white">
         <div className="mt-10 flex max-w-md flex-cols-1 gap-6 px-2 sm:max-w-lg sm:px-20 md:max-w-screen-xl md:flex-cols-2 md:px-10 lg:flex-cols-3 lg:gap-8">
           <article className="mb-4 overflow-hidden rounded-xl border text-gray-700 shadow-md duration-500 ease-in-out hover:shadow-xl">
             <div className="">
-              <img
-                src={roomImages[0]}
-                alt="RoomImage"
-                className="w-96 h-64"
-              />
+              <img src={roomImages[0]} alt="RoomImage" className="w-96 h-64" />
             </div>
             <div className="p-4">
               <div className="pb-6">
@@ -82,8 +95,30 @@ const RoomCardList = ({ room, values }) => {
               <ul className="m-0 flex list-none items-center justify-between px-0 pt-6 pb-0">
                 <li className="text-left">
                   <span className="text-sm text-gray-400">Price</span>
-                  <p className="m-0 text-base font-medium">₹ {rent}</p>
+                  <p className="m-0 text-base font-bold font-serif">
+                    <span className="text-red-600 line-through mr-2">
+                      ₹ {rent}
+                    </span>
+                    {offers ? (
+                      <>
+                        <span className="text-green-600 font-bold">
+                          ₹ {discountedRent}
+                        </span>
+                        {/* <span className="text-gray-500 ml-2">
+                          (Save ₹ {rent - discountedRent})
+                        </span> */}
+                      </>
+                    ) : (
+                      <span className="text-gray-600">₹ {rent}</span>
+                    )}
+                  </p>
+                  {offers && (
+                    <span className="text-black ml-2 block m-0 text-sm font-semibold">
+                      (Save ₹ {rent - discountedRent})
+                    </span>
+                  )}
                 </li>
+
                 <li className="text-left">
                   <span className="text-sm text-gray-400">Rating</span>
                   <ul className="m-0 flex items-center p-0 font-medium">
@@ -147,15 +182,14 @@ const RoomCardList = ({ room, values }) => {
                   </ul>
                 </li>
               </ul>
-            <button
-              onClick={() =>
-                navigate("/roomDetails", { state: { room, values } })
-                
-              }
-              className="ml-1 hover:scale-125 transition duration-500 cursor-pointer block w-full xl:w-fit bg-red-500 hover:bg-red-800 text-white rounded-full font-bold py-2 px-3 text-center text-decoration-none"
-            >
-              View Details
-            </button>
+              <button
+                onClick={() =>
+                  navigate("/roomDetails", { state: { room, values,offers } })
+                }
+                className="ml-1 mt-4 hover:scale-125 transition duration-500 cursor-pointer block w-full xl:w-fit bg-red-500 hover:bg-red-800 text-white rounded-full font-bold py-2 px-3 text-center text-decoration-none"
+              >
+                View Details
+              </button>
             </div>
           </article>
         </div>
