@@ -2,7 +2,6 @@ import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 
 const RoomCardList = ({ room, values, offers }) => {
-  console.log(offers);
   const navigate = useNavigate();
   const { _id, roomName, location, rent, roomImages, acType, model } = room;
   const [discountedRent, setDiscountedRent] = useState(rent);

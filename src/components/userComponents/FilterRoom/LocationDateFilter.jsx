@@ -39,6 +39,7 @@ const LocationDateFilter = ({ selectedData, setLoading }) => {
             values: { ...values, chooseLocation },
           },
         });
+        console.log("hguyg");
       }
       setLoading(false);
     } catch (error) {
@@ -47,10 +48,11 @@ const LocationDateFilter = ({ selectedData, setLoading }) => {
     }
   };
 
-  const { getFieldProps, handleSubmit, values, touched, errors } = useFormik({
+  const { getFieldProps, handleSubmit,handleChange,handleBlur, values, touched, errors } = useFormik({
     initialValues: {
-      CheckInDate: selectedData?.CheckInDate || "",
-      CheckOutDate: selectedData?.CheckOutDate || "",
+      CheckInDate: selectedData?.CheckInDate||"" ,
+      CheckOutDate: selectedData?.CheckOutDate ||"",
+      Persons:selectedData?.Persons,
     },
     validationSchema: roomFilter,
     onSubmit,
@@ -171,11 +173,14 @@ const LocationDateFilter = ({ selectedData, setLoading }) => {
                 id="Persons"
                 name="Persons"
                 placeholder="Number of Persons"
-                // value={values.Persons}
-                // onChange={handleChange}
-                // onBlur={handleBlur}
+                value={values.Persons}
+                onChange={handleChange}
+                onBlur={handleBlur}
                 className="text-xs md:text-sm lg:text-md text-gray-700 font-bold font-serif bg-gray-200 border-solid border-gray-300 px-4 py-2 rounded-full w-full"
               />
+              {errors.Persons && touched.Persons && (
+                <p className="text-red-600">{errors.Persons}</p>
+              )}
             </div>
             <div className="w-full md:w-auto">
               <button

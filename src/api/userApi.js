@@ -90,6 +90,7 @@ export const verifyPayment = async (response, bookingData) => {
 
 export const filterDateLoacionRooms = async (formData) => {
   const data = await userAxiosInstance.post("/filterRooms", formData);
+  console.log(data,"from api");
   return data;
 };
 export const myBookings = async (userId) => {
@@ -124,6 +125,10 @@ export const applyCoupon = async (couponCode, userId) => {
 
 export const loadOffer = async () => {
   const data = await userAxiosInstance.get("/loadOffer");
-  console.log(data,"hruygc");
   return data;
 };
+
+export const addRoomsReview = async (reviewData)=>{
+  const data = await userAxiosInstance.put("/addRoomsReview",reviewData)
+  return data
+}

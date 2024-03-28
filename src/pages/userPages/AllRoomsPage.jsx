@@ -18,7 +18,7 @@ const AllRoomsPage = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const [loading, setLoading] = useState(false);
   const location = useLocation();
-  const { filterRooms, values } = location.state || {};
+  const { filterRooms, values } = location.state|| {};
   const [rooms, setRooms] = useState(filterRooms || []);
   const [offer, setOffer] = useState([]);
   const handleSelectChange = (e) => {
@@ -44,6 +44,7 @@ const AllRoomsPage = () => {
         setLoading(false);
       });
   }, []);
+  
   useEffect(() => {
     setLoading(true);
     loadOffer()
@@ -56,7 +57,6 @@ const AllRoomsPage = () => {
         setLoading(false);
       });
   }, []);
-
 
 
   const roomPerPage = 4;
