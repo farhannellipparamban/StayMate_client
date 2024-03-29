@@ -24,6 +24,7 @@ import Error500 from "../components/error/Error500";
 import AddOfferPage from "../pages/ownerPages/AddOfferPage";
 import OfferListPage from "../pages/ownerPages/OfferListPage";
 import EditOfferPage from "../pages/ownerPages/EditOfferPage";
+import ReviewsList from "../pages/ownerPages/ReviewsList";
 
 const OwnerRoute = () => {
   return (
@@ -174,6 +175,15 @@ const OwnerRoute = () => {
           </OwnerProtect>
         }
       />
+      <Route
+        path="/reviewsList"
+        element={
+          <OwnerProtect>
+            <ReviewsList />
+          </OwnerProtect>
+        }
+      />
+
       <Route path="*" element={<Error404 />} />
       <Route path="/pageNotFound" element={<Error404 />} />
       <Route path="/error-500" element={<Error500 />} />

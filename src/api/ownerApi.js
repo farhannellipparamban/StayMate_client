@@ -179,3 +179,8 @@ export const deleteOffer = async (offerId) => {
   const data = await ownerAxiosInstance.patch(`/deleteOffer/${offerId}`);
   return data;
 };
+
+export const getAllReviews = async (roomId) => {
+  const data = await ownerAxiosInstance.get(`/reviewsList/${roomId}`);
+  return data;
+};

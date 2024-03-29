@@ -166,7 +166,7 @@ const RoomsList = () => {
                   return (
                     <>
                       <Card
-                        className="w-full max-w-[80rem] mb-6 flex-row " 
+                        className="w-full max-w-[80rem] mb-6 flex-row "
                         key={room._id}
                       >
                         <CardHeader
@@ -180,6 +180,7 @@ const RoomsList = () => {
                             className="h-96  object-cover"
                           />
                         </CardHeader>
+
                         <CardBody>
                           <Typography
                             variant="h4"
@@ -256,6 +257,7 @@ const RoomsList = () => {
                                 Edit room
                               </Button>
                             </Link>
+
                             {room?.isBlocked ? (
                               <button
                                 type="button"
@@ -357,6 +359,18 @@ const RoomsList = () => {
                                 </div>
                               </div>
                             </div>
+
+                            <Button
+                              variant="text"
+                              onClick={() =>
+                                navigate("/owner/reviewsList", {
+                                  state: { room },
+                                })
+                              }
+                              className="flex bg-black items-center gap-2 text-sm py-1 px-2 rounded-lg"
+                            >
+                              Get Reviews
+                            </Button>
                           </div>
                         </CardBody>
                       </Card>

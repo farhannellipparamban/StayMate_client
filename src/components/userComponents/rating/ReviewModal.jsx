@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { addRoomsReview } from "../../../api/userApi";
 import { toast } from "react-toastify";
+import Rating from "react-rating-stars-component";
 
 const debounce = (func, delay) => {
   let timeoutId;
@@ -45,11 +46,11 @@ const ReviewModal = ({ bookingData }) => {
       case 1:
         return "text-red-600";
       case 2:
-        return "text-orange-400";
+        return "text-yellow-600";
       case 3:
-        return "text-yellow-500";
-      case 4:
         return "text-green-500";
+      case 4:
+        return "text-green-600";
       case 5:
         return "text-green-700";
       default:
@@ -57,51 +58,51 @@ const ReviewModal = ({ bookingData }) => {
     }
   };
 
-  const openModal = (modalId)=>{
-setActiveModal(modalId)
-  }
-  const closeModal = ()=>{
-    setErrorMessage("")
-    setActiveModal(null)
-  }
+  const openModal = (modalId) => {
+    setActiveModal(modalId);
+  };
+  const closeModal = () => {
+    setErrorMessage("");
+    setActiveModal(null);
+  };
 
-  const handleChange =(newRating)=>{
-    setRating(newRating)
-  }
+  const handleChange = (newRating) => {
+    setRating(newRating);
+  };
 
-  const handleReviewSubmit = async()=>{
+  const handleReviewSubmit = async () => {
     if (!review.trim()) {
-        setErrorMessage("Please provide a review.")
-        return 
+      setErrorMessage("Please provide a review.");
+      return;
     }
     try {
-        const res = await addRoomsReview({
-            roomId:bookingData?.room?._id,
-            userId:bookingData?.user,
-            rating:rating,
-            review:review
-        })
-        if (res?.status ===200) {
-            toast.success(res?.data?.message)
-        }
-        setReview("")
-        closeModal()
+      const res = await addRoomsReview({
+        roomId: bookingData?.room?._id,
+        userId: bookingData?.user,
+        rating: rating,
+        review: review,
+      });
+      if (res?.status === 200) {
+        toast.success(res?.data?.message);
+      }
+      setReview("");
+      closeModal();
     } catch (error) {
-        closeModal()
-        console.log(error.message);
+      closeModal();
+      console.log(error.message);
     }
-  }
+  };
 
-  const debounceHandleReview = debounce(handleReviewSubmit,1000)
+  const debounceHandleReview = debounce(handleReviewSubmit, 1000);
 
-  const handleReviewDebounced = async()=>{
-    debounceHandleReview()
-  }
+  const handleReviewDebounced = async () => {
+    debounceHandleReview();
+  };
   return (
     <>
       <button
         onClick={() => openModal("popup-modal")}
-        className="block text-white mt-3 bg-blue-500 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
+        className="block text-white mt-3 bg-red-500 hover:bg-red-800 focus:ring-4 focus:outline-none focus:ring-red-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-red-600 dark:hover:bg-red-700 dark:focus:ring-red-800"
         type="button"
       >
         Review this room
@@ -114,10 +115,10 @@ setActiveModal(modalId)
         }`}
       >
         <div className="relative w-full max-w-md max-h-full">
-          <div className="relative bg-white rounded-lg shadow dark:bg-gray-700">
+          <div className="relative bg-white rounded-lg shadow dark:bg-black">
             <button
               type="button"
-              className="absolute top-3 right-2.5 text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm w-8 h-8 ml-auto inline-flex justify-center items-center dark:hover:bg-gray-600 dark:hover:text-white"
+              className="absolute top-3 right-2.5 text-white bg-transparent hover:bg-white hover:text-gray-900 rounded-lg text-sm w-8 h-8 ml-auto inline-flex justify-center items-center dark:hover:bg-gray-600 dark:hover:text-white"
               data-modal-hide="popup-modal"
               onClick={() => closeModal()}
             >
@@ -143,7 +144,7 @@ setActiveModal(modalId)
                 Rate this room
               </h1>
               <div className="flex  justify-start gap-3 items-center">
-                <Rat
+                <Rating
                   count={5} // Number of stars
                   value={rating} // Current value of the rating
                   size={30} // Size of the stars
@@ -172,10 +173,10 @@ setActiveModal(modalId)
               <textarea
                 id="message"
                 rows={4}
-                value={reason}
+                value={review}
                 required
                 onChange={handleReviewChange}
-                className="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                className="block p-2.5 w-full text-sm text-gray-300 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-black dark:border-gray-100 dark:placeholder-gray-100 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                 placeholder="Write your reason here..."
               />
               {errorMessage && (
@@ -186,7 +187,7 @@ setActiveModal(modalId)
                 data-modal-hide="popup-modal"
                 type="button"
                 onClick={handleReviewDebounced}
-                className="text-white-500 mt-2 bg-blue-500 hover:bg-blue-700 focus:ring-4 focus:outline-none focus:ring-gray-200 rounded-lg border border-gray-200 text-sm font-medium px-5 py-2.5 hover:text-gray-900 focus:z-10 dark:bg-gray-700 dark:text-gray-300 dark:border-gray-500 dark:hover:text-white dark:hover:bg-gray-600 dark:focus:ring-gray-600"
+                className="text-white-500 mt-2 bg-red-600 hover:bg-red-700 focus:ring-4 focus:outline-none focus:ring-red-200 rounded-lg border border-red-300 text-sm font-medium px-5 py-2.5 hover:text-red-900 focus:z-10 dark:bg-red-700 dark:text-white dark:border-red-600 dark:hover:text-white dark:hover:bg-red-800 dark:focus:ring-red-700"
               >
                 Submit
               </button>

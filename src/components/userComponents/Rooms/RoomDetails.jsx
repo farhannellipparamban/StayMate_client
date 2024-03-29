@@ -6,13 +6,13 @@ import { faHeart, faPhone } from "@fortawesome/free-solid-svg-icons";
 import ReactImageMagnify from "react-image-magnify";
 import { checkRoomAvailability } from "../../../api/userApi";
 import { toast } from "react-toastify";
+import RatingList from "../rating/RatingList";
 
 const RoomDetails = () => {
   const [imageIndex, setImageIndex] = useState(0);
   const [loading, setLoading] = useState(false);
 
   const { state } = useLocation();
-  console.log(state);
   const { room, values, offers } = state;
 
   const navigate = useNavigate();
@@ -53,17 +53,12 @@ const RoomDetails = () => {
       state: { room: state.room, values: state.values,offers:state.offers },
     });
   };
- // Find the offer for the current room
 const roomOffer = offers.find(offer => offer.rooms === room.roomName);
 
-// Check if an offer was found and calculate discounted rent accordingly
 const discountedRent = roomOffer && roomOffer.percentage
   ? room.rent - (room.rent * roomOffer.percentage) / 100
   : room.rent;
 
-console.log(roomOffer, "offer for the room");
-console.log(roomOffer?.percentage, "offer percentage");
-console.log(discountedRent, "discounted rent");
 
   return (
     <>
@@ -222,7 +217,10 @@ console.log(discountedRent, "discounted rent");
               </div>
             </div>
           </div>
+          <RatingList />
+
         </div>
+        
       )}
     </>
   );

@@ -1,4 +1,5 @@
 import React from "react";
+import ReviewModal from "../rating/ReviewModal";
 
 const DetailsUser = ({ bookingData }) => {
   const startTimestamp = new Date(bookingData.startDate).getTime();
@@ -45,6 +46,7 @@ const DetailsUser = ({ bookingData }) => {
           src={bookingData?.room?.roomImages[0]}
           alt=""
         />
+        <ReviewModal bookingData={bookingData}/>
       </div>
       <div className="flex flex-col justify-center p-4 md:w-1/2 lg:w-2/4 font-serif w-full leading-normal">
         <h1 className="mb-2 uppercase text-xl md:text-2xl font-bold tracking-tight text-gray-900 dark:text-black">
