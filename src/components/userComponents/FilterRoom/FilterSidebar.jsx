@@ -30,6 +30,7 @@ const FilterSidebar = ({ setRooms, filterRooms, setCurrentPage }) => {
   
       setRooms(filteredRooms);
     }
+    console.log(filterRooms ,"jfirhwefisuh");
   }, [filterOption, filterRooms]);
   
 
