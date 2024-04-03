@@ -1,5 +1,8 @@
 import React from "react";
 import ReviewModal from "../rating/ReviewModal";
+import { Link } from "react-router-dom";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faCommentAlt } from "@fortawesome/free-solid-svg-icons";
 
 const DetailsUser = ({ bookingData }) => {
   const startTimestamp = new Date(bookingData.startDate).getTime();
@@ -46,7 +49,7 @@ const DetailsUser = ({ bookingData }) => {
           src={bookingData?.room?.roomImages[0]}
           alt=""
         />
-        <ReviewModal bookingData={bookingData}/>
+        <ReviewModal bookingData={bookingData} />
       </div>
       <div className="flex flex-col justify-center p-4 md:w-1/2 lg:w-2/4 font-serif w-full leading-normal">
         <h1 className="mb-2 uppercase text-xl md:text-2xl font-bold tracking-tight text-gray-900 dark:text-black">
@@ -56,6 +59,16 @@ const DetailsUser = ({ bookingData }) => {
           <p className="my-3 text-lg font-semibold">
             Owner Name: <span>{bookingData?.owner?.name}</span>
           </p>
+          <Link
+            to="/chat"
+            className="flex items-center justify-center w-12 h-12 bg-gray-200 rounded-full hover:bg-gray-300 transition duration-300 ease-in-out"
+          >
+            <FontAwesomeIcon
+              icon={faCommentAlt}
+              className="text-blue-500"
+              size="lg"
+            />
+          </Link>
         </div>
         <h1 className="mb-2 text-lg md:text-xl font-bold tracking-tight text-gray-900 dark:text-red-600">
           Amount Paid: ₹ {bookingData?.totalBookingRent}

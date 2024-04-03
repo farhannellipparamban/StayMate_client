@@ -20,6 +20,7 @@ import WalletHistoryPage from "../pages/userPages/WalletHistoryPage";
 import UserAboutPage from "../pages/userPages/UserAboutPage";
 import Error404 from "../components/error/Error404";
 import Error500 from "../components/error/Error500";
+import ChatPage from "../pages/userPages/ChatPage";
 
 const UserRoute = () => {
   return (
@@ -118,6 +119,15 @@ const UserRoute = () => {
           </UserProtect>
         }
       />
+      <Route
+        path="/chat"
+        element={
+          <UserProtect>
+            <ChatPage />
+          </UserProtect>
+        }
+      />
+
       <Route path="*" element={<Error404 />} />
       <Route path="/pageNotFound" element={<Error404 />} />
       <Route path="/error-500" element={<Error500 />} />
