@@ -1,25 +1,23 @@
 import React, { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
-import { io } from "socket.io-client";
 import { userChats } from "../../../api/chatApi";
 import ChatList from "./ChatList";
 import ChatBox from "./ChatBox";
+import io from "socket.io-client"; 
 
-const END_POINT = "http://localhost:5173"; 
+const END_POINT = "http://localhost:5173";
 let socket;
 
 const Chat = () => {
-  const { _id } = useSelector((state) => state.userReducer.user);
-  const userId = _id;
-console.log(userId,"febhiuhfd");
+  const { _id } = useSelector((state) => state.ownerReducer.owner);
+  const ownerId = _id;
   const [conversations, setConversations] = useState([]);
   const [onlineUsers, setOnlineUsers] = useState([]);
   const [currentChat, setCurrentChat] = useState(null);
   const [messages, setMessages] = useState([]);
 
   useEffect(() => {
-    userChats(userId).then((res) => {
-      console.log(res,"response");
+    userChats(ownerId).then((res) => {
       setConversations(res?.data);
     });
   }, []);
@@ -29,15 +27,14 @@ console.log(userId,"febhiuhfd");
   }, []);
 
   useEffect(() => {
-    socket?.emit("setup", userId);
+    socket?.emit("setup", ownerId);
     socket?.on("get-users", (users) => {
       setOnlineUsers(users);
-
     });
     return () => {
       socket.disconnect();
     };
-  }, [userId]);
+  }, [ownerId]);
 
   useEffect(() => {
     socket.on("recieve_message", (data) => {
@@ -63,23 +60,20 @@ console.log(userId,"febhiuhfd");
   }, [messages, currentChat, conversations]);
 
   const checkOnlineStatus = (chat) => {
-    const chatMember = chat.members.find((member) => member !== userId);
+    const chatMember = chat.members.find((member) => member !== ownerId);
     const online = onlineUsers.find((user) => user.userId === chatMember);
     return online ? true : false;
   };
-
   return (
     <div>
       <div className="pt-5">
         <div>
-          <div className="md:flex no-wrap md:-mx-2 ">
+          <div className="md:flex no-wrap md:-mx-2">
             <div className="w-full md:w-3/12 md:mx-2 bg-gray-200">
               <div
                 className="bg-gray-200 flex flex-col overflow-y-scroll"
                 style={{ maxHeight: "85vh" }}
               >
-                {/* <!-- end search compt -->
-                 <!-- user list --> */}
                 <div className="pt-20">
                   <div className="cursor-pointer">
                     {conversations?.map((chat) => (
@@ -92,7 +86,7 @@ console.log(userId,"febhiuhfd");
                       >
                         <ChatList
                           data={chat}
-                          currentUserId={userId}
+                          currentUserId={ownerId}
                           online={checkOnlineStatus(chat)}
                         />
                       </div>
@@ -101,7 +95,6 @@ console.log(userId,"febhiuhfd");
                 </div>
               </div>
             </div>
-
             <div className="w-full md:w-9/12 mx-2 h-full">
               <div className="bg-gray-100 shadow-sm rounded-sm md:p-1">
                 <div className="flex flex-wrap justify-end font-semibold text-gray-900">
@@ -111,7 +104,7 @@ console.log(userId,"febhiuhfd");
                   >
                     <ChatBox
                       chat={currentChat}
-                      currentUser={userId}
+                      currentUser={ownerId}
                       setMessages={setMessages}
                       messages={messages}
                       socket={socket}

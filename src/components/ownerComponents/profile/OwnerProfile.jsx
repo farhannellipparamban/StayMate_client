@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { updateOwnerProfile } from "../../../api/ownerApi";
 import { ownerLogin } from "../../../reduxStore/slices/ownerSlice";
@@ -6,6 +6,7 @@ import { toast } from "react-toastify";
 import { useFormik } from "formik";
 import { profileValidationSchema } from "../../../validations/user/editProfileValidation";
 import Loading from "../../loading/Loading";
+import { getOwner } from "../../../api/chatApi";
 
 const OwnerProfile = () => {
   const { owner } = useSelector((state) => state.ownerReducer);
@@ -13,6 +14,7 @@ const OwnerProfile = () => {
   const dispatch = useDispatch();
   const [isEdit, setIsEdit] = useState(false);
   const [loading, setLoading] = useState(false);
+  const [userData, setUserData] = useState({});
 
   const ownerId = owner._id;
 
@@ -48,6 +50,16 @@ const OwnerProfile = () => {
       onSubmit,
       enableReinitialize: true,
     });
+
+    useEffect(() => {
+      getOwner(owner._id)
+        .then((res) => {
+          setUserData(res?.data);
+        })
+        .catch((err) => {
+          console.log(err.message);
+        });
+    }, []);
   return (
     <>
       {loading ? (

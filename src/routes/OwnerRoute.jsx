@@ -25,6 +25,7 @@ import AddOfferPage from "../pages/ownerPages/AddOfferPage";
 import OfferListPage from "../pages/ownerPages/OfferListPage";
 import EditOfferPage from "../pages/ownerPages/EditOfferPage";
 import ReviewsList from "../pages/ownerPages/ReviewsList";
+import ChatPage from "../pages/ownerPages/ChatPage";
 
 const OwnerRoute = () => {
   return (
@@ -180,6 +181,14 @@ const OwnerRoute = () => {
         element={
           <OwnerProtect>
             <ReviewsList />
+          </OwnerProtect>
+        }
+      />
+      <Route
+        path="/chat"
+        element={
+          <OwnerProtect>
+            <ChatPage />
           </OwnerProtect>
         }
       />

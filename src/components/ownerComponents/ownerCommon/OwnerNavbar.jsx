@@ -3,13 +3,15 @@ import { useDispatch, useSelector } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
 import { ownerLogout } from "../../../reduxStore/slices/ownerSlice";
 import { toast } from "react-toastify";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faCommentAlt } from "@fortawesome/free-solid-svg-icons";
 
 const OwnerNavbar = () => {
   const [isDropDownOpen, setDropDownOpen] = useState(false);
   const [isMobileMenuOpen, setMobileMenuOpen] = useState(false);
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const{ owner }= useSelector((state) => state.ownerReducer);
+  const { owner } = useSelector((state) => state.ownerReducer);
 
   const toggleDropdown = () => {
     setDropDownOpen(!isDropDownOpen);
@@ -69,8 +71,7 @@ const OwnerNavbar = () => {
               <span className="text-2xl font-semibold text-black">Mate</span>
             </span>
             <span className="text-xs font-serif text-red-600 mt-10 -ml-28">
-              Your Stay ,
-              <span className="text-black"> Our Way .</span>
+              Your Stay ,<span className="text-black"> Our Way .</span>
             </span>
           </>
 
@@ -92,7 +93,7 @@ const OwnerNavbar = () => {
                 <Link
                   to="/owner/dashboard"
                   className={
-                    location.pathname ==="/owner/dashboard"
+                    location.pathname === "/owner/dashboard"
                       ? "block py-2 pl-3 pr-4 text-white bg-red-700 rounded md:bg-transparent md:text-red-700 md:p-0 md:dark-text-red-500"
                       : "block py-2 px-3 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-red-600 text-blue-700text-red-600  md:p-0 dark:text-dark md:dark:hover:text-red-600 text-blue-500text-red-600  dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent dark:border-gray-700 font-bold text-xl"
                   }
@@ -128,6 +129,17 @@ const OwnerNavbar = () => {
           </div>
           {/* User Dropdown */}
           <div className="relative flex items-center">
+            <div>
+              <Link
+                to="/owner/chat"
+              >
+                <FontAwesomeIcon
+                  icon={faCommentAlt}
+                  className="w-8 h-8 mt-1 mr-10 text-blue-500"
+                  size="lg"
+                />
+              </Link>
+            </div>
             <button
               type="button"
               className="flex items-center justify-center text-sm bg-gray-800 rounded-full focus:ring-4 focus:ring-gray-300 dark:focus:ring-gray-600"
