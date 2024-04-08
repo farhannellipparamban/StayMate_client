@@ -3,7 +3,7 @@ import { useSelector } from "react-redux";
 import { userChats } from "../../../api/chatApi";
 import ChatList from "./ChatList";
 import ChatBox from "./ChatBox";
-import io from "socket.io-client"; 
+import io from "socket.io-client";
 
 const END_POINT = "http://localhost:5173";
 let socket;
@@ -86,7 +86,7 @@ const Chat = () => {
                       >
                         <ChatList
                           data={chat}
-                          currentUserId={ownerId}
+                          currentOwnerId={ownerId}
                           online={checkOnlineStatus(chat)}
                         />
                       </div>
@@ -104,7 +104,7 @@ const Chat = () => {
                   >
                     <ChatBox
                       chat={currentChat}
-                      currentUser={ownerId}
+                      currentOwner={ownerId}
                       setMessages={setMessages}
                       messages={messages}
                       socket={socket}

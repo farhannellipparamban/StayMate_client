@@ -88,7 +88,7 @@ const LocationDateFilter = ({ selectedData, setLoading }) => {
 
   return (
     <>
-      <div className="bg-white shadow-lg bg-opacity-70 backdrop-filter backdrop-blur-0 border border-gray-500 border-opacity-50 rounded-lg mx-auto w-full md:p-10 mb-5 md:mb-0 mt-2 z-50 relative">
+      <div className="bg-white shadow-lg bg-opacity-70 backdrop-filter backdrop-blur-0 border border-gray-500 border-opacity-50 rounded-lg mx-auto w-full md:p-10 mb-5 md:mb-0 mt-2">
         <form onSubmit={handleSubmit}>
           <div className="flex flex-col md:flex-row justify-between items-center space-y-4 md:space-y-0">
             <div className="mb-4 md:mb-0 md:mr-2 w-full md:w-1/4">

@@ -3,10 +3,15 @@ import { getOwner } from "../../../api/chatApi";
 import { addMessage, getMessages } from "../../../api/messageApi";
 import Conversation from "./Conversation";
 import InputEmoji from "react-input-emoji";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faMicrophone } from "@fortawesome/free-solid-svg-icons";
+import CaptureAudio from "./CaptureAudio";
+import VoiceMessage from "./VoiceMessage";
 
 const ChatBox = ({ chat, currentUser, setMessages, messages, socket }) => {
   const [ownerData, setOwnerData] = useState(null);
   const [newMessage, setNewMessage] = useState("");
+  const [showAudioRecorder, setShowAudioRecorder] = useState(false);
 
   const scroll = useRef();
 
@@ -16,10 +21,10 @@ const ChatBox = ({ chat, currentUser, setMessages, messages, socket }) => {
 
   useEffect(() => {
     const ownerId = chat?.members?.find((id) => id !== currentUser);
+
     const getOwnerData = async () => {
       try {
         const { data } = await getOwner(ownerId);
-        console.log(data);
         setOwnerData(data);
       } catch (error) {
         console.log(error.message);
@@ -46,7 +51,7 @@ const ChatBox = ({ chat, currentUser, setMessages, messages, socket }) => {
 
   const handleSend = async (e) => {
     let newOne;
-    e.preventDefualt();
+    e.preventDefault();
     const message = {
       senderId: currentUser,
       text: newMessage,
@@ -72,7 +77,7 @@ const ChatBox = ({ chat, currentUser, setMessages, messages, socket }) => {
             style={{ maxHeight: "80vh" }}
           >
             <div className="flex sm:items-center justify-between  border-b-2 border-gray-200">
-              <div className="relative flex items-center space-x-4">
+              <div className="relative flex items-center space-x-4 -mt-12">
                 <div className="relative">
                   <span className="absolute text-green-500 right-0 bottom-0">
                     <svg width="20" height="20">
@@ -80,7 +85,7 @@ const ChatBox = ({ chat, currentUser, setMessages, messages, socket }) => {
                     </svg>
                   </span>
                   <img
-                    src=""
+                    src="https://images.unsplash.com/photo-1544005313-94ddf0286df2?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=100&h=100&q=80"
                     alt=""
                     className="w-10 sm:w-16 h-10 sm:h-16 rounded-full"
                   ></img>
@@ -93,46 +98,7 @@ const ChatBox = ({ chat, currentUser, setMessages, messages, socket }) => {
                   </div>
                 </div>
               </div>
-              <div className="flex items-center space-x-2">
-                <button
-                  type="button"
-                  className="inline-flex items-center justify-center rounded-lg border h-10 w-10 transition duration-500 ease-in-out text-gray-500 hover:bg-gray-300 focus:outline-none"
-                >
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    fill="none"
-                    viewBox="0 0 24 24"
-                    stroke="currentColor"
-                    className="h-6 w-6"
-                  >
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      strokeWidth="2"
-                      d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"
-                    ></path>
-                  </svg>
-                </button>
-                <button
-                  type="button"
-                  className="inline-flex items-center justify-center rounded-lg border h-10 w-10 transition duration-500 ease-in-out text-gray-500 hover:bg-gray-300 focus:outline-none"
-                >
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    fill="none"
-                    viewBox="0 0 24 24"
-                    stroke="currentColor"
-                    className="h-6 w-6"
-                  >
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      strokeWidth="2"
-                      d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9"
-                    ></path>
-                  </svg>
-                </button>
-              </div>
+              <div className="flex items-center space-x-2"></div>
             </div>
 
             <div
@@ -146,54 +112,55 @@ const ChatBox = ({ chat, currentUser, setMessages, messages, socket }) => {
               ))}
             </div>
 
-            <div className="border-t-2 border-gray-200 px-4 pt-4 mb-2 sm:mb-0">
-              <div className="relative flex">
-                <span className="absolute inset-y-0 flex items-center">
-                  <button
-                    type="button"
-                    className="inline-flex items-center justify-center rounded-full h-12 w-12 transition duration-500 ease-in-out text-gray-500 hover:bg-gray-300 focus:outline-none"
-                  >
-                    <svg
-                      xmlns="http://www.w3.org/2000/svg"
-                      fill="none"
-                      viewBox="0 0 24 24"
-                      stroke="currentColor"
-                      className="h-6 w-6 text-gray-600"
-                    >
-                      <path
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                        strokeWidth="2"
-                        d="M19 11a7 7 0 01-7 7m0 0a7 7 0 01-7-7m7 7v4m0 0H8m4 0h4m-4-8a3 3 0 01-3-3V5a3 3 0 116 0v6a3 3 0 01-3 3z"
-                      ></path>
-                    </svg>
-                  </button>
-                </span>
-                <InputEmoji value={newMessage} onChange={handleChange} />
+            <div className="border-t-2 border-gray-200 px-4 py-4 sm:p-0">
+              {!showAudioRecorder && (
+                <div className="relative flex flex-col sm:flex-row items-center">
+                  <InputEmoji value={newMessage} onChange={handleChange} />
 
-                <button
-                  type="button"
-                  onClick={handleSend}
-                  className="inline-flex items-center justify-center rounded-lg px-4 py-3 transition duration-500 ease-in-out text-white bg-blue-500 hover:bg-blue-400 focus:outline-none"
-                >
-                  <span className="font-bold">Send</span>
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    viewBox="0 0 20 20"
-                    fill="currentColor"
-                    className="h-6 w-6 ml-2 transform rotate-90"
-                  >
-                    <path d="M10.894 2.553a1 1 0 00-1.788 0l-7 14a1 1 0 001.169 1.409l5-1.429A1 1 0 009 15.571V11a1 1 0 112 0v4.571a1 1 0 00.725.962l5 1.428a1 1 0 001.17-1.408l-7-14z"></path>
-                  </svg>
-                </button>
-              </div>
+                  <div className="flex mt-4 sm:mt-0">
+                    {newMessage.length ? (
+                      <button
+                        type="button"
+                        onClick={handleSend}
+                        className="inline-flex items-center justify-center rounded-lg px-4 py-3 transition duration-500 ease-in-out text-white bg-blue-500 hover:bg-blue-400 focus:outline-none"
+                      >
+                        <span className="font-bold">Send</span>
+                        <svg
+                          xmlns="http://www.w3.org/2000/svg"
+                          viewBox="0 0 20 20"
+                          fill="currentColor"
+                          className="h-6 w-6 ml-2 transform rotate-90"
+                        >
+                          <path d="M10.894 2.553a1 1 0 00-1.788 0l-7 14a1 1 0 001.169 1.409l5-1.429A1 1 0 009 15.571V11a1 1 0 112 0v4.571a1 1 0 00.725.962l5 1.428a1 1 0 001.17-1.408l-7-14z"></path>
+                        </svg>
+                      </button>
+                    ) : (
+                      <button
+                        type="button"
+                        className="inline-flex items-center justify-center rounded-full h-12 w-12 transition duration-500 ease-in-out text-gray-500 hover:bg-gray-300 focus:outline-none"
+                      >
+                        <FontAwesomeIcon
+                          icon={faMicrophone}
+                          className="text-panel-header-icon cursor-pointer text-xl"
+                          title="Record"
+                          onClick={() => setShowAudioRecorder(true)}
+                        />
+                      </button>
+                    )}
+                  </div>
+                </div>
+              )}
+              {showAudioRecorder && (
+                <CaptureAudio hide={setShowAudioRecorder} chat={chat} currentUser={currentUser} socket={socket}/>
+              )}
             </div>
+            {messages.type === "audio" && <VoiceMessage messages={messages} chat={chat} currentUser={currentUser} />}
           </div>
         </>
       ) : (
         <div
-          className="flex-1 p:2 sm:p-6 justify-center flex items-center text-gray-300"
-          style={{ maxHeight: "90vh", fontSize: "50px" }}
+          className="flex-1 p:2 sm:p-6 justify-center flex items-center text-gray-400"
+          style={{ maxHeight: "90vh", fontSize: "40px" }}
         >
           Open a chat to start a conversation
         </div>

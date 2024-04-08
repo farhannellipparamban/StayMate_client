@@ -103,6 +103,7 @@ const AllRoomsPage = () => {
           </div>
 
           <LocationDateFilter selectedData={values} setLoading={setLoading} />
+          
           <div className=" flex items-baseline justify-between pl-4 mb-4">
             <h4 className="text-3xl mt-5 font-bold text-gray-900">
               Available Rooms

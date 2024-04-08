@@ -1,48 +1,34 @@
-import React from 'react'
-import { format } from 'timeago.js'
+import React from "react";
+import { format } from "timeago.js";
 
-const Conversation = ({message,currentUser}) => {
-
+const Conversation = ({ message, currentUser }) => {
   return (
     <div id="messages" className="">
       {currentUser === message?.senderId ? (
-        <div className="chat-message">
-          <div className="flex items-end justify-end">
-            <div className="flex flex-col space-y-2 text-xs max-w-xs mx-2 order-1 items-end">
-              <div>
-                <span
-                  className="px-4 py-2 rounded-lg inline-block rounded-br-none bg-blue-600 text-white break-words"
-                  style={{ maxWidth: "350px" }}
-                >
-                  {message?.text}
-                </span>
-              </div>
+        <div className="chat-message flex items-end justify-end mb-4">
+          <div className="flex flex-col space-y-2 text-xs max-w-xs mx-2 order-1 items-end">
+            <div className="rounded-lg bg-blue-600 text-white break-words p-2 max-w-max">
+              {message?.text}
             </div>
           </div>
-          <div className="flex justify-end text-black font-extralight">
+          <div className="text-black font-extralight ml-2">
             {format(message?.createdAt)}
           </div>
         </div>
       ) : (
-        <div className="chat-message">
-          <div className="flex items-end">
-            <div className="flex flex-col space-y-2 text-xs max-w-xs mx-2 order-2 items-start">
-              <div>
-                <span
-                  className="px-4 py-2 rounded-lg inline-block rounded-bl-none bg-gray-300 text-gray-600 break-words"
-                  style={{ maxWidth: "350px" }}
-                >
-                  {message?.text}
-                </span>
-                <span> {format(message?.createdAt)}</span>
-              </div>
+        <div className="chat-message flex items-end mb-4">
+          <div className="flex flex-col space-y-2 text-xs max-w-xs mx-2 order-2 items-start">
+            <div className="rounded-lg bg-gray-300 text-gray-600 break-words p-2 max-w-max">
+              {message?.text}
+            </div>
+            <div className="text-xs text-gray-500">
+              {format(message?.createdAt)}
             </div>
           </div>
-          <div className="flex justify-start text-black font-extralight"></div>
         </div>
       )}
     </div>
-  )
-}
+  );
+};
 
-export default Conversation
+export default Conversation;
