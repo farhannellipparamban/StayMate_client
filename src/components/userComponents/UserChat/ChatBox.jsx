@@ -6,7 +6,6 @@ import InputEmoji from "react-input-emoji";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faMicrophone } from "@fortawesome/free-solid-svg-icons";
 import CaptureAudio from "./CaptureAudio";
-import VoiceMessage from "./VoiceMessage";
 
 const ChatBox = ({ chat, currentUser, setMessages, messages, socket }) => {
   const [ownerData, setOwnerData] = useState(null);
@@ -154,7 +153,7 @@ const ChatBox = ({ chat, currentUser, setMessages, messages, socket }) => {
                 <CaptureAudio hide={setShowAudioRecorder} chat={chat} currentUser={currentUser} socket={socket}/>
               )}
             </div>
-            {messages.type === "audio" && <VoiceMessage messages={messages} chat={chat} currentUser={currentUser} />}
+            {/* {messages.type === "audio" && <VoiceMessage messages={messages} chat={chat} currentUser={currentUser} />} */}
           </div>
         </>
       ) : (

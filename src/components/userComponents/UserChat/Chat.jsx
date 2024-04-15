@@ -65,6 +65,28 @@ const Chat = () => {
     return online ? true : false;
   };
 
+  const markMessageAsUnread = (chatId) => {
+    const updatedConversations = conversations.map((chat) => {
+      if (chat._id === chatId) {
+        return { ...chat, unread: true };
+      }
+      return chat;
+    });
+    setConversations(updatedConversations);
+  };
+
+  // useEffect(() => {
+  //   if (currentChat) {
+  //     const updatedConversations = conversations.map((chat) => {
+  //       if (chat._id === currentChat._id) {
+  //         return { ...chat, unread: false };
+  //       }
+  //       return chat;
+  //     });
+  //     setConversations(updatedConversations);
+  //   }
+  // }, [currentChat, conversations]);
+
   return (
     <div className="flex flex-col md:flex-row h-screen">
       <div className="w-full md:w-1/2 lg:w-1/3 xl:w-1/4 bg-gray-200 overflow-y-auto">
@@ -75,6 +97,7 @@ const Chat = () => {
               onClick={() => {
                 setCurrentChat(chat);
                 socket?.emit("join room", chat._id);
+                
               }}
               className="cursor-pointer hover:bg-gray-300 p-2"
             >
@@ -82,6 +105,7 @@ const Chat = () => {
                 data={chat}
                 currentUserId={userId}
                 online={checkOnlineStatus(chat)}
+                markMessageAsUnread={() => markMessageAsUnread(chat._id)}
               />
             </div>
           ))}
@@ -97,7 +121,6 @@ const Chat = () => {
                 setMessages={setMessages}
                 messages={messages}
                 socket={socket}
-
               />
             </div>
           </div>

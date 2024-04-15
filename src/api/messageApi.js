@@ -6,4 +6,4 @@ const messageInstance = axios.create({ baseURL: baseURL });
 export const getMessages = (id) => messageInstance.get(`/message/${id}`);
 
 export const addMessage = (data) => messageInstance.post("/message", data);
-export const addAudioMessage = (formData, config) => messageInstance.post("/message/audioMessage", formData, config,(console.log(formData, config,"helooo")));
+export const addAudioMessage = (formData, config) => messageInstance.post("/message/audioMessage", formData, config);

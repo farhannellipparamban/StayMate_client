@@ -146,9 +146,8 @@ const CaptureAudio = ({ hide, chat, currentUser, socket }) => {
       formData.append("chatId", chat._id);
       formData.append("senderId", currentUser);
       formData.append("audio", renderedAudio);
-console.log(renderedAudio,"form");
-        // Send FormData object containing audio file to the server
-        const response = await addAudioMessage(formData, {  // Corrected syntax here
+
+        const response = await addAudioMessage(formData, {  
             headers: {
                 "Content-Type": "multipart/form-data",
             },
