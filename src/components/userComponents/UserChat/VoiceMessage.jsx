@@ -34,7 +34,8 @@ const VoiceMessage = ({ message, currentUser }) => {
   }, []);
 
   useEffect(() => {
-    const audioURL = `/${message.message}`;
+    const audioURL = `/${message.audioPath}`;
+    console.log(audioURL);
     const audio = new Audio(audioURL);
     setAudioMessage(audio);
     waveForm.current.load(audioURL);
@@ -112,7 +113,7 @@ const VoiceMessage = ({ message, currentUser }) => {
           <div className="text-bubble-meta text-[11px] pt-1 flex justify-between absolute bottom-[-22px] w-full">
             <span>{formatTime(isPlaying ? currentPlaybackTime : totalDuration)}</span>
             <div className="flex gap-1">
-              <span>{format(message.createdAt)}</span>
+              {/* <span>{format(message.createdAt)}</span> */}
             </div>
           </div>
         </div>

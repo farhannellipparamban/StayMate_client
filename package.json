@@ -20,6 +20,8 @@
     "@reduxjs/toolkit": "^2.1.0",
     "axios": "^1.6.5",
     "chart.js": "^4.4.2",
+    "cloudinary": "^2.1.0",
+    "cloudinary-react": "^1.8.1",
     "firebase": "^10.8.0",
     "flowbite": "^2.2.1",
     "flowbite-react": "^0.7.2",

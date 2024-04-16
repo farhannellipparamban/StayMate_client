@@ -9,8 +9,9 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import React, { useEffect, useRef, useState } from "react";
 import WaveSurfer from "wavesurfer.js";
 import { addAudioMessage } from "../../../api/messageApi";
+import Conversation from "./Conversation";
 
-const CaptureAudio = ({ hide, chat, currentUser, socket }) => {
+const CaptureAudio = ({ hide, chat, currentUser, socket ,onSendAudio,message}) => {
   const [isRecording, setIsRecording] = useState(false);
   const [recordedAudio, setRecordedAudio] = useState(null);
   const [waveForm, setWaveForm] = useState(null);
@@ -20,7 +21,7 @@ const CaptureAudio = ({ hide, chat, currentUser, socket }) => {
   const [isPlaying, setIsPlaying] = useState(false);
   const [renderedAudio, setRenderedAudio] = useState(null);
 
-  const socketRef = useRef(socket); 
+  const socketRef = useRef(socket);
   const audioRef = useRef(null);
   const mediaRecorderRed = useRef(null);
   const waveFormRef = useRef(null);
@@ -69,7 +70,7 @@ const CaptureAudio = ({ hide, chat, currentUser, socket }) => {
     setCurrentPlaybackTime(0);
     setTotalDuration(0);
     setIsRecording(true);
-    setRecordedAudio(null)
+    setRecordedAudio(null);
 
     navigator.mediaDevices
       .getUserMedia({ audio: true })
@@ -140,38 +141,40 @@ const CaptureAudio = ({ hide, chat, currentUser, socket }) => {
     setIsPlaying(false);
   };
 
-  const sendRecording = async () => {
+  const handleSendRecording = async () => {
     try {
       const formData = new FormData();
       formData.append("chatId", chat._id);
       formData.append("senderId", currentUser);
       formData.append("audio", renderedAudio);
-
-        const response = await addAudioMessage(formData, {  
-            headers: {
-                "Content-Type": "multipart/form-data",
-            },
-            params: {
-                from: chat._id,
-                to: currentUser,
-            },
+  
+      const response = await addAudioMessage(formData, {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+        params: {
+          from: chat._id,
+          to: currentUser,
+        },
+      });
+  
+      if (response.status === 201) {
+        console.log("Audio message sent successfully");
+  
+        onSendAudio(response.data.message);
+  
+        socketRef.current.emit("send_message", {
+          to: currentUser,
+          from: chat._id,
+          message: response.data.message,
         });
-        if (response.status === 201) {
-            console.log("Audio message sent successfully");
-
-            socketRef.current.emit("send-msg", {
-              to: currentUser,
-              from: chat._id,
-              message: response.data.message,
-            });
-            
-        }
+        console.log(response.data.message, "verjeri");
+      }
     } catch (error) {
-        console.error("Error sending audio:", error);
+      console.error("Error sending audio:", error);
     }
-};
-
-
+  };
+  
   const formatTime = (time) => {
     if (isNaN(time)) return "00:00";
     const minutes = Math.floor(time / 60);
@@ -246,7 +249,7 @@ const CaptureAudio = ({ hide, chat, currentUser, socket }) => {
         <div>
           <button
             type="button"
-            onClick={sendRecording}
+            onClick={handleSendRecording}
             className="text-blue-500 cursor-pointer"
           >
             <svg
@@ -258,6 +261,9 @@ const CaptureAudio = ({ hide, chat, currentUser, socket }) => {
               <path d="M10.894 2.553a1 1 0 00-1.788 0l-7 14a1 1 0 001.169 1.409l5-1.429A1 1 0 009 15.571V11a1 1 0 112 0v4.571a1 1 0 00.725.962l5 1.428a1 1 0 001.17-1.408l-7-14z"></path>
             </svg>
           </button>
+           {renderedAudio && (
+          <Conversation message={message} currentUser={currentUser}/>
+           )}
         </div>
       </div>
     </div>

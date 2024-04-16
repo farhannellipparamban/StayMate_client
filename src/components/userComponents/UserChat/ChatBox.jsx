@@ -1,16 +1,19 @@
 import React, { useEffect, useRef, useState } from "react";
 import { getOwner } from "../../../api/chatApi";
-import { addMessage, getMessages } from "../../../api/messageApi";
+import { addMessage, getMessages, imageSendingMessage } from "../../../api/messageApi";
 import Conversation from "./Conversation";
 import InputEmoji from "react-input-emoji";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faMicrophone } from "@fortawesome/free-solid-svg-icons";
+import { faFileAlt, faMicrophone } from "@fortawesome/free-solid-svg-icons";
 import CaptureAudio from "./CaptureAudio";
+import ImageMessage from "./ImageMessage";
 
 const ChatBox = ({ chat, currentUser, setMessages, messages, socket }) => {
   const [ownerData, setOwnerData] = useState(null);
   const [newMessage, setNewMessage] = useState("");
   const [showAudioRecorder, setShowAudioRecorder] = useState(false);
+  const [imagePicker, setImagePicker] = useState(false);
+  const [audioMessage, setAudioMessage] = useState(null);
 
   const scroll = useRef();
 
@@ -67,6 +70,50 @@ const ChatBox = ({ chat, currentUser, setMessages, messages, socket }) => {
     socket.emit("send_message", newOne);
   };
 
+  useEffect(() => {
+    if (imagePicker) {
+      const data = document.getElementById("photo-picker");
+      console.log("data:", data); // Add this line
+      if (data) {
+        data.click();
+        document.body.onfocus = (e) => {
+          setTimeout(() => {
+            setImagePicker(false);
+          }, 1000);
+        };
+      }
+    }
+  }, [imagePicker]);
+
+  const PhotoPickerChange = async (e) => {
+    try {
+      const formData = new FormData();
+      const images = e.target.files;
+      formData.append("chatId", chat._id);
+      formData.append("senderId", currentUser);
+      for (let i = 0; i < images.length; i++) {
+        formData.append("image", images[i]);
+      }
+  
+      const response = await imageSendingMessage(formData);
+  
+      if (response.status === 201) {
+        console.log("image message sent successfully");
+  
+        socket.emit("send_message", {
+          to: currentUser,
+          from: chat._id,
+          message: response.data.message,
+        });
+      }
+    } catch (error) {
+      console.error("Error sending image:", error);
+    }
+  };
+  
+  const onSendAudio = (audioData) => {
+    setAudioMessage(audioData);
+  };
   return (
     <>
       {chat ? (
@@ -134,26 +181,63 @@ const ChatBox = ({ chat, currentUser, setMessages, messages, socket }) => {
                         </svg>
                       </button>
                     ) : (
-                      <button
-                        type="button"
-                        className="inline-flex items-center justify-center rounded-full h-12 w-12 transition duration-500 ease-in-out text-gray-500 hover:bg-gray-300 focus:outline-none"
-                      >
-                        <FontAwesomeIcon
-                          icon={faMicrophone}
-                          className="text-panel-header-icon cursor-pointer text-xl"
-                          title="Record"
-                          onClick={() => setShowAudioRecorder(true)}
-                        />
-                      </button>
+                      <>
+                        <button
+                          type="button"
+                          className="inline-flex items-center justify-center rounded-full h-12 w-12 transition duration-500 ease-in-out text-gray-500 hover:bg-gray-300 focus:outline-none"
+                        >
+                          <FontAwesomeIcon
+                            icon={faMicrophone}
+                            className="text-panel-header-icon cursor-pointer text-xl"
+                            title="Record"
+                            onClick={() => setShowAudioRecorder(true)}
+                          />
+                        </button>
+                        <button
+                          type="button"
+                          className="inline-flex items-center justify-center rounded-full h-12 w-12 transition duration-500 ease-in-out text-gray-500 hover:bg-gray-300 focus:outline-none"
+                          onClick={() => setImagePicker(true)}
+                        >
+                          <input
+                            type="file"
+                            id="photo-picker"
+                            accept="image/*"
+                            multiple
+                            style={{ display: "none" }}
+                            onChange={PhotoPickerChange}
+                          />
+                          <FontAwesomeIcon
+                            icon={faFileAlt}
+                            className="text-panel-header-icon cursor-pointer text-xl"
+                            title="Image"
+                          />
+                        </button>
+                      </>
                     )}
                   </div>
                 </div>
               )}
               {showAudioRecorder && (
-                <CaptureAudio hide={setShowAudioRecorder} chat={chat} currentUser={currentUser} socket={socket}/>
+                <CaptureAudio
+                  hide={setShowAudioRecorder}
+                  chat={chat}
+                  currentUser={currentUser}
+                  socket={socket}
+                  onSendAudio={onSendAudio}
+                  message={messages}
+
+                />
+              )}
+              {imagePicker && (
+                <Conversation
+                  onChange={PhotoPickerChange}
+                  message={messages}
+                  chat={chat}
+                  currentUser={currentUser}
+                  socket={socket}
+                />
               )}
             </div>
-            {/* {messages.type === "audio" && <VoiceMessage messages={messages} chat={chat} currentUser={currentUser} />} */}
           </div>
         </>
       ) : (

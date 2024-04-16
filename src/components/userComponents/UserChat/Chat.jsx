@@ -5,7 +5,7 @@ import ChatList from "./ChatList";
 import ChatBox from "./ChatBox";
 import io from "socket.io-client";
 
-const END_POINT = "http://localhost:5173";
+const END_POINT = "http://localhost:8000";
 let socket;
 
 const Chat = () => {
