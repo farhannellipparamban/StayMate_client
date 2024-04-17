@@ -1,10 +1,14 @@
 import React, { useEffect, useRef, useState } from "react";
 import { getOwner } from "../../../api/chatApi";
-import { addMessage, getMessages, imageSendingMessage } from "../../../api/messageApi";
+import {
+  addMessage,
+  getMessages,
+  imageSendingMessage,
+} from "../../../api/messageApi";
 import Conversation from "./Conversation";
 import InputEmoji from "react-input-emoji";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faFileAlt, faMicrophone } from "@fortawesome/free-solid-svg-icons";
+import { faMicrophone, faPaperclip } from "@fortawesome/free-solid-svg-icons";
 import CaptureAudio from "./CaptureAudio";
 import ImageMessage from "./ImageMessage";
 
@@ -85,15 +89,61 @@ const ChatBox = ({ chat, currentUser, setMessages, messages, socket }) => {
     }
   }, [imagePicker]);
 
-  const PhotoPickerChange = async (e) => {
+  // const filesPickerChange = async (e) => {
+  //   try {
+  //     const formData = new FormData();
+  //     const images = e.target.files;
+  //     formData.append("chatId", chat._id);
+  //     formData.append("senderId", currentUser);
+  //     for (let i = 0; i < images.length; i++) {
+  //       formData.append("image", images[i]);
+  //     }
+
+  //     const response = await imageSendingMessage(formData);
+
+  //     if (response.status === 201) {
+  //       console.log("image message sent successfully");
+
+  //       socket.emit("send_message", {
+  //         to: currentUser,
+  //         from: chat._id,
+  //         message: response.data.message,
+  //       });
+  //     }
+  //   } catch (error) {
+  //     console.error("Error sending image:", error);
+  //   }
+  // };
+  const filesPickerChange = async (event) => {
+    const files = event.target.files;
+    
+    // Check if files were selected
+    if (files.length > 0) {
+      // Iterate through the selected files
+      for (let i = 0; i < files.length; i++) {
+        const file = files[i];
+        // Check the type of the file
+        if (file.type.startsWith('image/')) {
+          // It's an image, handle accordingly
+          handleImage(file);
+        } else if (file.type.startsWith('video/')) {
+          // It's a video, handle accordingly
+          handleVideo(file);
+        } else {
+          // It's neither an image nor a video, handle accordingly
+          handleOtherFile(file);
+        }
+      }
+    }
+  };
+  
+  // Define functions to handle different types of files
+  const handleImage = async (file) => {
     try {
       const formData = new FormData();
-      const images = e.target.files;
       formData.append("chatId", chat._id);
       formData.append("senderId", currentUser);
-      for (let i = 0; i < images.length; i++) {
-        formData.append("image", images[i]);
-      }
+      formData.append("image", file);
   
       const response = await imageSendingMessage(formData);
   
@@ -111,6 +161,17 @@ const ChatBox = ({ chat, currentUser, setMessages, messages, socket }) => {
     }
   };
   
+  const handleVideo = async (file) => {
+    // Handle video file
+    // You can implement the logic for handling video files here
+  };
+  
+  const handleOtherFile = async (file) => {
+    // Handle other types of files
+    // You can implement the logic for handling other types of files here
+  };
+  
+
   const onSendAudio = (audioData) => {
     setAudioMessage(audioData);
   };
@@ -170,7 +231,7 @@ const ChatBox = ({ chat, currentUser, setMessages, messages, socket }) => {
                         onClick={handleSend}
                         className="inline-flex items-center justify-center rounded-lg px-4 py-3 transition duration-500 ease-in-out text-white bg-blue-500 hover:bg-blue-400 focus:outline-none"
                       >
-                        <span className="font-bold">Send</span>
+                        {/* <span className="font-bold">Send</span> */}
                         <svg
                           xmlns="http://www.w3.org/2000/svg"
                           viewBox="0 0 20 20"
@@ -201,13 +262,13 @@ const ChatBox = ({ chat, currentUser, setMessages, messages, socket }) => {
                           <input
                             type="file"
                             id="photo-picker"
-                            accept="image/*"
+                            accept="image/*,video/*"
                             multiple
                             style={{ display: "none" }}
-                            onChange={PhotoPickerChange}
+                            onChange={filesPickerChange}
                           />
                           <FontAwesomeIcon
-                            icon={faFileAlt}
+                            icon={faPaperclip}
                             className="text-panel-header-icon cursor-pointer text-xl"
                             title="Image"
                           />
@@ -225,12 +286,11 @@ const ChatBox = ({ chat, currentUser, setMessages, messages, socket }) => {
                   socket={socket}
                   onSendAudio={onSendAudio}
                   message={messages}
-
                 />
               )}
               {imagePicker && (
                 <Conversation
-                  onChange={PhotoPickerChange}
+                  onChange={filesPickerChange}
                   message={messages}
                   chat={chat}
                   currentUser={currentUser}

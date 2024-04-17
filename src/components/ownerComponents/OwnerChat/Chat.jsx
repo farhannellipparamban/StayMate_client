@@ -64,6 +64,17 @@ const Chat = () => {
     const online = onlineUsers.find((user) => user.userId === chatMember);
     return online ? true : false;
   };
+
+  const markMessageAsUnread = (chatId) => {
+    const updatedConversations = conversations.map((chat) => {
+      if (chat._id === chatId) {
+        return { ...chat, unread: true };
+      }
+      return chat;
+    });
+    setConversations(updatedConversations);
+  };
+
   return (
     <div>
       <div className="pt-5">
@@ -88,6 +99,8 @@ const Chat = () => {
                           data={chat}
                           currentOwnerId={ownerId}
                           online={checkOnlineStatus(chat)}
+                          markMessageAsUnread={() => markMessageAsUnread(chat._id)}
+
                         />
                       </div>
                     ))}

@@ -1,43 +1,60 @@
 import React from "react";
 import { format } from "timeago.js";
+import VoiceMessage from "./VoiceMessage";
+import ImageMessage from "./ImageMessage";
 
 const Conversation = ({ message, currentOwner }) => {
   return (
     <div id="messages" className="">
       {currentOwner === message.senderId ? (
         <div className="chat-message">
-          <div className="flex items-end justify-end">
-            <div className="flex flex-col space-y-2 text-xs max-w-xs mx-2 order-1 items-end">
-              <div>
-                <span
-                  className="px-4 py-2 rounded-lg inline-block rounded-br-none bg-blue-600 text-white break-words"
-                  style={{ maxWidth: "350px" }}
-                >
-                  {message.text}
-                </span>
+          <div className="flex flex-col space-y-2 text-xs max-w-xs mx-2 order-1 items-end">
+            {message.audioPath ? (
+              <div className="rounded-lg bg-blue-600 text-white break-words p-2 max-w-max">
+                <VoiceMessage message={message} currentOwner={currentOwner} />
               </div>
-            </div>
+            ) : message.images && message ? (
+              <>
+                <ImageMessage message={message} currentOwner={currentOwner} />
+                <div className="rounded-lg bg-blue-600 text-white break-words p-2 max-w-max">
+                  {message.text}
+                </div>
+              </>
+            ) : (
+              // ) : message.text ? (
+              //   <div className="rounded-lg bg-blue-600 text-white break-words p-2 max-w-max">
+              //     {message.text}
+              //   </div>
+              ""
+            )}
           </div>
           <div className="flex justify-end text-black font-extralight">
             {format(message.createdAt)}
           </div>
         </div>
       ) : (
-        <div className="chat-message">
-          <div className="flex items-end">
-            <div className="flex flex-col space-y-2 text-xs max-w-xs mx-2 order-2 items-start">
-              <div>
-                <span
-                  className="px-4 py-2 rounded-lg inline-block rounded-bl-none bg-gray-300 text-gray-600 break-words"
-                  style={{ maxWidth: "350px" }}
-                >
-                  {message.text}
-                </span>
-                <span> {format(message.createdAt)}</span>
+        <div className="chat-message flex items-end mb-4">
+          <div className="flex flex-col space-y-2 text-xs max-w-xs mx-2 order-2 items-start">
+            {message.audioPath ? (
+              <div className="rounded-lg bg-gray-300 text-gray-600 break-words p-2 max-w-max">
+                <VoiceMessage message={message} currentOwner={currentOwner} />
               </div>
+            ) : message.images && message ? (
+              <>
+                <ImageMessage message={message} currentOwner={currentOwner} />
+                <div className="rounded-lg bg-gray-300 text-gray-600 break-words p-2 max-w-max">
+                  {message?.text}
+                </div>
+              </>
+            ) : (
+              <div className="rounded-lg bg-gray-300 text-gray-600 break-words p-2 max-w-max">
+                {message?.text}
+              </div>
+            )}
+            <div className="text-xs text-gray-500">
+              {format(message?.createdAt)}
             </div>
           </div>
-          <div className="flex justify-start text-black font-extralight"></div>
         </div>
       )}
     </div>
