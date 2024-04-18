@@ -1,5 +1,6 @@
 import React from "react";
 import { format } from "timeago.js";
+import Conversation from "./Conversation";
 
 const ImageMessage = ({ message, currentOwner }) => {
   return (
@@ -27,10 +28,9 @@ const ImageMessage = ({ message, currentOwner }) => {
           {/* <span className="text-bubble-meta text-[11px] pt-1 min-w-fit">
             {format(message.createdAt)}
           </span> */}
-          {/* Assuming Conversation component handles the conversation details */}
           <span className="text-bubble-meta">
             {message.senderId === currentOwner.id && (
-              <Conversation message={message} />
+              <Conversation message={message} currentOwner={currentOwner} />
             )}
           </span>
         </div>

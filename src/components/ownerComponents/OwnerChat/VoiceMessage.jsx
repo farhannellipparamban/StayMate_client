@@ -5,7 +5,7 @@ import WaveSurfer from "wavesurfer.js";
 import { format } from "timeago.js";
 
 const VoiceMessage = ({ message, currentOwner }) => {
-    const [audioMessage, setAudioMessage] = useState(null);
+  const [audioMessage, setAudioMessage] = useState(null);
   const [currentPlaybackTime, setCurrentPlaybackTime] = useState(0);
   const [totalDuration, setTotalDuration] = useState(0);
   const [isPlaying, setIsPlaying] = useState(false);
@@ -16,9 +16,9 @@ const VoiceMessage = ({ message, currentOwner }) => {
     if (waveForm.current === null) {
       waveForm.current = WaveSurfer.create({
         container: waveFormRef.current,
-        waveColor: "#ccc",
-        progressColor: "#4a9eff",
-        cursorColor: "#7ae3c3",
+        waveColor: "#333333",
+        progressColor: "#00ff15",
+        cursorColor: "#000000",
         barWidth: 2,
         height: 30,
         responsive: true,
@@ -36,7 +36,6 @@ const VoiceMessage = ({ message, currentOwner }) => {
     const audioURL = `http://localhost:8000/files/${message.audioPath
       .split("\\")
       .pop()}`;
-    console.log(audioURL);
     const audio = new Audio(audioURL);
     setAudioMessage(audio);
     waveForm.current.load(audioURL);
@@ -82,45 +81,45 @@ const VoiceMessage = ({ message, currentOwner }) => {
   };
   return (
     <div
-    className={`flex items-center gap-5 text-gray-700 px-4 pr-2 py-4 text-sm rounded-md ${
-      message.senderId === currentOwner
-        ? "bg-incoming-background"
-        : "bg-outgoing-background"
-    }`}
-  >
-    <div>
-      <img
-        src="https://images.unsplash.com/photo-1544005313-94ddf0286df2?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=100&h=100&q=80"
-        alt=""
-        className="w-8 sm:w-12 h-8 sm:h-12 rounded-full"
-      />
-    </div>
-    <div className="cursor-pointer text-xl">
-      {!isPlaying ? (
-        <FontAwesomeIcon
-          icon={faPlay}
-          onClick={handlePlayAudio}
-          className="text-black hover:text-black"
+      className={`flex items-center gap-5 text-gray-900 px-4 pr-2 py-4 text-sm rounded-md ${
+        message.senderId === currentOwner
+          ? "bg-incoming-background"
+          : "bg-outgoing-background"
+      }`}
+    >
+      <div>
+        <img
+          src="https://images.unsplash.com/photo-1544005313-94ddf0286df2?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=100&h=100&q=80"
+          alt=""
+          className="w-8 sm:w-12 h-8 sm:h-12 rounded-full"
         />
-      ) : (
-        <FontAwesomeIcon
-          icon={faStop}
-          onClick={handlePauseAudio}
-          className="text-red-500 hover:text-red-700"
-        />
-      )}
-    </div>
-    <div className="relative w-60">
-      <div className="w-full h-12" ref={waveFormRef}>
-        <div className="text-bubble-meta text-xs pt-1 flex justify-between absolute bottom-[-22px] w-full">
-          <span className="text-white">
-            {formatTime(isPlaying ? currentPlaybackTime : totalDuration)}
-          </span>
+      </div>
+      <div className="cursor-pointer text-xl">
+        {!isPlaying ? (
+          <FontAwesomeIcon
+            icon={faPlay}
+            onClick={handlePlayAudio}
+            className="text-black hover:text-black"
+          />
+        ) : (
+          <FontAwesomeIcon
+            icon={faStop}
+            onClick={handlePauseAudio}
+            className="text-red-600 hover:text-red-800"
+          />
+        )}
+      </div>
+      <div className="relative w-60">
+        <div className="w-full h-12" ref={waveFormRef}>
+          <div className="text-bubble-meta text-xs pt-1 flex justify-between absolute bottom-[-22px] w-full">
+            <span className="text-black">
+              {formatTime(isPlaying ? currentPlaybackTime : totalDuration)}
+            </span>
+          </div>
         </div>
       </div>
     </div>
-  </div>
-  )
-}
+  );
+};
 
-export default VoiceMessage
+export default VoiceMessage;

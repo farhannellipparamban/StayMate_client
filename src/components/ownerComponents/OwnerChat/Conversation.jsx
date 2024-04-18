@@ -2,16 +2,19 @@ import React from "react";
 import { format } from "timeago.js";
 import VoiceMessage from "./VoiceMessage";
 import ImageMessage from "./ImageMessage";
+import VideoSendingMessage from "./VideoSending";
+import VideoSending from "./VideoSending";
 
 const Conversation = ({ message, currentOwner }) => {
+  // console.log(message.videos);
   return (
     <div id="messages" className="">
       {currentOwner === message.senderId ? (
-        <div className="chat-message">
+        <div className="chat-message flex items-end justify-end mb-4">
           <div className="flex flex-col space-y-2 text-xs max-w-xs mx-2 order-1 items-end">
             {message.audioPath ? (
               <div className="rounded-lg bg-blue-600 text-white break-words p-2 max-w-max">
-                <VoiceMessage message={message} currentOwner={currentOwner} />
+                <VoiceMessage message={message} currentOwner={currentOwner} />{" "}
               </div>
             ) : message.images && message ? (
               <>
@@ -20,6 +23,8 @@ const Conversation = ({ message, currentOwner }) => {
                   {message.text}
                 </div>
               </>
+              ) : message.videos? (<>
+                <VideoSending message={message} currentOwner={currentOwner} /><div>hhhhh</div></>
             ) : (
               // ) : message.text ? (
               //   <div className="rounded-lg bg-blue-600 text-white break-words p-2 max-w-max">
@@ -33,7 +38,7 @@ const Conversation = ({ message, currentOwner }) => {
           </div>
         </div>
       ) : (
-        <div className="chat-message flex items-end mb-4">
+        <div className="chat-message flex items-start mb-4">
           <div className="flex flex-col space-y-2 text-xs max-w-xs mx-2 order-2 items-start">
             {message.audioPath ? (
               <div className="rounded-lg bg-gray-300 text-gray-600 break-words p-2 max-w-max">

@@ -16,9 +16,9 @@ const VoiceMessage = ({ message, currentUser }) => {
     if (waveForm.current === null) {
       waveForm.current = WaveSurfer.create({
         container: waveFormRef.current,
-        waveColor: "#ccc",
-        progressColor: "#4a9eff",
-        cursorColor: "#7ae3c3",
+        waveColor: "#333333",
+        progressColor: "#00ff15",
+        cursorColor: "#000000",
         barWidth: 2,
         height: 30,
         responsive: true,
@@ -114,7 +114,7 @@ const VoiceMessage = ({ message, currentUser }) => {
       <div className="relative w-60">
         <div className="w-full h-12" ref={waveFormRef}>
           <div className="text-bubble-meta text-xs pt-1 flex justify-between absolute bottom-[-22px] w-full">
-            <span className="text-white">
+            <span className="text-black">
               {formatTime(isPlaying ? currentPlaybackTime : totalDuration)}
             </span>
           </div>

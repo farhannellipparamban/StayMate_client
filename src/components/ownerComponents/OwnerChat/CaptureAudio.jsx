@@ -1,18 +1,25 @@
 import {
-    faMicrophone,
-    faPauseCircle,
-    faPlay,
-    faStop,
-    faTrashAlt,
-  } from "@fortawesome/free-solid-svg-icons";
-  import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-  import React, { useEffect, useRef, useState } from "react";
-  import WaveSurfer from "wavesurfer.js";
-  import { addAudioMessage } from "../../../api/messageApi";
-  import Conversation from "./Conversation";
+  faMicrophone,
+  faPauseCircle,
+  faPlay,
+  faStop,
+  faTrashAlt,
+} from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import React, { useEffect, useRef, useState } from "react";
+import WaveSurfer from "wavesurfer.js";
+import { addAudioMessage } from "../../../api/messageApi";
+import Conversation from "./Conversation";
 
-const CaptureAudio = ({ hide, chat, currentUser, socket ,onSendAudio,message}) => {
-    const [isRecording, setIsRecording] = useState(false);
+const CaptureAudio = ({
+  hide,
+  chat,
+  currentOwner,
+  socket,
+  onSendAudio,
+  message,
+}) => {
+  const [isRecording, setIsRecording] = useState(false);
   const [recordedAudio, setRecordedAudio] = useState(null);
   const [waveForm, setWaveForm] = useState(null);
   const [recordingDuration, setRecordingDuration] = useState(0);
@@ -145,26 +152,26 @@ const CaptureAudio = ({ hide, chat, currentUser, socket ,onSendAudio,message}) =
     try {
       const formData = new FormData();
       formData.append("chatId", chat._id);
-      formData.append("senderId", currentUser);
+      formData.append("senderId", currentOwner);
       formData.append("audio", renderedAudio);
-  
+
       const response = await addAudioMessage(formData, {
         headers: {
           "Content-Type": "multipart/form-data",
         },
         params: {
           from: chat._id,
-          to: currentUser,
+          to: currentOwner,
         },
       });
-  
+
       if (response.status === 201) {
         console.log("Audio message sent successfully");
-  
+
         onSendAudio(response.data.message);
-  
+
         socketRef.current.emit("send_message", {
-          to: currentUser,
+          to: currentOwner,
           from: chat._id,
           message: response.data.message,
         });
@@ -174,7 +181,7 @@ const CaptureAudio = ({ hide, chat, currentUser, socket ,onSendAudio,message}) =
       console.error("Error sending audio:", error);
     }
   };
-  
+
   const formatTime = (time) => {
     if (isNaN(time)) return "00:00";
     const minutes = Math.floor(time / 60);
@@ -261,13 +268,13 @@ const CaptureAudio = ({ hide, chat, currentUser, socket ,onSendAudio,message}) =
               <path d="M10.894 2.553a1 1 0 00-1.788 0l-7 14a1 1 0 001.169 1.409l5-1.429A1 1 0 009 15.571V11a1 1 0 112 0v4.571a1 1 0 00.725.962l5 1.428a1 1 0 001.17-1.408l-7-14z"></path>
             </svg>
           </button>
-           {renderedAudio && (
-          <Conversation message={message} currentUser={currentUser}/>
-           )}
+          {renderedAudio && (
+            <Conversation message={message} currentOwner={currentOwner} />
+          )}
         </div>
       </div>
     </div>
-  )
-}
+  );
+};
 
-export default CaptureAudio
+export default CaptureAudio;

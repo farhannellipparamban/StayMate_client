@@ -4,6 +4,7 @@ import {
   addMessage,
   getMessages,
   imageSendingMessage,
+  videoSendingMessage,
 } from "../../../api/messageApi";
 import Conversation from "./Conversation";
 import InputEmoji from "react-input-emoji";
@@ -11,12 +12,15 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faMicrophone, faPaperclip } from "@fortawesome/free-solid-svg-icons";
 import CaptureAudio from "./CaptureAudio";
 import ImageMessage from "./ImageMessage";
+import ImageSelector from "./ImageSelector";
+import VideoSending from "./VideoSending";
 
 const ChatBox = ({ chat, currentOwner, setMessages, messages, socket }) => {
   const [userData, setUserData] = useState(null);
   const [newMessage, setNewMessage] = useState("");
   const [showAudioRecorder, setShowAudioRecorder] = useState(false);
   const [imagePicker, setImagePicker] = useState(false);
+  const [videoPicker, setVideoPicker] = useState(false);
   const [audioMessage, setAudioMessage] = useState(null);
 
   const scroll = useRef();
@@ -30,7 +34,6 @@ const ChatBox = ({ chat, currentOwner, setMessages, messages, socket }) => {
     const getUserData = async () => {
       try {
         const { data } = await getUser(userId);
-        console.log(data);
         setUserData(data);
       } catch (error) {
         console.log(error.message);
@@ -78,9 +81,8 @@ const ChatBox = ({ chat, currentOwner, setMessages, messages, socket }) => {
     }
   };
   useEffect(() => {
-    if (imagePicker) {
+    if (imagePicker || videoPicker) {
       const data = document.getElementById("photo-picker");
-      console.log("data:", data); // Add this line
       if (data) {
         data.click();
         document.body.onfocus = (e) => {
@@ -90,7 +92,7 @@ const ChatBox = ({ chat, currentOwner, setMessages, messages, socket }) => {
         };
       }
     }
-  }, [imagePicker]);
+  }, [imagePicker, videoPicker]);
 
   // const filesPickerChange = async (e) => {
   //   try {
@@ -128,25 +130,26 @@ const ChatBox = ({ chat, currentOwner, setMessages, messages, socket }) => {
         // Check the type of the file
         if (file.type.startsWith("image/")) {
           // It's an image, handle accordingly
-          handleImage(file);
+          handleSendImage(file);
         } else if (file.type.startsWith("video/")) {
           // It's a video, handle accordingly
-          handleVideo(file);
+          handleSendVideo(file);
         } else {
           // It's neither an image nor a video, handle accordingly
-          handleOtherFile(file);
+          handleSendFile(file);
         }
       }
     }
   };
 
   // Define functions to handle different types of files
-  const handleImage = async (file) => {
+  const handleSendImage = async (file) => {
     try {
       const formData = new FormData();
       formData.append("chatId", chat._id);
       formData.append("senderId", currentOwner);
       formData.append("image", file);
+      console.log(formData, "response");
 
       const response = await imageSendingMessage(formData);
 
@@ -164,18 +167,36 @@ const ChatBox = ({ chat, currentOwner, setMessages, messages, socket }) => {
     }
   };
 
-  const handleVideo = async (file) => {
-    // Handle video file
-    // You can implement the logic for handling video files here
+  const handleSendVideo = async (file) => {
+    try {
+      const formData = new FormData();
+      formData.append("chatId", chat._id);
+      formData.append("senderId", currentOwner);
+      formData.append("video", file);
+
+      console.log(formData, "response");
+      const response = await videoSendingMessage(formData);
+      if (response.status === 201) {
+        console.log("video message sent successfully");
+
+        socket.emit("send_message", {
+          to: currentOwner,
+          from: chat._id,
+          message: response.data.message,
+        });
+      }
+    } catch (error) {
+      console.error("Error sending image:", error);
+    }
   };
 
-  const handleOtherFile = async (file) => {
+  const handleSendFile = async (file) => {
     // Handle other types of files
     // You can implement the logic for handling other types of files here
   };
 
-  const onSendAudio = (audioData) => {
-    setAudioMessage(audioData);
+  const onSendAudio = (audioMessage) => {
+    setAudioMessage(audioMessage);
   };
 
   return (
@@ -299,14 +320,14 @@ const ChatBox = ({ chat, currentOwner, setMessages, messages, socket }) => {
                           className="inline-flex items-center justify-center rounded-full h-12 w-12 transition duration-500 ease-in-out text-gray-500 hover:bg-gray-300 focus:outline-none"
                           onClick={() => setImagePicker(true)}
                         >
-                          <input
+                          {/* <input
                             type="file"
                             id="photo-picker"
                             accept="image/*,video/*"
                             multiple
                             style={{ display: "none" }}
                             onChange={filesPickerChange}
-                          />
+                          /> */}
                           <FontAwesomeIcon
                             icon={faPaperclip}
                             className="text-panel-header-icon cursor-pointer text-xl"
@@ -329,12 +350,23 @@ const ChatBox = ({ chat, currentOwner, setMessages, messages, socket }) => {
                 />
               )}
               {imagePicker && (
-                <Conversation
-                  onChange={filesPickerChange}
+                <ImageSelector
                   message={messages}
                   chat={chat}
                   currentOwner={currentOwner}
                   socket={socket}
+                  onImageSelect={filesPickerChange}
+                  onImageSend={handleSendImage}
+                />
+              )}
+              {videoPicker && (
+                <Conversation
+                  message={messages}
+                  chat={chat}
+                  currentOwner={currentOwner}
+                  socket={socket}
+                  onVideoSelect={filesPickerChange}
+                  onImageSend={handleSendVideo}
                 />
               )}
             </div>

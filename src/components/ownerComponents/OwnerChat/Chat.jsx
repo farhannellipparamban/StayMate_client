@@ -76,55 +76,39 @@ const Chat = () => {
   };
 
   return (
-    <div>
-      <div className="pt-5">
-        <div>
-          <div className="md:flex no-wrap md:-mx-2">
-            <div className="w-full md:w-3/12 md:mx-2 bg-gray-200">
-              <div
-                className="bg-gray-200 flex flex-col overflow-y-scroll"
-                style={{ maxHeight: "85vh" }}
-              >
-                <div className="pt-20">
-                  <div className="cursor-pointer">
-                    {conversations?.map((chat) => (
-                      <div
-                        key={chat._id}
-                        onClick={() => {
-                          setCurrentChat(chat);
-                          socket?.emit("join room", chat._id);
-                        }}
-                      >
-                        <ChatList
-                          data={chat}
-                          currentOwnerId={ownerId}
-                          online={checkOnlineStatus(chat)}
-                          markMessageAsUnread={() => markMessageAsUnread(chat._id)}
-
-                        />
-                      </div>
-                    ))}
-                  </div>
-                </div>
-              </div>
+    <div className="flex flex-col md:flex-row h-screen">
+      <div className="w-full md:w-1/2 lg:w-1/3 xl:w-1/4 bg-gray-200 overflow-y-auto">
+        <div className="pt-20">
+          {conversations?.map((chat) => (
+            <div
+              key={chat._id}
+              onClick={() => {
+                setCurrentChat(chat);
+                socket?.emit("join room", chat._id);
+              }}
+              className="cursor-pointer hover:bg-gray-300 p-2"
+            >
+              <ChatList
+                data={chat}
+                currentOwnerId={ownerId}
+                online={checkOnlineStatus(chat)}
+                markMessageAsUnread={() => markMessageAsUnread(chat._id)}
+              />
             </div>
-            <div className="w-full md:w-9/12 mx-2 h-full">
-              <div className="bg-gray-100 shadow-sm rounded-sm md:p-1">
-                <div className="flex flex-wrap justify-end font-semibold text-gray-900">
-                  <div
-                    className="flex-1 p:2 sm:p-6 justify-center flex flex-col"
-                    style={{ minHeight: "85vh" }}
-                  >
-                    <ChatBox
-                      chat={currentChat}
-                      currentOwner={ownerId}
-                      setMessages={setMessages}
-                      messages={messages}
-                      socket={socket}
-                    />
-                  </div>
-                </div>
-              </div>
+          ))}
+        </div>
+      </div>
+      <div className="w-full md:w-1/2 lg:w-2/3 xl:w-3/4 bg-gray-100 shadow-md rounded-md">
+        <div className="p-4 md:p-6 flex flex-col h-full">
+          <div className="flex flex-col justify-end font-semibold text-gray-900 flex-1">
+            <div className="flex-1 flex flex-col justify-center ">
+              <ChatBox
+                chat={currentChat}
+                currentOwner={ownerId}
+                setMessages={setMessages}
+                messages={messages}
+                socket={socket}
+              />
             </div>
           </div>
         </div>

@@ -2,7 +2,6 @@ import React, { useEffect, useState } from "react";
 import { getUser } from "../../../api/chatApi";
 
 const ChatList = ({ data, currentOwnerId, online, markMessageAsUnread }) => {
-  console.log(online);
   const [userData, setUserData] = useState(null);
   useEffect(() => {
     const userId = data?.members?.find((id) => id !== currentOwnerId);
