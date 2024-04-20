@@ -2,7 +2,6 @@ import React from "react";
 import { format } from "timeago.js";
 import VoiceMessage from "./VoiceMessage";
 import ImageMessage from "./ImageMessage";
-import VideoSendingMessage from "./VideoSending";
 import VideoSending from "./VideoSending";
 
 const Conversation = ({ message, currentOwner }) => {
@@ -16,15 +15,14 @@ const Conversation = ({ message, currentOwner }) => {
               <div className="rounded-lg bg-blue-600 text-white break-words p-2 max-w-max">
                 <VoiceMessage message={message} currentOwner={currentOwner} />{" "}
               </div>
-            ) : message.images && message ? (
+            ) : message.images || message.videos || message ? (
               <>
                 <ImageMessage message={message} currentOwner={currentOwner} />
+                <VideoSending message={message} currentOwner={currentOwner} />
                 <div className="rounded-lg bg-blue-600 text-white break-words p-2 max-w-max">
                   {message.text}
                 </div>
               </>
-              ) : message.videos? (<>
-                <VideoSending message={message} currentOwner={currentOwner} /><div>hhhhh</div></>
             ) : (
               // ) : message.text ? (
               //   <div className="rounded-lg bg-blue-600 text-white break-words p-2 max-w-max">
@@ -44,9 +42,10 @@ const Conversation = ({ message, currentOwner }) => {
               <div className="rounded-lg bg-gray-300 text-gray-600 break-words p-2 max-w-max">
                 <VoiceMessage message={message} currentOwner={currentOwner} />
               </div>
-            ) : message.images && message ? (
+            ) : message.images && message.videos && message ? (
               <>
                 <ImageMessage message={message} currentOwner={currentOwner} />
+                <VideoSending message={message} currentOwner={currentOwner} />
                 <div className="rounded-lg bg-gray-300 text-gray-600 break-words p-2 max-w-max">
                   {message?.text}
                 </div>

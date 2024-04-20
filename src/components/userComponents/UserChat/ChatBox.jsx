@@ -2,8 +2,10 @@ import React, { useEffect, useRef, useState } from "react";
 import { getOwner } from "../../../api/chatApi";
 import {
   addMessage,
+  fileSendingMessage,
   getMessages,
   imageSendingMessage,
+  videoSendingMessage,
 } from "../../../api/messageApi";
 import Conversation from "./Conversation";
 import InputEmoji from "react-input-emoji";
@@ -18,6 +20,8 @@ const ChatBox = ({ chat, currentUser, setMessages, messages, socket }) => {
   const [newMessage, setNewMessage] = useState("");
   const [showAudioRecorder, setShowAudioRecorder] = useState(false);
   const [imagePicker, setImagePicker] = useState(false);
+  const [videoPicker, setVideoPicker] = useState(false);
+  const [filesPicker, setFilesPicker] = useState(false);
   const [audioMessage, setAudioMessage] = useState(null);
 
   const scroll = useRef();
@@ -78,7 +82,7 @@ const ChatBox = ({ chat, currentUser, setMessages, messages, socket }) => {
   };
 
   useEffect(() => {
-    if (imagePicker) {
+    if (imagePicker || videoPicker ||filesPicker) {
       const data = document.getElementById("photo-picker");
       if (data) {
         data.click();
@@ -89,7 +93,7 @@ const ChatBox = ({ chat, currentUser, setMessages, messages, socket }) => {
         };
       }
     }
-  }, [imagePicker]);
+  }, [imagePicker,videoPicker,filesPicker]);
 
   // const filesPickerChange = async (e) => {
   //   try {
@@ -119,21 +123,17 @@ const ChatBox = ({ chat, currentUser, setMessages, messages, socket }) => {
   const filesPickerChange = async (event) => {
     const files = event.target.files;
 
-    // Check if files were selected
     if (files.length > 0) {
-      // Iterate through the selected files
       for (let i = 0; i < files.length; i++) {
         const file = files[i];
-        // Check the type of the file
         if (file.type.startsWith("image/")) {
-          // It's an image, handle accordingly
           handleSendImage(file);
         } else if (file.type.startsWith("video/")) {
-          // It's a video, handle accordingly
           handleSendVideo(file);
-        } else {
-          // It's neither an image nor a video, handle accordingly
+        } else if(file.type.startsWith("files/")) {
           handleSendFile(file);
+        }else{
+          ""
         }
       }
     }
@@ -164,13 +164,49 @@ const ChatBox = ({ chat, currentUser, setMessages, messages, socket }) => {
   };
 
   const handleSendVideo = async (file) => {
-    // Handle video file
-    // You can implement the logic for handling video files here
+    try {
+      const formData = new FormData();
+      formData.append("chatId", chat._id);
+      formData.append("senderId", currentUser);
+      formData.append("video", file);
+
+      console.log(formData, "response");
+      const response = await videoSendingMessage(formData);
+      if (response.status === 201) {
+        console.log("video message sent successfully");
+
+        socket.emit("send_message", {
+          to: currentUser,
+          from: chat._id,
+          message: response.data.message,
+        });
+      }
+    } catch (error) {
+      console.error("Error sending image:", error);
+    }
   };
 
   const handleSendFile = async (file) => {
-    // Handle other types of files
-    // You can implement the logic for handling other types of files here
+    try {
+      const formData = new FormData();
+      formData.append("chatId", chat._id);
+      formData.append("senderId", currentUser);
+      formData.append("files", file);
+
+      console.log(formData, "response");
+      const response = await fileSendingMessage(formData);
+      if (response.status === 201) {
+        console.log("file sent successfully");
+
+        socket.emit("send_message", {
+          to: currentUser,
+          from: chat._id,
+          message: response.data.message,
+        });
+      }
+    } catch (error) {
+      console.error("Error sending image:", error);
+    }
   };
 
   const onSendAudio = (audioMessage) => {
@@ -260,14 +296,13 @@ const ChatBox = ({ chat, currentUser, setMessages, messages, socket }) => {
                           className="inline-flex items-center justify-center rounded-full h-12 w-12 transition duration-500 ease-in-out text-gray-500 hover:bg-gray-300 focus:outline-none"
                           onClick={() => setImagePicker(true)}
                         >
-                          {/* <input
+                          <input
                             type="file"
                             id="photo-picker"
-                            accept="image/*,video/*"
                             multiple
                             style={{ display: "none" }}
                             onChange={filesPickerChange}
-                          /> */}
+                          />
                           <FontAwesomeIcon
                             icon={faPaperclip}
                             className="text-panel-header-icon cursor-pointer text-xl"
@@ -294,9 +329,29 @@ const ChatBox = ({ chat, currentUser, setMessages, messages, socket }) => {
                   message={messages}
                   chat={chat}
                   socket={socket}
+                  currentUser={currentUser}
                   onImageSelect={filesPickerChange}
                   onImageSend={handleSendImage}
+                />
+              )}
+              {videoPicker && (
+                <Conversation
+                  message={messages}
+                  chat={chat}
                   currentUser={currentUser}
+                  socket={socket}
+                  onVideoSelect={filesPickerChange}
+                  onVideoSend={handleSendVideo}
+                />
+              )}
+              {filesPicker && (
+                <Conversation
+                  message={messages}
+                  chat={chat}
+                  currentUser={currentUser}
+                  socket={socket}
+                  onFilesSelect={filesPickerChange}
+                  onFilesSend={handleSendFile}
                 />
               )}
             </div>

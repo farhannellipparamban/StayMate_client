@@ -366,7 +366,7 @@ const ChatBox = ({ chat, currentOwner, setMessages, messages, socket }) => {
                   currentOwner={currentOwner}
                   socket={socket}
                   onVideoSelect={filesPickerChange}
-                  onImageSend={handleSendVideo}
+                  onVideoSend={handleSendVideo}
                 />
               )}
             </div>

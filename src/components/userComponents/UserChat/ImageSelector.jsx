@@ -33,7 +33,6 @@ const ImageSelector = ({ onImageSelect, onImageSend }) => {
       <input
         type="file"
         id="photo-picker"
-        accept="image/*,video/*"
         multiple
         style={{ display: "none" }}
         onChange={handleImageChange}

@@ -83,7 +83,7 @@ const VoiceMessage = ({ message, currentUser }) => {
 
   return (
     <div
-      className={`flex items-center gap-5 text-gray-700 px-4 pr-2 py-4 text-sm rounded-md ${
+      className={`flex items-center gap-5 text-gray-900 px-4 pr-2 py-4 text-sm rounded-md ${
         message.senderId === currentUser
           ? "bg-incoming-background"
           : "bg-outgoing-background"
@@ -107,13 +107,13 @@ const VoiceMessage = ({ message, currentUser }) => {
           <FontAwesomeIcon
             icon={faStop}
             onClick={handlePauseAudio}
-            className="text-red-500 hover:text-red-700"
+            className="text-red-600 hover:text-red-800"
           />
         )}
       </div>
       <div className="relative w-60">
         <div className="w-full h-12" ref={waveFormRef}>
-          <div className="text-bubble-meta text-xs pt-1 flex justify-between absolute bottom-[-22px] w-full">
+        <div className="text-bubble-meta text-xs pt-1 flex justify-between absolute bottom-[-22px] w-full">
             <span className="text-black">
               {formatTime(isPlaying ? currentPlaybackTime : totalDuration)}
             </span>

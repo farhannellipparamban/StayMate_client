@@ -1,10 +1,8 @@
-import React from "react";
-import { format } from "timeago.js";
-// import Conversation from "./Conversation";
+import React from 'react'
 
-const ImageMessage = ({ message, currentUser }) => {
+const VideoSending = ({message,currentUser}) => {
   return (
-    <div
+<div
       className={`p-1 rounded-lg ${
         message.senderId === currentUser
           ? "bg-incoming-background"
@@ -12,32 +10,33 @@ const ImageMessage = ({ message, currentUser }) => {
       }`}
     >
       <div className="relative">
-        {message.images &&
-          Array.isArray(message.images) &&
-          message.images.map((image, index) => (
-            <img
+        {message.videos &&
+          Array.isArray(message.videos) &&
+          message.videos.map((video, index) => (
+            <video
               key={index}
-              src={`http://localhost:8000/images/${image.split('\\').pop()}`}
+              controls 
+              src={`http://localhost:8000/videos/${video.split("\\").pop()}`}
               className="rounded-lg"
-              alt={`Image ${index}`}
+              alt={`Video ${index}`} // Change alt to Video instead of Image
               height={300}
               width={300}
             />
           ))}
         <div className="absolute bottom-1 right-1 flex items-end gap-1">
+          {/* Uncomment the following lines if you want to display message metadata or sender's conversation */}
           {/* <span className="text-bubble-meta text-[11px] pt-1 min-w-fit">
             {format(message.createdAt)}
           </span> */}
-          {/* Assuming Conversation component handles the conversation details */}
           {/* <span className="text-bubble-meta">
             {message.senderId === currentUser.id && (
-              <Conversation message={message} />
+              <Conversation message={message} currentUser={currentUser} />
             )}
           </span> */}
         </div>
       </div>
     </div>
-  );
-};
+  )
+}
 
-export default ImageMessage;
+export default VideoSending
