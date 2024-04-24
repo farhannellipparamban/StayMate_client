@@ -34,7 +34,7 @@
     "react-dom": "^18.2.0",
     "react-easy-crop": "^5.0.5",
     "react-image-crop": "^11.0.5",
-    "react-image-magnify": "^2.7.4",
+    "react-image-magnify": "^2.1.1",
     "react-input-emoji": "^5.7.1",
     "react-pdf": "^7.7.1",
     "react-rating-stars-component": "^2.2.0",
