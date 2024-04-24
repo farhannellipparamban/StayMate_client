@@ -1,42 +1,37 @@
 import React from "react";
 import { format } from "timeago.js";
-// import Conversation from "./Conversation";
 
 const ImageMessage = ({ message, currentUser }) => {
   return (
-    <div
-      className={`p-1 rounded-lg ${
-        message.senderId === currentUser
-          ? "bg-incoming-background"
-          : "bg-outgoing-background"
-      }`}
-    >
-      <div className="relative">
-        {message.images &&
-          Array.isArray(message.images) &&
-          message.images.map((image, index) => (
+    <>
+      {message.images &&
+        Array.isArray(message.images) &&
+        message.images.map((image, index) => (
+          <div
+            key={index}
+            className={`flex items-center gap-5 text-gray-900 px-4 pr-2 py-4 text-sm rounded-md ${
+              message.senderId === currentUser
+                ? "bg-incoming-background"
+                : "bg-outgoing-background"
+            }`}
+          >
+            <div>
+              <img
+                src="https://images.unsplash.com/photo-1544005313-94ddf0286df2?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=100&h=100&q=80"
+                alt=""
+                className="w-8 sm:w-12 h-8 sm:h-12 rounded-full"
+              />
+            </div>
             <img
-              key={index}
-              src={`http://localhost:8000/images/${image.split('\\').pop()}`}
-              className="rounded-lg"
-              alt={`Image ${index}`}
+              src={image.url}
+              alt="Sent Image"
               height={300}
               width={300}
+              className="max-w-sm max-h-96"
             />
-          ))}
-        <div className="absolute bottom-1 right-1 flex items-end gap-1">
-          {/* <span className="text-bubble-meta text-[11px] pt-1 min-w-fit">
-            {format(message.createdAt)}
-          </span> */}
-          {/* Assuming Conversation component handles the conversation details */}
-          {/* <span className="text-bubble-meta">
-            {message.senderId === currentUser.id && (
-              <Conversation message={message} />
-            )}
-          </span> */}
-        </div>
-      </div>
-    </div>
+          </div>
+        ))}
+    </>
   );
 };
 

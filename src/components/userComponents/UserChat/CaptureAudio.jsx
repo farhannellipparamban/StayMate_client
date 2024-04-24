@@ -10,8 +10,16 @@ import React, { useEffect, useRef, useState } from "react";
 import WaveSurfer from "wavesurfer.js";
 import { addAudioMessage } from "../../../api/messageApi";
 import Conversation from "./Conversation";
+import { toast } from "react-toastify";
 
-const CaptureAudio = ({ hide, chat, currentUser, socket ,onSendAudio,message}) => {
+const CaptureAudio = ({
+  hide,
+  chat,
+  currentUser,
+  socket,
+  onSendAudio,
+  message,
+}) => {
   const [isRecording, setIsRecording] = useState(false);
   const [recordedAudio, setRecordedAudio] = useState(null);
   const [waveForm, setWaveForm] = useState(null);
@@ -20,6 +28,8 @@ const CaptureAudio = ({ hide, chat, currentUser, socket ,onSendAudio,message}) =
   const [totalDuration, setTotalDuration] = useState(0);
   const [isPlaying, setIsPlaying] = useState(false);
   const [renderedAudio, setRenderedAudio] = useState(null);
+  const [displayChat, setDisplayChat] = useState(false); 
+
 
   const socketRef = useRef(socket);
   const audioRef = useRef(null);
@@ -143,38 +153,45 @@ const CaptureAudio = ({ hide, chat, currentUser, socket ,onSendAudio,message}) =
 
   const handleSendRecording = async () => {
     try {
-      const formData = new FormData();
-      formData.append("chatId", chat._id);
-      formData.append("senderId", currentUser);
-      formData.append("audio", renderedAudio);
-  
-      const response = await addAudioMessage(formData, {
-        headers: {
-          "Content-Type": "multipart/form-data",
-        },
-        params: {
-          from: chat._id,
-          to: currentUser,
-        },
-      });
-  
-      if (response.status === 201) {
-        console.log("Audio message sent successfully");
-  
-        onSendAudio(response.data.message);
-  
-        socketRef.current.emit("send_message", {
-          to: currentUser,
-          from: chat._id,
-          message: response.data.message,
+      const reader = new FileReader();
+      reader.readAsDataURL(renderedAudio);
+      reader.onloadend = async () => {
+        const base64Audio = reader.result;
+
+        const response = await addAudioMessage({
+          chatId: chat._id,
+          senderId: currentUser,
+          audio: base64Audio,
         });
-        console.log(response.data.message, "verjeri");
-      }
+
+        if (response.status === 201) {
+          console.log("Audio message sent successfully");
+          toast.success(response.data.message);
+          onSendAudio(response.data.message);
+
+          socketRef.current.emit("send_message", {
+            to: currentUser,
+            from: chat._id,
+            message: response.data.message,
+          });
+           // Resetting recordedAudio and renderedAudio states after sending message
+           setRecordedAudio(null);
+           setRenderedAudio(null);
+        }
+      };
     } catch (error) {
       console.error("Error sending audio:", error);
+      toast.error(error.response?.data?.message);
     }
   };
-  
+
+  useEffect(() => {
+    // New useEffect to handle displaying chat when renderedAudio changes
+    if (renderedAudio) {
+      setDisplayChat(true);
+    }
+  }, [renderedAudio]);
+
   const formatTime = (time) => {
     if (isNaN(time)) return "00:00";
     const minutes = Math.floor(time / 60);
@@ -261,9 +278,8 @@ const CaptureAudio = ({ hide, chat, currentUser, socket ,onSendAudio,message}) =
               <path d="M10.894 2.553a1 1 0 00-1.788 0l-7 14a1 1 0 001.169 1.409l5-1.429A1 1 0 009 15.571V11a1 1 0 112 0v4.571a1 1 0 00.725.962l5 1.428a1 1 0 001.17-1.408l-7-14z"></path>
             </svg>
           </button>
-           {renderedAudio && (
-          <Conversation message={message} currentUser={currentUser}/>
-           )}
+          {displayChat && <Conversation message={message} currentUser={currentUser} />}
+
         </div>
       </div>
     </div>

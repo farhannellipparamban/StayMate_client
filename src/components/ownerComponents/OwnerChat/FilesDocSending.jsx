@@ -6,7 +6,7 @@ import {
   faDownload,
 } from "@fortawesome/free-solid-svg-icons";
 
-const FilesDocSending = ({ message, currentUser }) => {
+const FilesDocSending = ({ message, currentOwner }) => {
   const renderFileIcon = (fileExtension) => {
     if (fileExtension === "pdf") {
       return <FontAwesomeIcon icon={faFilePdf} className="text-red-600" />;
@@ -30,7 +30,7 @@ const FilesDocSending = ({ message, currentUser }) => {
   return (
     <div
       className={`p-4 rounded-lg ${
-        message.senderId === currentUser ? "bg-blue-600" : "bg-gray-300"
+        message.senderId === currentOwner ? "bg-blue-600" : "bg-gray-300"
       } shadow-md`}
     >
       {message.files &&

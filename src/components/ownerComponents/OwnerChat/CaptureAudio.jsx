@@ -10,6 +10,7 @@ import React, { useEffect, useRef, useState } from "react";
 import WaveSurfer from "wavesurfer.js";
 import { addAudioMessage } from "../../../api/messageApi";
 import Conversation from "./Conversation";
+import { toast } from "react-toastify";
 
 const CaptureAudio = ({
   hide,
@@ -150,35 +151,34 @@ const CaptureAudio = ({
 
   const handleSendRecording = async () => {
     try {
-      const formData = new FormData();
-      formData.append("chatId", chat._id);
-      formData.append("senderId", currentOwner);
-      formData.append("audio", renderedAudio);
-
-      const response = await addAudioMessage(formData, {
-        headers: {
-          "Content-Type": "multipart/form-data",
-        },
-        params: {
-          from: chat._id,
-          to: currentOwner,
-        },
-      });
-
-      if (response.status === 201) {
-        console.log("Audio message sent successfully");
-
-        onSendAudio(response.data.message);
-
-        socketRef.current.emit("send_message", {
-          to: currentOwner,
-          from: chat._id,
-          message: response.data.message,
+      const reader = new FileReader();
+      reader.readAsDataURL(renderedAudio);
+      reader.onloadend = async () => {
+        const base64Audio = reader.result;
+  
+        const response = await addAudioMessage({
+          chatId: chat._id,
+          senderId: currentOwner,
+          audio: base64Audio,
         });
-        console.log(response.data.message, "verjeri");
-      }
+  
+        if (response.status === 201) {
+          console.log("Audio message sent successfully");
+  
+          onSendAudio(response.data.message);
+  
+          socketRef.current.emit("send_message", {
+            to: currentOwner,
+            from: chat._id,
+            message: response.data.message,
+          });
+          toast.success(response.data.message);
+        }
+      };
     } catch (error) {
       console.error("Error sending audio:", error);
+      toast.error(error.response?.data?.message);
+
     }
   };
 

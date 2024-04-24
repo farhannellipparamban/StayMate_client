@@ -3,6 +3,7 @@ import { format } from "timeago.js";
 import VoiceMessage from "./VoiceMessage";
 import ImageMessage from "./ImageMessage";
 import VideoSending from "./VideoSending";
+import FilesDocSending from "./FilesDocSending";
 
 const Conversation = ({ message, currentOwner }) => {
   // console.log(message.videos);
@@ -11,14 +12,15 @@ const Conversation = ({ message, currentOwner }) => {
       {currentOwner === message.senderId ? (
         <div className="chat-message flex items-end justify-end mb-4">
           <div className="flex flex-col space-y-2 text-xs max-w-xs mx-2 order-1 items-end">
-            {message.audioPath ? (
+            {message.audio ? (
               <div className="rounded-lg bg-blue-600 text-white break-words p-2 max-w-max">
                 <VoiceMessage message={message} currentOwner={currentOwner} />{" "}
               </div>
-            ) : message.images || message.videos || message ? (
+            ) : message.images || message.videos || message.files || message ? (
               <>
                 <ImageMessage message={message} currentOwner={currentOwner} />
                 <VideoSending message={message} currentOwner={currentOwner} />
+                <FilesDocSending message={message} currentOwner={currentOwner} />
                 <div className="rounded-lg bg-blue-600 text-white break-words p-2 max-w-max">
                   {message.text}
                 </div>
@@ -38,14 +40,15 @@ const Conversation = ({ message, currentOwner }) => {
       ) : (
         <div className="chat-message flex items-start mb-4">
           <div className="flex flex-col space-y-2 text-xs max-w-xs mx-2 order-2 items-start">
-            {message.audioPath ? (
+            {message.audio ? (
               <div className="rounded-lg bg-gray-300 text-gray-600 break-words p-2 max-w-max">
                 <VoiceMessage message={message} currentOwner={currentOwner} />
               </div>
-            ) : message.images && message.videos && message ? (
+            ) : message.images || message.videos || message.files || message ? (
               <>
                 <ImageMessage message={message} currentOwner={currentOwner} />
                 <VideoSending message={message} currentOwner={currentOwner} />
+                <FilesDocSending message={message} currentOwner={currentOwner} />
                 <div className="rounded-lg bg-gray-300 text-gray-600 break-words p-2 max-w-max">
                   {message?.text}
                 </div>

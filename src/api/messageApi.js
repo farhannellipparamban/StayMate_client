@@ -6,7 +6,7 @@ const messageInstance = axios.create({ baseURL: baseURL });
 export const getMessages = (id) => messageInstance.get(`/message/${id}`);
 
 export const addMessage = (data) => messageInstance.post("/message", data);
-export const addAudioMessage = (formData ) => messageInstance.post("/message/audioMessage", formData);
-export const imageSendingMessage = (formData) => messageInstance.post("/message/imageMessage", formData);
-export const videoSendingMessage = (formData) => messageInstance.post("/message/videoMessage", formData);
-export const fileSendingMessage = (formData) => messageInstance.post("/message/fileMessage", formData);
+export const addAudioMessage = (data ) => messageInstance.post("/message/audioMessage", data);
+export const imageSendingMessage = (data) => messageInstance.post("/message/imageMessage", data);
+export const videoSendingMessage = (data) => messageInstance.post("/message/videoMessage", data);
+export const fileSendingMessage = (data) => messageInstance.post("/message/fileMessage", data);

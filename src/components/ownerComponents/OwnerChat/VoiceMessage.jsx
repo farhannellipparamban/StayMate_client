@@ -2,10 +2,8 @@ import { faPlay, faStop } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import React, { useEffect, useRef, useState } from "react";
 import WaveSurfer from "wavesurfer.js";
-import { format } from "timeago.js";
 
 const VoiceMessage = ({ message, currentOwner }) => {
-  const [audioMessage, setAudioMessage] = useState(null);
   const [currentPlaybackTime, setCurrentPlaybackTime] = useState(0);
   const [totalDuration, setTotalDuration] = useState(0);
   const [isPlaying, setIsPlaying] = useState(false);
@@ -23,68 +21,63 @@ const VoiceMessage = ({ message, currentOwner }) => {
         height: 30,
         responsive: true,
       });
+
       waveForm.current.on("finish", () => {
         setIsPlaying(false);
       });
     }
+
     return () => {
       waveForm.current.destroy();
     };
   }, []);
 
   useEffect(() => {
-    const audioURL = `http://localhost:8000/files/${message.audioPath
-      .split("\\")
-      .pop()}`;
-    const audio = new Audio(audioURL);
-    setAudioMessage(audio);
-    waveForm.current.load(audioURL);
-    waveForm.current.on("ready", () => {
-      setTotalDuration(waveForm.current.getDuration());
-    });
-  }, [message.message]);
+    if (message.audio) {
+      const audioURL = message.audio.url;
+      waveForm.current.load(audioURL);
 
-  useEffect(() => {
-    if (audioMessage) {
-      const updatePlabackTime = () => {
-        setCurrentPlaybackTime(audioMessage.currentTime);
+      waveForm.current.on("ready", () => {
+        setTotalDuration(waveForm.current.getDuration());
+      });
+
+      const updatePlaybackTime = () => {
+        setCurrentPlaybackTime(waveForm.current.getCurrentTime());
       };
-      audioMessage.addEventListener("timeupdate", updatePlabackTime);
+
+      waveForm.current.on("audioprocess", updatePlaybackTime);
+
       return () => {
-        audioMessage.removeEventListener("timeupdate", updatePlabackTime);
+        waveForm.current.un("audioprocess", updatePlaybackTime);
       };
     }
-  }, [audioMessage]);
+  }, [message.audio]);
 
   const handlePlayAudio = () => {
-    if (audioMessage) {
-      waveForm.current.stop();
+    if (waveForm.current) {
       waveForm.current.play();
-      audioMessage.play();
       setIsPlaying(true);
     }
   };
 
   const handlePauseAudio = () => {
-    waveForm.current.stop();
-    audioMessage.pause();
-    setIsPlaying(false);
+    if (waveForm.current) {
+      waveForm.current.pause();
+      setIsPlaying(false);
+    }
   };
 
   const formatTime = (time) => {
     if (isNaN(time)) return "00:00";
     const minutes = Math.floor(time / 60);
     const seconds = Math.floor(time % 60);
-    return `${minutes.toString().padStart(2, "0")}:${seconds
-      .toString()
-      .padStart(2, "0")}`;
+    return `${minutes.toString().padStart(2, "0")}:${seconds.toString().padStart(2, "0")}`;
   };
+
   return (
     <div
       className={`flex items-center gap-5 text-gray-900 px-4 pr-2 py-4 text-sm rounded-md ${
-        message.senderId === currentOwner
-          ? "bg-incoming-background"
-          : "bg-outgoing-background"
+        message.senderId === currentOwner ? "bg-incoming-background" : "bg-outgoing-background"
       }`}
     >
       <div>

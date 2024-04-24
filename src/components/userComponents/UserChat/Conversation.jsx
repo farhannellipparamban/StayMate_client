@@ -6,13 +6,12 @@ import VideoSending from "./VideoSending";
 import FilesDocSending from "./FilesDocSending";
 
 const Conversation = ({ message, currentUser }) => {
-  console.log(message.files);
   return (
     <div id="messages" className="">
       {currentUser === message?.senderId ? (
         <div className="chat-message flex items-end justify-end mb-4">
           <div className="flex flex-col space-y-2 text-xs max-w-xs mx-2 order-1 items-end">
-            {message.audioPath ? (
+            {message.audio ? (
               <div className="rounded-lg bg-blue-600 text-white break-words p-2 max-w-max">
                 <VoiceMessage message={message} currentUser={currentUser} />
               </div>
@@ -40,7 +39,7 @@ const Conversation = ({ message, currentUser }) => {
       ) : (
         <div className="chat-message flex items-end mb-4">
           <div className="flex flex-col space-y-2 text-xs max-w-xs mx-2 order-2 items-start">
-            {message.audioPath ? (
+            {message.audio ? (
               <div className="rounded-lg bg-gray-300 text-gray-600 break-words p-2 max-w-max">
                 <VoiceMessage message={message} currentUser={currentUser} />
               </div>
