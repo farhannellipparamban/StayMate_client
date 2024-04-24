@@ -3,7 +3,6 @@ import { useLocation, useNavigate } from "react-router-dom";
 import Loading from "../../loading/Loading";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faHeart, faPhone } from "@fortawesome/free-solid-svg-icons";
-import ReactImageMagnify from "react-image-magnify";
 import { checkRoomAvailability } from "../../../api/userApi";
 import { toast } from "react-toastify";
 import RatingList from "../rating/RatingList";
@@ -21,7 +20,7 @@ const RoomDetails = () => {
     endDate: values.CheckOutDate,
   });
   const [isRoomAvailable, setIsRoomAvailable] = useState(false);
-  const imageUrl = room?.roomImages[imageIndex];
+  // const imageUrl = room?.roomImages[imageIndex];
 
   useEffect(() => {
     const checkAvailability = async () => {
@@ -70,37 +69,12 @@ const discountedRent = roomOffer && roomOffer.percentage
             <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
               <div className="md:col-span-2">
                 {/* Single large image */}
-                {/* <img
+                <img
                   src={room?.roomImages[imageIndex]}
                   alt="Property Image"
                   className="w-full h-auto rounded-md shadow-lg mb-4 object-cover  hover:scale-105 transition duration-500 cursor-pointer"
-                /> */}
-                <ReactImageMagnify
-                  {...{
-                    smallImage: {
-                      alt: "Property Image",
-                      isFluidWidth: true,
-                      src: imageUrl,
-                      style: {
-                        width: "300px",
-                        height: "auto",
-                        border: "1px solid #ccc",
-                        borderRadius: "8px",
-                        boxShadow: "0px 0px 10px rgba(0, 0, 0, 0.1)",
-                      },
-                    },
-                    largeImage: {
-                      src: imageUrl,
-                      width: 1200,
-                      height: 1800,
-                      style: {
-                        width: "800px",
-                        height: "auto",
-                      },
-                    },
-                  }}
-                  className="w-full h-auto rounded-md shadow-lg mb-4 object-cover "
-                />
+                /> 
+                
 
                 {/* Carousel with three small images in a line */}
                 <div className="flex flex-wrap justify-center items-center gap-4">

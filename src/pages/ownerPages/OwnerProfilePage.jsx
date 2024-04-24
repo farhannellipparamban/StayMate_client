@@ -1,6 +1,6 @@
 import React from "react";
 import OwnerNavbar from "../../components/ownerComponents/ownerCommon/OwnerNavbar";
-import OwnerProfile from "../../components/ownerComponents/profile/ownerProfile";
+import OwnerProfile from "../../components/ownerComponents/profile/OwnerProfile";
 import OwnerFooter from "../../components/ownerComponents/ownerCommon/OwnerFooter";
 
 const OwnerProfilePage = () => {
