@@ -5,7 +5,7 @@ import ChatList from "./ChatList";
 import ChatBox from "./ChatBox";
 import io from "socket.io-client";
 
-const END_POINT = "http://localhost:8000";
+const END_POINT = "https://staymate.onrender.com/";
 let socket;
 
 const Chat = () => {
