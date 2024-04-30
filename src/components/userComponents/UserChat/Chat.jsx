@@ -5,7 +5,9 @@ import ChatList from "./ChatList";
 import ChatBox from "./ChatBox";
 import io from "socket.io-client";
 
-const END_POINT = "https://staymate.onrender.com/";
+// const END_POINT = "https://staymate.onrender.com/";
+const END_POINT = "http://www.staymate.clocksy.online/";
+
 let socket;
 
 const Chat = () => {
