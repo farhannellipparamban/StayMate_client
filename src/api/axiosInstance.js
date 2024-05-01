@@ -74,13 +74,13 @@ const handleAxiosError = (error, role) => {
         window.location.href = `/${role}/pageNotFound`;
       }
       toast.error("404 - Resource Not Found");
-    } else if (error.response.status === 500) {
-      toast.error("500 - Internal Server Error");
-      if (role === "user") {
-        window.location.href = `/error-500`;
-      } else {
-        window.location.href = `/${role}/error-500`;
-      }
+    // } else if (error.response.status === 500) {
+    //   toast.error("500 - Internal Server Error");
+    //   if (role === "user") {
+    //     window.location.href = `/error-500`;
+    //   } else {
+    //     window.location.href = `/${role}/error-500`;
+    //   }
     } else if (error.response?.data?.message === "Access Denied") {
       if (role === "user") {
         window.location.href = `/login`;
