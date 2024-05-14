@@ -1,330 +1,288 @@
+import React, { useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { Link, useLocation, useNavigate } from "react-router-dom";
+import { userLogout } from "../../../reduxStore/slices/userSlice";
+import { toast } from "react-toastify";
 
+const UserNavbar = () => {
+  const [isDropdownOpen, setDropdownOpen] = useState(false);
+  const [isMobileMenuOpen, setMobileMenuOpen] = useState(false);
 
-import React from "react";
-import {
-  faCar,
-  faGasPump,
-  faGear,
-  faLocationDot,
-} from "@fortawesome/free-solid-svg-icons";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+  const dispatch = useDispatch();
+  const location = useLocation();
+  const navigate = useNavigate();
 
-const CheckOut = () => {
+  const toggleDropdown = () => {
+    setDropdownOpen(!isDropdownOpen);
+  };
+
+  const toggleMobileMenu = () => {
+    console.log("hello");
+    setMobileMenuOpen(!isMobileMenuOpen);
+  };
+
+  const { user } = useSelector((state) => state.userReducer);
+
+  const handleLogout = () => {
+    localStorage.removeItem("userToken");
+    dispatch(userLogout());
+    toast.success("Logout Successfully");
+    navigate("/login");
+  };
+
   return (
-    <>
-      <div className=" container mx-auto mt-10 mb-32 dark:border-gray-700 shadow border border-gray-200">
-        <div className="grid grid-cols-12 mb-20">
-          <div className="md:col-span-8   col-span-12">
-            <div className="grid grid-cols-12">
-              <div className="md:col-span-6 col-span-12">
-                <h1 className="text-2xl ml-4 uppercase hover:text-red-500 font-bold">
-                  room
-                </h1>
-                <div className="card h-96 bg-base-100 shadow-xl mb-9">
-                  <figure className="px-10 pt-10 mb-5">
-                    <img
-                      src=""
-                      alt="car image"
-                      className="rounded-xl w-96 h-48 object-cover hover:scale-125 transition duration-500 cursor-pointer"
-                    />
-                  </figure>
-                  <hr />
-                  <div className="flex  justify-between px-3 pt-6">
-                    <div className="flex justify-between items-center gap-3 text-red-600">
-                      <svg
-                        xmlns="http://www.w3.org/2000/svg"
-                        aria-hidden="true"
-                        className="h-5 w-5"
-                        preserveAspectRatio="xMidYMid meet"
-                        viewBox="0 0 24 24"
-                      >
-                        <path
-                          fill="currentColor"
-                          d="M22 12c0-1.1-.9-2-2-2V7c0-1.1-.9-2-2-2H6c-1.1 0-2 .9-2 2v3c-1.1 0-2 .9-2 2v5h1.33L4 19h1l.67-2h12.67l.66 2h1l.67-2H22v-5zm-4-2h-5V7h5v3zM6 7h5v3H6V7zm-2 5h16v3H4v-3z"
-                        />
-                      </svg>
-                      <p className=" font-medium text-lg">auto</p>
-                    </div>
-                    <div className="flex justify-between items-center gap-3 text-red-600">
-                      <svg
-                        xmlns="http://www.w3.org/2000/svg"
-                        aria-hidden="true"
-                        className="h-5 w-5"
-                        preserveAspectRatio="xMidYMid meet"
-                        viewBox="0 0 24 24"
-                      >
-                        <path
-                          fill="currentColor"
-                          d="M21 10H7V7c0-1.103.897-2 2-2s2 .897 2 2h2c0-2.206-1.794-4-4-4S5 4.794 5 7v3H3a1 1 0 0 0-1 1v2c0 2.606 1.674 4.823 4 5.65V22h2v-3h8v3h2v-3.35c2.326-.827 4-3.044 4-5.65v-2a1 1 0 0 0-1-1zm-1 3c0 2.206-1.794 4-4 4H8c-2.206 0-4-1.794-4-4v-1h16v1z"
-                        />
-                      </svg>
-                      <p className="font-medium text-lg">ac</p>
-                    </div>
-                    <div className="flex justify-center items-center my-3 gap-3 mx-6 text-red-600">
-                      <FontAwesomeIcon
-                        icon={faLocationDot}
-                        
-                      />
-                      <p className=" font-medium text-lg">
-                        manjeru
-                      </p>
-                    </div>
-                    <hr />
-                  </div>
-                </div>
-              </div>
-              {/* <div className="md:col-span-6  mt-20 sm:ml-10 col-span-12">
-                <div className="container">
-                  <div className="flex justify-between items-center mb-4">
-                    <div>
-                      <p className="text-gray-600 text-sm font-medium">
-                        Check in Date{" "}
-                      </p>
-                      <p className="text-black text-sm font-semibold">1</p>
-                    </div>
-                    <div>
-                      <p className="text-gray-600 text-start text-sm  font-medium">
-                       Check Out Date{" "}
-                      </p>
-                      <p className="text-black text-sm font-semibold">12</p>
-                    </div>
-                  </div>
-                  <hr />
-                  <div className="flex justify-center my-4">
-                    <p className="text-gray-600 text-sm font-medium">
-                      Total days{" "}
-                      <span className="text-sm font-semibold">2</span>
-                    </p>
-                  </div>
-                  <hr />
-                  <div className="flex justify-between mb-4">
-                    <div>
-                      <p className="text-gray-600 text-sm font-medium">
-                        Pick Up Location{" "}
-                      </p>
-                      <p className="text-black text-sm font-semibold">
-                        malppuram
-                      </p>
-                    </div>
-                    <div>
-                      <p className="text-gray-600 text-sm font-medium">
-                        Return Location{" "}
-                      </p>
-                      <p className="text-black text-sm font-semibold">
-                        manjeri
-                      </p>
-                    </div>
-                  </div>
-                </div>
-              </div> */}
-            </div>
-          </div>
+    <nav className="bg-white border-gray-200 white:bg-gray-900">
+      <div className="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto p-1">
+        {/* Mobile Menu */}
+        <div className="md:hidden">
+          <button
+            className="text-black hover:text-black focus:outline-none focus:text-black"
+            onClick={toggleMobileMenu}
+          >
+            <span className="sr-only">Open main menu</span>
+            <svg
+              className="w-6 h-6"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth="2"
+                d="M4 6h16M4 12h16m-7 6h7"
+              />
+            </svg>
+          </button>
 
-          <div className="md:col-span-4 col-span-12 sm:ml-10 mt-8 bg-white">
-            <div className="  p-6 bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-200 dark:border-gray-700">
-              <h1 className="text-xl font-semibold">Amount Details</h1>
-              <div className="mt-3 flex mb-4 justify-between">
-                <p className="text-gray-600  text-sm">Price / day :</p>
-                <h2 className="text-sm font-bold">₹ 200</h2>
-              </div>
-              <div className="mt-3 flex  mb-4 justify-between">
-                <p className="text-gray-600  text-sm">Days selected :</p>
-                <h2 className="text-sm font-bold">3</h2>
-              </div>
-              <div className="mt-3 flex  mb-4 justify-between">
-                <p className="text-gray-600  text-sm">Total Rent Amount :</p>
-                <h2 className="text-sm font-bold">₹ 1000</h2>
-              </div>
-              <hr />
-              <br />
-              <div className="flex justify-end ">
-                <h1 className="font-bold text-2xl mb-2 text-black">₹ 1000</h1>
-              </div>
-
-              {/* <div className="flex items-center justify-between mb-4">
-                <div>
-                  <input
-                    id="default-checkbox"
-                    type="checkbox"
-                    className="w-4 h-4 text-red-600 bg-gray-100 border-gray-300 rounded focus:ring-red-500 dark:focus:ring-red-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
-                  />
-                  <label
-                    htmlFor="default-checkbox"
-                    className="ms-2 text-sm font-semibold text-gray-900 dark:text-gray-300"
+          {/* Mobile Menu Items */}
+          {isMobileMenuOpen && (
+            <div className="mt-2 md:hidden">
+              <ul className="flex flex-col md:flex-row md:items-center justify-center space-y-4 md:space-y-0 md:space-x-4">
+                <li>
+                  <Link
+                    to="/"
+                    className={
+                      location.pathname === "/"
+                        ? "block py-2 pl-3 pr-4 text-white bg-red-700 rounded md:bg-transparent md:text-red-700 md:p-0 md:dark-text-red-500"
+                        : "block py-2 px-3 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-red-600 text-blue-700text-red-600  md:p-0 dark:text-dark md:dark:hover:text-red-600 text-blue-500text-red-600  dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent dark:border-gray-700 font-bold text-xl"
+                    }
                   >
-                    Use wallet payment
-                  </label>
-                </div>
-                <p>wallet balance: ₹200</p>
-              </div> */}
-              <button className="text-white w-full bg-red-700 hover:bg-red-800 focus:ring-4 focus:ring-red-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 dark:bg-red-600 dark:hover:bg-red-700 focus:outline-none dark:focus:ring-red-800">
-                Pay Now
-              </button>
+                    Home
+                  </Link>
+                </li>
+                <li>
+                  <Link
+                    to="/allRooms"
+                    className={
+                      location.pathname === "/allRooms"
+                        ? "block py-2 pl-3 pr-4 text-white bg-red-700 rounded md:bg-transparent md:text-red-700 md:p-0 md:dark-text-red-500"
+                        : "block py-2 px-3 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-red-600 text-blue-700text-red-600  md:p-0 dark:text-dark md:dark:hover:text-red-600 text-blue-500text-red-600  dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent dark:border-gray-700 font-bold text-xl"
+                    }
+                  >
+                    Rooms
+                  </Link>
+                </li>
+                <li>
+                  <Link
+                    to="/contact"
+                    className={
+                      location.pathname === "/contact"
+                        ? "block py-2 pl-3 pr-4 text-white bg-red-700 rounded md:bg-transparent md:text-red-700 md:p-0 md:dark-text-red-500"
+                        : "block py-2 px-3 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-red-600 text-blue-700text-red-600  md:p-0 dark:text-dark md:dark:hover:text-red-600  dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent dark:border-gray-700 font-bold text-xl"
+                    }
+                  >
+                    Contact
+                  </Link>
+                </li>
+                <li>
+                  <Link
+                    to="/about"
+                    className={
+                      location.pathname === "/about"
+                        ? "block py-2 pl-3 pr-4 text-white bg-red-700 rounded md:bg-transparent md:text-red-700 md:p-0 md:dark-text-red-500"
+                        : "block py-2 px-3 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-red-600 text-blue-700text-red-600  md:p-0 dark:text-dark md:dark:hover:text-red-600 text-blue-500text-red-600  dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent dark:border-gray-700 font-bold text-xl"
+                    }
+                  >
+                    About
+                  </Link>
+                </li>
+              </ul>
             </div>
+          )}
+        </div>
+        {/* Desktop Menu */}
+        <div className="items-center justify-between hidden  md:flex md:w-full md:order-1 py-5">
+          <>
+            <img
+              src="/images/logo3.jpg"
+              alt="Logo"
+              className="mr-4 w-16 rounded-full object-cover"
+            />
+            <span className="text-2xl font-semibold text-red-600 -ml-4 font-serif">
+              Stay
+              <span className="text-2xl font-semibold text-black">Mate</span>
+            </span>
+            <span className="text-xs font-serif text-red-600 mt-10 -ml-28">
+              Your Stay ,<span className="text-black"> Our Way .</span>
+            </span>
+          </>
+
+          <div className=" w-full m-auto  md:w-auto">
+            <ul className="flex flex-col md:flex-row md:items-center justify-center space-y-4 md:space-y-0 md:space-x-4">
+              <li>
+                <Link
+                  to="/"
+                  className={
+                    location.pathname === "/"
+                      ? "block py-2 pl-3 pr-4 text-white bg-red-700 rounded md:bg-transparent md:text-red-700 md:p-0 md:dark-text-red-500"
+                      : "block py-2 px-3 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-red-600 text-blue-700text-red-600  md:p-0 dark:text-dark md:dark:hover:text-red-600 text-blue-500text-red-600  dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent dark:border-gray-700 font-bold text-xl"
+                  }
+                >
+                  Home
+                </Link>
+              </li>
+              <li>
+                <Link
+                  to="/allRooms"
+                  className={
+                    location.pathname === "/allRooms"
+                      ? "block py-2 pl-3 pr-4 text-white bg-red-700 rounded md:bg-transparent md:text-red-700 md:p-0 md:dark-text-red-500"
+                      : "block py-2 px-3 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-red-600 text-blue-700text-red-600  md:p-0 dark:text-dark md:dark:hover:text-red-600 text-blue-500text-red-600  dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent dark:border-gray-700 font-bold text-xl"
+                  }
+                >
+                  Rooms
+                </Link>
+              </li>
+              <li>
+                <Link
+                  to="/contact"
+                  className={
+                    location.pathname === "/contact"
+                      ? "block py-2 pl-3 pr-4 text-white bg-red-700 rounded md:bg-transparent md:text-red-700 md:p-0 md:dark-text-red-500"
+                      : "block py-2 px-3 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-red-600 text-blue-700text-red-600  md:p-0 dark:text-dark md:dark:hover:text-red-600  dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent dark:border-gray-700 font-bold text-xl"
+                  }
+                >
+                  Contact
+                </Link>
+              </li>
+              <li>
+                <Link
+                  to="/about"
+                  className={
+                    location.pathname === "/about"
+                      ? "block py-2 pl-3 pr-4 text-white bg-red-700 rounded md:bg-transparent md:text-red-700 md:p-0 md:dark-text-red-500"
+                      : "block py-2 px-3 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-red-600 text-blue-700text-red-600  md:p-0 dark:text-dark md:dark:hover:text-red-600 text-blue-500text-red-600  dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent dark:border-gray-700 font-bold text-xl"
+                  }
+                >
+                  About
+                </Link>
+              </li>
+            </ul>
           </div>
         </div>
+
+        {/* User Dropdown */}
+        <div className="relative flex items-center">
+          <button
+            type="button"
+            className="flex items-center justify-center text-sm bg-black rounded-full focus:ring-4 focus:ring-gray-300 dark:focus:ring-gray-600"
+            id="user-menu-button"
+            aria-expanded="false"
+            data-dropdown-toggle="user-dropdown"
+            data-dropdown-placement="bottom"
+            onClick={toggleDropdown}
+          >
+            <span className="sr-only">Open user menu</span>
+
+            <div className="relative w-10 h-10 overflow-hidden bg-gray-100 rounded-full dark:bg-gray-600">
+              <svg
+                className="absolute w-12 h-12 text-gray-400 -left-1"
+                fill="currentColor"
+                viewBox="0 0 20 20"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path
+                  fillRule="evenodd"
+                  d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z"
+                  clipRule="evenodd"
+                ></path>
+              </svg>
+            </div>
+          </button>
+
+          {/* Dropdown menu */}
+          {isDropdownOpen &&
+            (user ? (
+              <div
+                className="absolute  z-50 top-full right-0 mt-6 text-base  bg-white divide-y divide-gray-100 rounded-lg shadow dark:bg-gray-200 dark:divide-gray-100"
+                id="user-dropdown"
+              >
+                <div className="px-4 py-3">
+                  <span className="block text-sm text-text-balck dark:text-balck">
+                    {user.name}
+                  </span>
+                  <span className="block text-sm text-text-balck truncate dark:text-balck">
+                    {user.email}
+                  </span>
+                </div>
+                <ul className="py-2" aria-labelledby="user-menu-button">
+                  <li>
+                    <Link
+                      to="/profile"
+                      className="block px-4 py-2 text-sm text-balck hover:bg-gray-400 dark:hover:bg-balck dark:text-balck dark:hover:text-balck"
+                    >
+                      Profile
+                    </Link>
+                  </li>
+                  <li>
+                    <Link
+                      to="/bookingList"
+                      className="block px-4 py-2 text-sm text-balck hover:bg-gray-400 dark:hover:bg-gray-400 dark:text-balck dark:hover:text-black"
+                    >
+                      My Bookings
+                    </Link>
+                  </li>
+                  <li>
+                    <Link
+                      onClick={handleLogout}
+                      className="block px-4 py-2 text-sm text-balck hover:bg-gray-400 dark:hover:bg-gray-400 dark:text-balck dark:hover:text-black"
+                    >
+                      Logout
+                    </Link>
+                  </li>
+                </ul>
+              </div>
+            ) : (
+              <div
+                className="absolute z-50 top-full right-0 mt-6 text-base bg-white divide-y divide-gray-100 rounded-lg shadow dark:bg-gray-200 dark:divide-gray-100"
+                id="user-dropdown"
+              >
+                <ul className="py-2 w-32" aria-labelledby="user-menu-button">
+                  <li>
+                    <Link
+                      className="block px-4 py-2 text-sm text-balck hover:bg-gray-400 dark:hover:bg-gray-400 dark:text-balck dark:hover:text-black"
+                      to="/login"
+                    >
+                      User login
+                    </Link>
+                  </li>
+                  <li>
+                    <Link
+                      className="block px-4 py-2 text-sm text-balck hover:bg-gray-400 dark:hover:bg-gray-400 dark:text-balck dark:hover:text-black"
+                      to="/owner/login"
+                    >
+                      Owner Login
+                    </Link>
+                  </li>
+                </ul>
+              </div>
+            ))}
+        </div>
       </div>
-    </>
+    </nav>
   );
 };
 
-<div className="container mx-auto mt-10 mb-32 dark:border-gray-300 shadow border border-gray-200">
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-            <div className="md:col-span-1 col-span-1">
-              <h1 className="text-2xl ml-4 uppercase hover:text-red-500 font-bold">
-                {room.roomName}
-              </h1>
-              <div className="card h-auto bg-base-100 shadow-xl mb-9">
-                <figure className="px-10 pt-10 mb-5">
-                  <img
-                    src={room?.roomImages[0]}
-                    alt="Room image"
-                    className="rounded-xl w-full object-cover hover:scale-110 transition duration-500 cursor-pointer"
-                  />
-                </figure>
-                <hr />
-                <div className="p-5">
-                  <div className="flex flex-wrap justify-between items-center gap-3 mb-3">
-                    <div className="flex items-center gap-3 text-red-600 w-full md:w-auto">
-                      <svg
-                        xmlns="http://www.w3.org/2000/svg"
-                        aria-hidden="true"
-                        className="h-5 w-5"
-                        viewBox="0 0 24 24"
-                      >
-                        <path
-                          fill="currentColor"
-                          d="M22 12c0-1.1-.9-2-2-2V7c0-1.1-.9-2-2-2H6c-1.1 0-2 .9-2 2v3c-1.1 0-2 .9-2 2v5h1.33L4 19h1l.67-2h12.67l.66 2h1l.67-2H22v-5zm-4-2h-5V7h5v3zM6 7h5v3H6V7zm-2 5h16v3H4v-3z"
-                        />
-                      </svg>
-                      <p className="font-medium text-lg">{room?.model}</p>
-                    </div>
-                    <div className="flex items-center gap-3 text-red-600 w-full md:w-auto">
-                      <svg
-                        xmlns="http://www.w3.org/2000/svg"
-                        aria-hidden="true"
-                        className="h-5 w-5"
-                        viewBox="0 0 24 24"
-                      >
-                        <path
-                          fill="currentColor"
-                          d="M21 10H7V7c0-1.103.897-2 2-2s2 .897 2 2h2c0-2.206-1.794-4-4-4S5 4.794 5 7v3H3a1 1 0 0 0-1 1v2c0 2.606 1.674 4.823 4 5.65V22h2v-3h8v3h2v-3.35c2.326-.827 4-3.044 4-5.65v-2a1 1 0 0 0-1-1zm-1 3c0 2.206-1.794 4-4 4H8c-2.206 0-4-1.794-4-4v-1h16v1z"
-                        />
-                      </svg>
-                      <p className="font-medium text-lg">{room?.acType}</p>
-                    </div>
-                    <div className="flex items-center gap-3 text-red-600 w-full md:w-auto">
-                      <FontAwesomeIcon icon={faLocationDot} />
-                      <p className="font-medium text-lg">{room?.location}</p>
-                    </div>
-                  </div>
-                </div>
-                {/* <div className="md:col-span-6  mt-20 sm:ml-10 col-span-12">
-                  <div className="container">
-                    <div className="flex justify-between items-center mb-4">
-                      <div>
-                        <p className="text-gray-600 text-sm font-medium">
-                          Check In Date{" "}
-                        </p>
-                        <p className="text-black text-sm font-semibold">
-                          {values?.values?.CheckInDate}
-                        </p>
-                      </div>
-                      <div>
-                        <p className="text-gray-600 text-start text-sm  font-medium">
-                          Checked Out Date{" "}
-                        </p>
-                        <p className="text-black text-sm font-semibold">
-                          {values?.values?.CheckOutDate}
-                        </p>
-                      </div>
-                    </div>
-                    <hr />
-                    <div className="flex justify-between items-center mb-4">
-                      <div>
-                        <p className="text-gray-600 text-sm font-medium">
-                          Total days{" "}
-                          <span className="text-black text-sm font-semibold">
-                            {dayDiffrence}
-                          </span>
-                        </p>
-                      </div>
-
-                      <div>
-                        <p className="text-gray-600 text-start text-sm  font-medium">
-                          Location{" "}
-                        </p>
-                        <p className="text-black text-sm font-semibold">
-                          {values?.values?.chooseLocation}
-                        </p>
-                      </div>
-                    </div>
-                  </div>
-                </div> */}
-              </div>
-            </div>
-
-            <div className="md:col-span-1 col-span-1 mt-10 md:mt-0">
-              <div className="p-6 mt-12 bg-white border border-gray-200 rounded-lg shadow-md dark:bg-gray-200 dark:border-gray-700">
-                <h1 className="text-xl font-semibold">Amount Details</h1>
-                <div className="mt-3 flex flex-col sm:flex-row mb-4 justify-between">
-                  <p className="text-gray-600 text-sm">Price / day :</p>
-                  <h2 className="text-sm font-bold">₹ {room?.rent}</h2>
-                </div>
-                <div className="mt-3 flex mb-4 justify-between">
-                  <p className="text-gray-600 text-sm">Days selected :</p>
-                  <h2 className="text-sm font-bold">{dayDiffrence}</h2>
-                </div>
-                <div className="mt-3 flex flex-col sm:flex-row mb-4 justify-between">
-                  <p className="text-gray-600 text-sm">Total Rent Amount :</p>
-                  <h2 className="text-sm font-bold">₹ {totalAmount}</h2>
-                </div>
-                <hr className="my-4" />
-                <div className="flex justify-end">
-                  <h1 className="font-bold text-2xl mb-4 text-black">
-                    ₹ {totalAmount}
-                  </h1>
-                </div>
-                {user?.wallet >= totalAmount && (
-                  <div className="flex items-center justify-between mb-4">
-                    <div>
-                      <input
-                        id="default-checkbox"
-                        type="checkbox"
-                        checked={walletChecked}
-                        onChange={handleWalletUsed}
-                        className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
-                      />
-                      <label
-                        htmlFor="default-checkbox"
-                        className="ms-2 text-sm font-semibold text-gray-900 dark:text-gray-900"
-                      >
-                        Use wallet payment
-                      </label>
-                    </div>
-                    <p>wallet balance: ₹ {user?.wallet}</p>
-                  </div>
-                )}
-                <button
-                  onClick={handleSubmit}
-                  className="text-white w-full bg-red-700 hover:bg-red-800 focus:ring-4 focus:ring-red-300 font-medium rounded-lg text-sm px-5 py-2.5 mb-6 dark:bg-red-600 dark:hover:bg-red-700 focus:outline-none dark:focus:ring-red-800"
-                >
-                  Pay Now
-                </button>
-              </div>
-            </div>
-          </div>
-        </div>
-export default CheckOut;
-
-
-
-
-
-
-
-
-
-
-
- 
+export default UserNavbar;

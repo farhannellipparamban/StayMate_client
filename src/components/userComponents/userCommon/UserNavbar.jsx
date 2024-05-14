@@ -17,7 +17,6 @@ const UserNavbar = () => {
   };
 
   const toggleMobileMenu = () => {
-    console.log("hello");
     setMobileMenuOpen(!isMobileMenuOpen);
   };
 
@@ -34,27 +33,214 @@ const UserNavbar = () => {
     <nav className="bg-white border-gray-200 white:bg-gray-900">
       <div className="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto p-1">
         {/* Mobile Menu */}
-        <div className="md:hidden">
-          <button
-            className="text-black hover:text-black focus:outline-none focus:text-black"
-            onClick={toggleMobileMenu}
-          >
-            <span className="sr-only">Open main menu</span>
-            <svg
-              className="w-6 h-6"
-              fill="none"
-              stroke="currentColor"
-              viewBox="0 0 24 24"
-              xmlns="http://www.w3.org/2000/svg"
+        <div className="absolute top-0 left-0 right-0">
+          <div className="md:hidden">
+            <button
+              className="text-black hover:text-black focus:outline-none focus:text-black"
+              onClick={toggleMobileMenu}
             >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                strokeWidth="2"
-                d="M4 6h16M4 12h16m-7 6h7"
-              />
-            </svg>
-          </button>
+              <span className="sr-only">Open main menu</span>
+              <svg
+                className="w-6 h-6"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth="2"
+                  d="M4 6h16M4 12h16m-7 6h7"
+                />
+              </svg>
+            </button>
+
+            {/* Mobile Menu Items */}
+            {isMobileMenuOpen && (
+              <div className="mt-2 md:hidden bg-white  shadow-lg rounded-lg">
+                {user ? (
+                  <ul className="flex flex-col md:flex-row md:items-center justify-center space-y-4 md:space-y-0 md:space-x-4">
+                    <div className="px-4 py-3 bg-gray-100 dark:bg-gray-900 rounded-t-lg">
+                      <span className="block text-sm text-gray-800 dark:text-gray-200">
+                        {user.name}
+                      </span>
+                      <span className="block text-sm text-gray-600 dark:text-gray-400 truncate">
+                        {user.email}
+                      </span>
+                      <hr className="border border-white my-3"/>
+                    <ul className="flex flex-col md:flex-row md:items-center justify-center space-y-4 md:space-y-0 md:space-x-4">
+                      <li>
+                        <Link
+                          to="/profile"
+                          className={
+                            location.pathname === "/profile"
+                              ? "block py-2 pl-3 pr-4 text-white bg-red-700 rounded md:bg-transparent md:text-red-700 md:p-0 md:dark-text-red-500"
+                              : "block py-2 px-3 font-serif rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-red-600 text-red-600 md:p-0 dark:text-dark md:dark:hover:text-red-600 text-blue-500text-red-600 dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent dark:border-gray-700 font-bold text-xl"
+                          }
+                        >
+                          Profile
+                        </Link>
+                      </li>
+                      <li>
+                        <Link
+                          to="/bookingList"
+                          className={
+                            location.pathname === "/bookingList"
+                              ? "block py-2 pl-3 pr-4 text-white bg-red-700 rounded md:bg-transparent md:text-red-700 md:p-0 md:dark-text-red-500"
+                              : "block py-2 px-3 font-serif rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-red-600 text-red-600 md:p-0 dark:text-dark md:dark:hover:text-red-600 text-blue-500text-red-600 dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent dark:border-gray-700 font-bold text-xl"
+                          }
+                        >
+                          My Bookings
+                        </Link>
+                      </li>
+                    </ul>
+                    </div>
+
+                    <>
+                      <li>
+                        <Link
+                          to="/"
+                          className={
+                            location.pathname === "/"
+                              ? "block py-2 pl-3 pr-4 text-white bg-red-700 rounded md:bg-transparent md:text-red-700 md:p-0 md:dark-text-red-500"
+                              : "block py-2 px-3 font-serif rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-red-600  text-red-600  md:p-0 dark:text-dark md:dark:hover:text-red-600 text-blue-500text-red-600  dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent dark:border-gray-700 font-bold text-xl"
+                          }
+                        >
+                          Home
+                        </Link>
+                      </li>
+                      <li>
+                        <Link
+                          to="/allRooms"
+                          className={
+                            location.pathname === "/allRooms"
+                              ? "block py-2 pl-3 pr-4 text-white bg-red-700 rounded md:bg-transparent md:text-red-700 md:p-0 md:dark-text-red-500"
+                              : "block py-2 px-3 font-serif rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-red-600  text-red-600  md:p-0 dark:text-dark md:dark:hover:text-red-600 text-blue-500text-red-600  dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent dark:border-gray-700 font-bold text-xl"
+                          }
+                        >
+                          Rooms
+                        </Link>
+                      </li>
+                      <li>
+                        <Link
+                          to="/contact"
+                          className={
+                            location.pathname === "/contact"
+                              ? "block py-2 pl-3 pr-4 text-white bg-red-700 rounded md:bg-transparent md:text-red-700 md:p-0 md:dark-text-red-500"
+                              : "block py-2 px-3 font-serif rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-red-600  text-red-600  md:p-0 dark:text-dark md:dark:hover:text-red-600 text-blue-500text-red-600  dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent dark:border-gray-700 font-bold text-xl"
+                          }
+                        >
+                          Contact
+                        </Link>
+                      </li>
+                      <li>
+                        <Link
+                          to="/about"
+                          className={
+                            location.pathname === "/about"
+                              ? "block py-2 pl-3 pr-4 text-white bg-red-700 rounded md:bg-transparent md:text-red-700 md:p-0 md:dark-text-red-500"
+                              : "block py-2 px-3 font-serif rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-red-600  text-red-600  md:p-0 dark:text-dark md:dark:hover:text-red-600 text-blue-500text-red-600  dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent dark:border-gray-700 font-bold text-xl"
+                          }
+                        >
+                          About
+                        </Link>
+                      </li>
+                    </>
+                    <li>
+                      <Link
+                        onClick={handleLogout}
+                        className={
+                          location.pathname === "/logout"
+                            ? "block py-2 pl-3 pr-4 text-white bg-red-700 rounded md:bg-transparent md:text-red-700 md:p-0 md:dark-text-red-500"
+                            : "block py-2 px-3 font-serif rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-red-600  text-red-600  md:p-0 dark:text-dark md:dark:hover:text-red-600 text-blue-500text-red-600  dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent dark:border-gray-700 font-bold text-xl"
+                        }
+                      >
+                        Logout
+                      </Link>
+                    </li>
+                  </ul>
+                ) : (
+                  <ul className="flex flex-col md:flex-row md:items-center justify-center space-y-4 md:space-y-0 md:space-x-4">
+                    <>
+                      <li>
+                        <Link
+                          to="/"
+                          className={
+                            location.pathname === "/"
+                              ? "block py-2 pl-3 pr-4 text-white bg-red-700 rounded md:bg-transparent md:text-red-700 md:p-0 md:dark-text-red-500"
+                              : "block py-2 px-3 font-serif rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-red-600  text-red-600  md:p-0 dark:text-dark md:dark:hover:text-red-600 text-blue-500text-red-600  dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent dark:border-gray-700 font-bold text-xl"
+                          }
+                        >
+                          Home
+                        </Link>
+                      </li>
+                      <li>
+                        <Link
+                          to="/allRooms"
+                          className={
+                            location.pathname === "/allRooms"
+                              ? "block py-2 pl-3 pr-4 text-white bg-red-700 rounded md:bg-transparent md:text-red-700 md:p-0 md:dark-text-red-500"
+                              : "block py-2 px-3 font-serif rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-red-600  text-red-600  md:p-0 dark:text-dark md:dark:hover:text-red-600 text-blue-500text-red-600  dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent dark:border-gray-700 font-bold text-xl"
+                          }
+                        >
+                          Rooms
+                        </Link>
+                      </li>
+                      <li>
+                        <Link
+                          to="/contact"
+                          className={
+                            location.pathname === "/contact"
+                              ? "block py-2 pl-3 pr-4 text-white bg-red-700 rounded md:bg-transparent md:text-red-700 md:p-0 md:dark-text-red-500"
+                              : "block py-2 px-3 font-serif rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-red-600  text-red-600  md:p-0 dark:text-dark md:dark:hover:text-red-600 text-blue-500text-red-600  dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent dark:border-gray-700 font-bold text-xl"
+                          }
+                        >
+                          Contact
+                        </Link>
+                      </li>
+                      <li>
+                        <Link
+                          to="/about"
+                          className={
+                            location.pathname === "/about"
+                              ? "block py-2 pl-3 pr-4 text-white bg-red-700 rounded md:bg-transparent md:text-red-700 md:p-0 md:dark-text-red-500"
+                              : "block py-2 px-3 font-serif rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-red-600  text-red-600  md:p-0 dark:text-dark md:dark:hover:text-red-600 text-blue-500text-red-600  dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent dark:border-gray-700 font-bold text-xl"
+                          }
+                        >
+                          About
+                        </Link>
+                      </li>
+                    </>
+                    <li>
+                      <Link
+                        to="/login"
+                        className={
+                          location.pathname === "/login"
+                            ? "block py-2 pl-3 pr-4 text-white bg-red-700 rounded md:bg-transparent md:text-red-700 md:p-0 md:dark-text-red-500"
+                            : "block py-2 px-3 font-serif rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-red-600  text-red-600  md:p-0 dark:text-dark md:dark:hover:text-red-600 text-blue-500text-red-600  dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent dark:border-gray-700 font-bold text-xl"
+                        }
+                      >
+                        User Login
+                      </Link>
+                    </li>
+                    <li>
+                      <Link
+                        to="/owner/login"
+                        className={
+                          location.pathname === "/owner/login"
+                            ? "block py-2 pl-3 pr-4 text-white bg-red-700 rounded md:bg-transparent md:text-red-700 md:p-0 md:dark-text-red-500"
+                            : "block py-2 px-3 font-serif rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-red-600  text-red-600  md:p-0 dark:text-dark md:dark:hover:text-red-600 text-blue-500text-red-600  dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent dark:border-gray-700 font-bold text-xl"
+                        }
+                      >
+                        Owner Login
+                      </Link>
+                    </li>
+                  </ul>
+                )}
+              </div>
+            )}
+          </div>
         </div>
 
         {/* Desktop Menu */}
@@ -70,8 +256,7 @@ const UserNavbar = () => {
               <span className="text-2xl font-semibold text-black">Mate</span>
             </span>
             <span className="text-xs font-serif text-red-600 mt-10 -ml-28">
-              Your Stay ,
-              <span className="text-black"> Our Way .</span>
+              Your Stay ,<span className="text-black"> Our Way .</span>
             </span>
           </>
 
