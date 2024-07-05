@@ -246,16 +246,16 @@ const UserNavbar = () => {
         {/* Desktop Menu */}
         <div className="items-center justify-between hidden  md:flex md:w-full md:order-1 py-5">
           <>
-            <img
+            {/* <img
               src="/images/logo3.jpg"
               alt="Logo"
               className="mr-4 w-16 rounded-full object-cover"
-            />
-            <span className="text-2xl font-semibold text-red-600 -ml-4 font-serif">
+            /> */}
+            <span className="text-2xl font-style: italic font-semibold text-red-600 -ml-4 font-serif">
               Stay
-              <span className="text-2xl font-semibold text-black">Mate</span>
+              <span className="text-2xl font-style: italic font-semibold text-black">Mate</span>
             </span>
-            <span className="text-xs font-serif text-red-600 mt-10 -ml-28">
+            <span className="text-xs font-style: italic font-serif text-red-600 mt-10 -ml-32">
               Your Stay ,<span className="text-black"> Our Way .</span>
             </span>
           </>

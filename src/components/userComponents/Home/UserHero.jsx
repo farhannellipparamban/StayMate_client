@@ -45,11 +45,19 @@ const UserHero = ({ dataRef }) => {
     }
   };
 
-  const { getFieldProps, values, errors, touched, handleSubmit,handleChange,handleBlur } = useFormik({
+  const {
+    getFieldProps,
+    values,
+    errors,
+    touched,
+    handleSubmit,
+    handleChange,
+    handleBlur,
+  } = useFormik({
     initialValues: {
       CheckInDate: "",
       CheckOutDate: "",
-      Persons:"",
+      Persons: "",
     },
     validationSchema: roomFilter,
     onSubmit,
@@ -82,7 +90,7 @@ const UserHero = ({ dataRef }) => {
         <div className="z-[1]">
           <img
             className="w-full h-screen"
-            src="/images/beautiful-luxury-outdoor-swimming-pool-hotel-resort.jpg"
+            src="/images/Eliamos-12-1600.jpg.webp"
             alt=""
           />
         </div>
@@ -183,7 +191,6 @@ const UserHero = ({ dataRef }) => {
                   onBlur={handleBlur}
                   className="text-xs md:text-sm lg:text-md text-gray-700 font-bold font-serif bg-gray-200 border-solid border-gray-300 px-4 py-2 rounded-full w-full"
                 />
-                
               </div>
               <div className="w-full md:w-auto">
                 <button
@@ -206,10 +213,10 @@ const UserHero = ({ dataRef }) => {
             />
           </div>
           <div className="main md:flex-1 mt-4 md:mt-16 py-4 md:py-32">
-            <h3 className="heading text-2xl md:text-3xl font-bold mb-4 md:mb-14">
+            <h3 className="heading text-2xl md:text-3xl font-thin mb-4 md:mb-8 font-serif">
               About Us
             </h3>
-            <p className="para text-lg md:text-xl font-italic leading-relaxed mb-4 md:mb-8">
+            <p className="para text-lg md:text-xl font-style: italic font-thin leading-relaxed mb-4 md:mb-8 text-center md:text-left text-gray-800 bg-gray-100 p-4 md:p-8 rounded-ss-3xl rounded-ee-3xl shadow-md transition duration-500 ease-in-out transform hover:scale-105 hover:shadow-lg border-l-4 border-red-600">
               "Welcome to our hotel! We are located in the heart of the city,
               close to all the major attractions. We offer a variety of rooms
               and amenities to suit your needs, and our staff is always happy to
@@ -217,13 +224,31 @@ const UserHero = ({ dataRef }) => {
               the perfect place to relax and unwind after a long day of travel.
               We offer spacious rooms with all the amenities you need to feel at
               home, including a comfortable bed, a private bathroom, and a TV.
-              Book your room today and start your vacation off right!"
+              Book your room today and start your vacation off right!..."
+              <br></br>
+              <Link
+                to="/about"
+                className="inline-block mt-5 font-style: italic text-red-600 text-lg font-semibold hover:text-black py-2 px-4 rounded-ee-3xl rounded-ss-3xl shadow-md transition duration-500 ease-in-out transform hover:translate-x-4 border border-red-600"
+              >
+                <span className="flex items-center">
+                  <span className="mr-1 mb-1">Read more</span>
+                  <svg
+                    className="w-4 h-4 stroke-current"
+                    fill="none"
+                    stroke="currentColor"
+                    viewBox="0 0 24 24"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth="2"
+                      d="M9 5l7 7-7 7"
+                    />
+                  </svg>
+                </span>
+              </Link>
             </p>
-            <Link to="/about">
-              <button className="btn bg-red-600 hover:bg-black text-white font-bold py-2 md:py-3 px-4 md:px-8 rounded-xl focus:outline-none focus:shadow-outline-blue mt-4 md:mt-16">
-                Read more
-              </button>
-            </Link>
           </div>
         </div>
       </div>

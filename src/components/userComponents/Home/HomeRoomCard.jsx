@@ -22,7 +22,7 @@ const HomeRoomCard = ({ room }) => {
           type="button"
         >
           <span className="absolute transform -translate-x-1/2 -translate-y-1/2 top-1/2 left-1/2">
-            <FontAwesomeIcon icon={faHeart} className="w-6 h-6" />
+            <FontAwesomeIcon icon={faHeart} className="w-7 h-7 text-red-600" />
           </span>
         </button>
       </div>
@@ -36,7 +36,7 @@ const HomeRoomCard = ({ room }) => {
               xmlns="http://www.w3.org/2000/svg"
               viewBox="0 0 24 24"
               fill="currentColor"
-              className="-mt-0.5 h-5 w-5 text-yellow-700"
+              className="-mt-0.5 h-5 w-5 text-yellow-600"
             >
               <path
                 fillRule="evenodd"
@@ -63,7 +63,7 @@ const HomeRoomCard = ({ room }) => {
         {!showFullDescription && (
           <button
             onClick={toggleDescription}
-            className="text-red-600 hover:underline focus:outline-none"
+            className="text-red-600 hover:underline focus:outline-none font-style: italic font-serif"
           >
             Show More
           </button>
@@ -71,7 +71,7 @@ const HomeRoomCard = ({ room }) => {
         {showFullDescription && (
           <button
             onClick={toggleDescription}
-            className="text-red-600 hover:underline focus:outline-none"
+            className="text-red-600 hover:underline focus:outline-none font-style: italic font-serif"
           >
             Show Less
           </button>

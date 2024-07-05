@@ -19,7 +19,7 @@ const RoomsForRental = ({ dataRef }) => {
       });
   }, []);
   return (
-    <div className="w-full h-full bg-gray-100 -mt-6 text-center lg:text-left py-10 lg:pl-20">
+    <div className="w-full h-full font-style: italic bg-gray-100 -mt-6 text-center lg:text-left py-10 lg:pl-20">
       <h3 className="text-4xl font-extrabold mb-2 text-gray-800">
         Our Living Room
       </h3>
