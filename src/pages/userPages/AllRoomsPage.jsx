@@ -3,7 +3,7 @@ import UserNavbar from "../../components/userComponents/userCommon/UserNavbar";
 import UserFooter from "../../components/userComponents/userCommon/UserFooter";
 import Loading from "../../components/loading/Loading";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faBed } from "@fortawesome/free-solid-svg-icons";
+import { faBed, faBars, faSearch } from "@fortawesome/free-solid-svg-icons";
 import Pagination from "../../components/common/Pagination";
 import { allRoomList, loadOffer } from "../../api/userApi";
 import { useLocation } from "react-router-dom";
@@ -17,10 +17,13 @@ const RoomCardList = lazy(() =>
 const AllRoomsPage = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const [loading, setLoading] = useState(false);
+  const [showFilterSidebar, setShowFilterSidebar] = useState(false);
+  const [searchQuery, setSearchQuery] = useState("");
   const location = useLocation();
-  const { filterRooms, values } = location.state|| {};
+  const { filterRooms, values } = location.state || {};
   const [rooms, setRooms] = useState(filterRooms || []);
   const [offer, setOffer] = useState([]);
+
   const handleSelectChange = (e) => {
     const selectedValue = e.target.value;
     let sortedRooms = [...rooms];
@@ -29,9 +32,9 @@ const AllRoomsPage = () => {
     } else if (selectedValue === "Decend") {
       sortedRooms.sort((a, b) => b.rent - a.rent);
     }
-
     setRooms(sortedRooms);
   };
+
   useEffect(() => {
     setLoading(true);
     allRoomList()
@@ -58,6 +61,13 @@ const AllRoomsPage = () => {
       });
   }, []);
 
+  const handleSearch = () => {
+    const filtered = rooms.filter((room) =>
+      room.roomName.toLowerCase().includes(searchQuery.toLowerCase())
+    );
+    setRooms(filtered);
+    setCurrentPage(1);
+  };
 
   const roomPerPage = 4;
   const lastIndex = currentPage * roomPerPage;
@@ -69,110 +79,137 @@ const AllRoomsPage = () => {
   return (
     <>
       <UserNavbar />
-      <div className="mx-auto flex w-full mt-5">
-        <div className=" w-1/5 hidden border-t-2 shadow-xl md:flex rounded-md mt-5">
-          <div className="p-4 w-full">
-            <FilterSidebar setRooms={setRooms} filterRooms={filterRooms} />
+      <div className="mx-auto flex flex-col w-full mt-5">
+        {/* Mobile Search Bar */}
+        <div className="md:hidden px-4 mb-4">
+          <div className="relative">
+            <input
+              type="search"
+              value={searchQuery}
+              onChange={(e) => setSearchQuery(e.target.value)}
+              className="w-full p-2 pl-10 text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500"
+              placeholder="Search Rooms"
+            />
+            <button
+              onClick={handleSearch}
+              className="absolute right-2.5 bottom-2.5 text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-4 py-2"
+            >
+              <FontAwesomeIcon icon={faSearch} />
+            </button>
           </div>
         </div>
-        <div className="w-full md:w-3/4 px-4 mb-5 mt-5 ">
-          <div className="drawer flex md:hidden z-10">
-            {/* <div className="drawer-content flex justify-end pb-6">
-              <FontAwesomeIcon
-                className="w-10 h-10"
-                size="2xl"
-                icon={faBars}
-                style={{ color: "#3f85f8" }}
-              />
-            </div> */}
-            <div className="drawer-side">
-              <label
-                htmlFor="my-drawer"
-                aria-label="close sidebar"
-                className="drawer-overlay"
-              ></label>
 
-              <div className="p-4 w-80 min-h-full bg-white text-base-content">
-                <FilterSidebar
-                  setRooms={setRooms}
-                  filterRooms={filterRooms}
-                  setCurrentPage={setCurrentPage} // Ensure setCurrentPage is passed here
-                />
-              </div>
+        {/* Mobile Menu Button */}
+        <div className="md:hidden flex justify-between items-center px-4 mb-4">
+          <button
+            onClick={() => setShowFilterSidebar(true)}
+            className="text-blue-600"
+          >
+            {/* Filter */}
+            <FontAwesomeIcon icon={faBars} size="2x" />
+          </button>
+          <select
+            className="select select-bordered"
+            onChange={handleSelectChange}
+          >
+            <option disabled selected>
+              Rent
+            </option>
+            <option value="Acend">Low - High</option>
+            <option value="Decend">High - Low</option>
+          </select>
+        </div>
+
+        {/* Mobile Filter Sidebar Modal */}
+        {showFilterSidebar && (
+          <div className="fixed inset-0 bg-black bg-opacity-50 z-50 md:hidden">
+            <div className="bg-white w-4/5 h-full overflow-y-auto p-4">
+              <button
+                onClick={() => setShowFilterSidebar(false)}
+                className="mb-4 text-xl"
+              >
+                &times; Close
+              </button>
+              <FilterSidebar
+                setRooms={setRooms}
+                filterRooms={filterRooms}
+                setCurrentPage={setCurrentPage}
+              />
             </div>
           </div>
+        )}
 
-          <LocationDateFilter selectedData={values} setLoading={setLoading} />
-          
-          <div className=" flex items-baseline justify-between pl-4 mb-4">
-            <h4 className="text-3xl mt-5 font-bold text-gray-900">
-              Available Rooms
-            </h4>
-            <select
-              className="select select-bordered w-[100px]"
-              onChange={handleSelectChange}
-            >
-              <option disabled selected>
-                Rent
-              </option>
-              <option value="Acend">Low - High</option>
-              <option value="Decend">High - low</option>
-            </select>
+        {/* Desktop Layout */}
+        <div className="flex flex-col md:flex-row">
+          {/* Desktop Filter Sidebar */}
+          <div className="hidden md:block w-1/4 border-t-2 shadow-xl rounded-md mt-5 p-4">
+            <FilterSidebar
+              setRooms={setRooms}
+              filterRooms={filterRooms}
+              setCurrentPage={setCurrentPage}
+            />
           </div>
 
-          <Suspense
-            fallback={
-              <div className="flex justify-center items-center h-screen">
-                <Loading />
-              </div>
-            }
-          >
-            {loading ? (
-              <div className="flex h-[300px] sm:h-[600px] items-center justify-center">
-                <div className="spinnerouter">
-                  <Loading />
-                </div>
-              </div>
-            ) : rooms.length === 0 ? (
-              <div className="flex flex-col items-center justify-center h-[364px]">
-                <FontAwesomeIcon
-                  icon={faBed}
-                  beatFade
-                  size="2xl"
-                  className="h-32 w-32"
-                  style={{ color: "red" }}
-                />
-                <p className="text-center text-2xl mt-5 font-bold text-gray-600">
-                  No rooms available
-                </p>
-              </div>
-            ) : (
-              <div
-                style={{
-                  display: "grid",
-                  gridTemplateColumns: "repeat(auto-fit, minmax(400px, 1fr))",
-                  gap: "1rem",
-                }}
+          {/* Main Content */}
+          <div className="w-full md:w-3/4 px-4 mb-5 mt-5">
+            <LocationDateFilter selectedData={values} setLoading={setLoading} />
+            
+            {/* Desktop Sort Dropdown */}
+            <div className="hidden md:flex items-baseline justify-between pl-4 mb-4">
+              <h4 className="text-3xl mt-5 font-bold text-gray-900">
+                Available Rooms
+              </h4>
+              <select
+                className="select select-bordered w-[100px]"
+                onChange={handleSelectChange}
               >
-                {roomsInSinglePage &&
-                  roomsInSinglePage.map((room) => (
+                <option disabled selected>
+                  Rent
+                </option>
+                <option value="Acend">Low - High</option>
+                <option value="Decend">High - low</option>
+              </select>
+            </div>
+
+            <Suspense fallback={<Loading />}>
+              {loading ? (
+                <Loading />
+              ) : rooms.length === 0 ? (
+                <div className="flex flex-col items-center justify-center h-[364px]">
+                  <FontAwesomeIcon
+                    icon={faBed}
+                    beatFade
+                    size="2xl"
+                    className="h-32 w-32"
+                    style={{ color: "red" }}
+                  />
+                  <p className="text-center text-2xl mt-5 font-bold text-gray-600">
+                    No rooms available
+                  </p>
+                </div>
+              ) : (
+                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-2 gap-4">
+                  {roomsInSinglePage.map((room) => (
                     <RoomCardList
                       key={room._id}
-                      room={room} values={values} offers={offer}
+                      room={room}
+                      values={values}
+                      offers={offer}
                     />
                   ))}
-              </div>
-            )}
-          </Suspense>
+                </div>
+              )}
+            </Suspense>
 
-          {totalPages > 1 && (
-            <Pagination
-              currentPage={currentPage}
-              setCurrentPage={setCurrentPage}
-              numbers={numbers}
-              totalPages={totalPages}
-            />
-          )}
+            {totalPages > 1 && (
+              <Pagination
+                currentPage={currentPage}
+                setCurrentPage={setCurrentPage}
+                numbers={numbers}
+                totalPages={totalPages}
+              />
+            )}
+          </div>
         </div>
       </div>
       <UserFooter />
