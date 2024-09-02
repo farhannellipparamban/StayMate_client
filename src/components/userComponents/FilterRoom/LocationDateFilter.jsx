@@ -39,7 +39,6 @@ const LocationDateFilter = ({ selectedData, setLoading }) => {
             values: { ...values, chooseLocation },
           },
         });
-        console.log("hguyg");
       }
       setLoading(false);
     } catch (error) {
@@ -48,11 +47,19 @@ const LocationDateFilter = ({ selectedData, setLoading }) => {
     }
   };
 
-  const { getFieldProps, handleSubmit,handleChange,handleBlur, values, touched, errors } = useFormik({
+  const {
+    getFieldProps,
+    handleSubmit,
+    handleChange,
+    handleBlur,
+    values,
+    touched,
+    errors,
+  } = useFormik({
     initialValues: {
-      CheckInDate: selectedData?.CheckInDate||"" ,
-      CheckOutDate: selectedData?.CheckOutDate ||"",
-      Persons:selectedData?.Persons,
+      CheckInDate: selectedData?.CheckInDate || "",
+      CheckOutDate: selectedData?.CheckOutDate || "",
+      Persons: selectedData?.Persons || "",
     },
     validationSchema: roomFilter,
     onSubmit,
@@ -88,13 +95,13 @@ const LocationDateFilter = ({ selectedData, setLoading }) => {
 
   return (
     <>
-      <div className="bg-white shadow-lg bg-opacity-70 backdrop-filter backdrop-blur-0 border border-gray-500 border-opacity-50 rounded-lg mx-auto w-full md:p-10 mb-5 md:mb-0 mt-2">
+      <div className="bg-white shadow-lg bg-opacity-70 backdrop-filter backdrop-blur-0 border border-gray-500 border-opacity-50 rounded-lg mx-auto w-full p-4 md:p-10 mb-5 mt-2">
         <form onSubmit={handleSubmit}>
-          <div className="flex flex-col md:flex-row justify-between items-center space-y-4 md:space-y-0">
-            <div className="mb-4 md:mb-0 md:mr-2 w-full md:w-1/4">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-4">
+            <div className="mb-4 w-full">
               <label
                 htmlFor="destination"
-                className="flex items-center text-xs md:text-xl font-bold font-serif text-black"
+                className="flex items-center text-xs md:text-lg font-bold font-serif text-black"
               >
                 <FontAwesomeIcon
                   icon={faLocationDot}
@@ -116,10 +123,10 @@ const LocationDateFilter = ({ selectedData, setLoading }) => {
               )}
               {locationError && <p className="text-red-600">{locationError}</p>}
             </div>
-            <div className="mb-4 md:mb-0 md:mr-4 w-full md:w-auto">
+            <div className="mb-4 w-full">
               <label
                 htmlFor="check-in"
-                className="text-xs md:text-xl font-bold font-serif text-black"
+                className="text-xs md:text-lg font-bold font-serif text-black"
               >
                 <FontAwesomeIcon
                   icon={faCalendar}
@@ -138,10 +145,10 @@ const LocationDateFilter = ({ selectedData, setLoading }) => {
                 <p className="text-red-600">{errors.CheckInDate}</p>
               )}
             </div>
-            <div className="mb-4 md:mb-0 md:mr-4 w-full md:w-auto">
+            <div className="mb-4 w-full">
               <label
                 htmlFor="check-out"
-                className="text-xs md:text-xl font-bold font-serif text-black"
+                className="text-xs md:text-lg font-bold font-serif text-black"
               >
                 <FontAwesomeIcon
                   icon={faCalendar}
@@ -160,10 +167,10 @@ const LocationDateFilter = ({ selectedData, setLoading }) => {
                 <p className="text-red-600">{errors.CheckOutDate}</p>
               )}
             </div>
-            <div className="mb-4 md:mb-0 md:mr-4 w-full md:w-auto">
+            <div className="mb-4 w-full">
               <label
                 htmlFor="person"
-                className="flex items-center text-xs md:text-xl font-bold font-serif text-black"
+                className="flex items-center text-xs md:text-lg font-bold font-serif text-black"
               >
                 <FontAwesomeIcon icon={faUser} className="mr-2 text-gray-700" />
                 <span className="ml-2">Person</span>
@@ -176,16 +183,16 @@ const LocationDateFilter = ({ selectedData, setLoading }) => {
                 value={values.Persons}
                 onChange={handleChange}
                 onBlur={handleBlur}
-                className="text-xs md:text-sm lg:text-md text-gray-700 font-bold font-serif bg-gray-200 border-solid border-gray-300 px-4 py-2 rounded-full w-full"
+                className="text-xs md:text-sm lg:text-md text-gray-700 font-bold font-serif bg-gray-200 border-solid border-gray-300 px-3 py-2 rounded-full w-full"
               />
               {errors.Persons && touched.Persons && (
                 <p className="text-red-600">{errors.Persons}</p>
               )}
             </div>
-            <div className="w-full md:w-auto">
+            <div className="mb-4 w-full flex justify-end md:col-span-2 lg:col-span-1">
               <button
                 type="submit"
-                className="text-xs md:text-sm lg:text-lg font-bold font-serif bg-red-600 w-full md:w-auto border-solid rounded-full text-white px-4 py-2 mt-5 ml-4 hover:bg-red-700 focus:outline-none focus:bg-red-700"
+                className="text-xs md:text-sm lg:text-lg font-bold font-serif bg-red-600 border-solid min-w-full max-w-full rounded-full text-white px-2 py-2 mt-5 hover:bg-red-700 focus:outline-none focus:bg-red-700"
               >
                 Search
               </button>

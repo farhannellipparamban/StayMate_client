@@ -47,7 +47,7 @@ const AllRoomsPage = () => {
         setLoading(false);
       });
   }, []);
-  
+
   useEffect(() => {
     setLoading(true);
     loadOffer()
@@ -153,7 +153,7 @@ const AllRoomsPage = () => {
           {/* Main Content */}
           <div className="w-full md:w-3/4 px-4 mb-5 mt-5">
             <LocationDateFilter selectedData={values} setLoading={setLoading} />
-            
+
             {/* Desktop Sort Dropdown */}
             <div className="hidden md:flex items-baseline justify-between pl-4 mb-4">
               <h4 className="text-3xl mt-5 font-bold text-gray-900">

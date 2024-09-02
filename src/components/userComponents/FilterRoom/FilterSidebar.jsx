@@ -17,22 +17,21 @@ const FilterSidebar = ({ setRooms, filterRooms, setCurrentPage }) => {
         const selectedAmenities = Object.keys(Amenities).filter(
           (item) => Amenities[item]
         );
-  
+
         const categoryMatch =
           selectedCategories.length === 0 ||
           selectedCategories.includes(room.Categories);
         const amenitiesMatch =
           selectedAmenities.length === 0 ||
           selectedAmenities.includes(room.Amenities);
-  
+
         return categoryMatch && amenitiesMatch;
       });
-  
+
       setRooms(filteredRooms);
     }
-    console.log(filterRooms ,"jfirhwefisuh");
+    console.log(filterRooms, "jfirhwefisuh");
   }, [filterOption, filterRooms]);
-  
 
   const handleCheckBoxChange = (option, item) => {
     setFilterOption((prevOption) => ({
@@ -46,7 +45,7 @@ const FilterSidebar = ({ setRooms, filterRooms, setCurrentPage }) => {
 
   const handleSearch = () => {
     const filtered = filterRooms.filter((room) =>
-      room.roomName.toLowerCase().includes(searchRooms.toLocaleLowerCase())
+      room.roomName.toLowerCase().includes(searchRooms.toLowerCase())
     );
     setRooms(filtered);
     setCurrentPage(1);
@@ -61,12 +60,13 @@ const FilterSidebar = ({ setRooms, filterRooms, setCurrentPage }) => {
     setRooms(filterRooms);
     setCurrentPage(1);
   };
+
   return (
     <>
-      <div className="relative mb-6">
+      <div className="relative mb-6 hidden md:block">
         <div className="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
           <svg
-            className="w-3 h-3 text-gray-300 dark:text-gray-300"
+            className="w-3 h-3 text-gray-400 dark:text-gray-400"
             aria-hidden="true"
             xmlns="http://www.w3.org/2000/svg"
             fill="none"
@@ -87,7 +87,7 @@ const FilterSidebar = ({ setRooms, filterRooms, setCurrentPage }) => {
           id="search"
           value={searchRooms}
           onChange={(e) => setSearchRooms(e.target.value)}
-          className="block w-full p-3 pl-8 text-sm text-black border border-gray-300 rounded-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500 dark:bg-black dark:border-gray-600 dark:placeholder-gray-300 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+          className="block w-full p-3 pl-8 text-sm text-black border border-gray-300 rounded-lg bg-gray-50 focus:ring-red-500 focus:border-red-500 dark:bg-gray-200 dark:border-gray-400 dark:placeholder-gray-400 dark:text-black dark:focus:ring-red-500 dark:focus:border-red-500"
           placeholder="Search Rooms"
           required=""
         />
