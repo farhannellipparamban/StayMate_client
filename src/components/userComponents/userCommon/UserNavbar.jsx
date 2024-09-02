@@ -1,10 +1,19 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { userLogout } from "../../../reduxStore/slices/userSlice";
 import { toast } from "react-toastify";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faBars } from "@fortawesome/free-solid-svg-icons";
+import { motion, AnimatePresence } from "framer-motion";
+import {
+  Menu,
+  X,
+  User,
+  LogOut,
+  Home,
+  BedDouble,
+  Phone,
+  Info,
+} from "lucide-react";
 
 const UserNavbar = () => {
   const [isDropdownOpen, setDropdownOpen] = useState(false);
@@ -31,226 +40,198 @@ const UserNavbar = () => {
     navigate("/login");
   };
 
+  useEffect(() => {
+    if (isMobileMenuOpen) {
+      document.body.style.overflow = "hidden";
+    } else {
+      document.body.style.overflow = "unset";
+    }
+    return () => {
+      document.body.style.overflow = "unset";
+    };
+  }, [isMobileMenuOpen]);
+
+  const menuVariants = {
+    closed: { opacity: 0, x: "-100%" },
+    open: { opacity: 1, x: 0 },
+  };
+
+  const linkClass = (path) =>
+    `flex items-center w-full py-3 px-4 text-lg font-medium transition-colors duration-200 ${
+      location.pathname === path
+        ? "text-red-600 bg-gray-300"
+        : "text-gray-800 hover:text-red-700 hover:bg-red-100"
+    }`;
+
+  const menuItems = [
+    { path: "/", label: "Home", icon: Home },
+    { path: "/allRooms", label: "Rooms", icon: BedDouble },
+    { path: "/contact", label: "Contact", icon: Phone },
+    { path: "/about", label: "About", icon: Info },
+  ];
+
   return (
     <nav className="relative z-20 bg-white border-gray-200 white:bg-gray-900">
       <div className="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto ">
         {/* Mobile Menu */}
         <div className="absolute top-0 left-2.5 right-2.5">
           <div className="md:hidden">
+            {" "}
             <button
-              className="text-black hover:text-black focus:outline-none focus:text-black ml-1 mt-2"
               onClick={toggleMobileMenu}
+              className="z-50 p-2 flex justify-between items-center w-full"
+              aria-label={isMobileMenuOpen ? "Close menu" : "Open menu"}
             >
-              <span className="sr-only">Open main menu</span>
-
-              <FontAwesomeIcon icon={faBars} size="2x" />
+              {!isMobileMenuOpen && <Menu size={30} />}{" "}
+              {isMobileMenuOpen && (
+                <X size={24} className="ml-auto fixed top-5 right-5 z-50" />
+              )}{" "}
             </button>
-
-            {/* Mobile Menu Items */}
-            {isMobileMenuOpen && (
-              <div className="mt-2 md:hidden bg-white  shadow-lg rounded-lg">
-                {user ? (
-                  <ul className="flex flex-col md:flex-row md:items-center justify-center space-y-4 md:space-y-0 md:space-x-4">
-                    <div className="px-4 py-3 bg-gray-100 dark:bg-gray-900 rounded-t-lg">
-                      <span className="block text-sm text-gray-800 dark:text-gray-200">
-                        {user.name}
-                      </span>
-                      <span className="block text-sm text-gray-600 dark:text-gray-400 truncate">
-                        {user.email}
-                      </span>
-                      <hr className="border border-white my-3" />
-                      <ul className="flex flex-col md:flex-row md:items-center justify-center space-y-4 md:space-y-0 md:space-x-4">
-                        <li>
-                          <Link
-                            to="/profile"
-                            className={
-                              location.pathname === "/profile"
-                                ? "block py-2 pl-3 pr-4 text-white bg-red-700 rounded md:bg-transparent md:text-red-700 md:p-0 md:dark-text-red-500"
-                                : "block py-2 px-3 font-serif rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-red-600 text-red-600 md:p-0 dark:text-dark md:dark:hover:text-red-600 text-blue-500text-red-600 dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent dark:border-gray-700 font-bold text-xl"
-                            }
-                          >
-                            Profile
-                          </Link>
-                        </li>
-                        <li>
-                          <Link
-                            to="/bookingList"
-                            className={
-                              location.pathname === "/bookingList"
-                                ? "block py-2 pl-3 pr-4 text-white bg-red-700 rounded md:bg-transparent md:text-red-700 md:p-0 md:dark-text-red-500"
-                                : "block py-2 px-3 font-serif rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-red-600 text-red-600 md:p-0 dark:text-dark md:dark:hover:text-red-600 text-blue-500text-red-600 dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent dark:border-gray-700 font-bold text-xl"
-                            }
-                          >
-                            My Bookings
-                          </Link>
-                        </li>
-                      </ul>
+            <AnimatePresence>
+              {isMobileMenuOpen && (
+                <motion.div
+                  initial="closed"
+                  animate="open"
+                  exit="closed"
+                  variants={menuVariants}
+                  transition={{ duration: 0.3, ease: "easeInOut" }}
+                  className="fixed inset-y-0 left-0 w-full sm:w-80 bg-white shadow-2xl overflow-y-auto z-40"
+                >
+                  <div className="flex flex-col h-full">
+                    <div className="p-5 bg-gray-50">
+                      <h2 className="text-2xl font-semibold text-gray-800">
+                        <span className="text-red-600 font-style: italic font-serif">
+                          Stay
+                        </span>
+                        <span className="text-black font-style: italic font-serif">
+                          Mate
+                        </span>
+                      </h2>
+                      <p className="text-sm font-style: italic font-serif text-gray-600">
+                        Your Stay, Our Way.
+                      </p>
                     </div>
 
-                    <>
-                      <li>
-                        <Link
-                          to="/"
-                          className={
-                            location.pathname === "/"
-                              ? "block py-2 pl-3 pr-4 text-white bg-red-700 rounded md:bg-transparent md:text-red-700 md:p-0 md:dark-text-red-500"
-                              : "block py-2 px-3 font-serif rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-red-600  text-red-600  md:p-0 dark:text-dark md:dark:hover:text-red-600 text-blue-500text-red-600  dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent dark:border-gray-700 font-bold text-xl"
-                          }
-                        >
-                          Home
-                        </Link>
-                      </li>
-                      <li>
-                        <Link
-                          to="/allRooms"
-                          className={
-                            location.pathname === "/allRooms"
-                              ? "block py-2 pl-3 pr-4 text-white bg-red-700 rounded md:bg-transparent md:text-red-700 md:p-0 md:dark-text-red-500"
-                              : "block py-2 px-3 font-serif rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-red-600  text-red-600  md:p-0 dark:text-dark md:dark:hover:text-red-600 text-blue-500text-red-600  dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent dark:border-gray-700 font-bold text-xl"
-                          }
-                        >
-                          Rooms
-                        </Link>
-                      </li>
-                      <li>
-                        <Link
-                          to="/contact"
-                          className={
-                            location.pathname === "/contact"
-                              ? "block py-2 pl-3 pr-4 text-white bg-red-700 rounded md:bg-transparent md:text-red-700 md:p-0 md:dark-text-red-500"
-                              : "block py-2 px-3 font-serif rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-red-600  text-red-600  md:p-0 dark:text-dark md:dark:hover:text-red-600 text-blue-500text-red-600  dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent dark:border-gray-700 font-bold text-xl"
-                          }
-                        >
-                          Contact
-                        </Link>
-                      </li>
-                      <li>
-                        <Link
-                          to="/about"
-                          className={
-                            location.pathname === "/about"
-                              ? "block py-2 pl-3 pr-4 text-white bg-red-700 rounded md:bg-transparent md:text-red-700 md:p-0 md:dark-text-red-500"
-                              : "block py-2 px-3 font-serif rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-red-600  text-red-600  md:p-0 dark:text-dark md:dark:hover:text-red-600 text-blue-500text-red-600  dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent dark:border-gray-700 font-bold text-xl"
-                          }
-                        >
-                          About
-                        </Link>
-                      </li>
-                    </>
-                    <li>
-                      <Link
-                        onClick={handleLogout}
-                        className={
-                          location.pathname === "/logout"
-                            ? "block py-2 pl-3 pr-4 text-white bg-red-700 rounded md:bg-transparent md:text-red-700 md:p-0 md:dark-text-red-500"
-                            : "block py-2 px-3 font-serif rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-red-600  text-red-600  md:p-0 dark:text-dark md:dark:hover:text-red-600 text-blue-500text-red-600  dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent dark:border-gray-700 font-bold text-xl"
-                        }
-                      >
-                        Logout
-                      </Link>
-                    </li>
-                  </ul>
-                ) : (
-                  <ul className="flex flex-col md:flex-row md:items-center justify-center space-y-4 md:space-y-0 md:space-x-4">
-                    <>
-                      <li>
-                        <Link
-                          to="/"
-                          className={
-                            location.pathname === "/"
-                              ? "block py-2 pl-3 pr-4 text-white bg-red-700 rounded md:bg-transparent md:text-red-700 md:p-0 md:dark-text-red-500"
-                              : "block py-2 px-3 font-serif rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-red-600  text-red-600  md:p-0 dark:text-dark md:dark:hover:text-red-600 text-blue-500text-red-600  dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent dark:border-gray-700 font-bold text-xl"
-                          }
-                        >
-                          Home
-                        </Link>
-                      </li>
-                      <li>
-                        <Link
-                          to="/allRooms"
-                          className={
-                            location.pathname === "/allRooms"
-                              ? "block py-2 pl-3 pr-4 text-white bg-red-700 rounded md:bg-transparent md:text-red-700 md:p-0 md:dark-text-red-500"
-                              : "block py-2 px-3 font-serif rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-red-600  text-red-600  md:p-0 dark:text-dark md:dark:hover:text-red-600 text-blue-500text-red-600  dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent dark:border-gray-700 font-bold text-xl"
-                          }
-                        >
-                          Rooms
-                        </Link>
-                      </li>
-                      <li>
-                        <Link
-                          to="/contact"
-                          className={
-                            location.pathname === "/contact"
-                              ? "block py-2 pl-3 pr-4 text-white bg-red-700 rounded md:bg-transparent md:text-red-700 md:p-0 md:dark-text-red-500"
-                              : "block py-2 px-3 font-serif rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-red-600  text-red-600  md:p-0 dark:text-dark md:dark:hover:text-red-600 text-blue-500text-red-600  dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent dark:border-gray-700 font-bold text-xl"
-                          }
-                        >
-                          Contact
-                        </Link>
-                      </li>
-                      <li>
-                        <Link
-                          to="/about"
-                          className={
-                            location.pathname === "/about"
-                              ? "block py-2 pl-3 pr-4 text-white bg-red-700 rounded md:bg-transparent md:text-red-700 md:p-0 md:dark-text-red-500"
-                              : "block py-2 px-3 font-serif rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-red-600  text-red-600  md:p-0 dark:text-dark md:dark:hover:text-red-600 text-blue-500text-red-600  dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent dark:border-gray-700 font-bold text-xl"
-                          }
-                        >
-                          About
-                        </Link>
-                      </li>
-                    </>
-                    <li>
-                      <Link
-                        to="/login"
-                        className={
-                          location.pathname === "/login"
-                            ? "block py-2 pl-3 pr-4 text-white bg-red-700 rounded md:bg-transparent md:text-red-700 md:p-0 md:dark-text-red-500"
-                            : "block py-2 px-3 font-serif rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-red-600  text-red-600  md:p-0 dark:text-dark md:dark:hover:text-red-600 text-blue-500text-red-600  dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent dark:border-gray-700 font-bold text-xl"
-                        }
-                      >
-                        User Login
-                      </Link>
-                    </li>
-                    <li>
-                      <Link
-                        to="/owner/login"
-                        className={
-                          location.pathname === "/owner/login"
-                            ? "block py-2 pl-3 pr-4 text-white bg-red-700 rounded md:bg-transparent md:text-red-700 md:p-0 md:dark-text-red-500"
-                            : "block py-2 px-3 font-serif rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-red-600  text-red-600  md:p-0 dark:text-dark md:dark:hover:text-red-600 text-blue-500text-red-600  dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent dark:border-gray-700 font-bold text-xl"
-                        }
-                      >
-                        Owner Login
-                      </Link>
-                    </li>
-                  </ul>
-                )}
-              </div>
+                    {user && (
+                      <div className="p-5 bg-gray-100 border-b border-gray-200">
+                        <div className="flex items-center space-x-3">
+                          <User size={24} className="text-gray-600" />
+                          <div>
+                            <p className="font-semibold text-gray-800">
+                              {user.name}
+                            </p>
+                            <p className="text-sm text-gray-600">
+                              {user.email}
+                            </p>
+                          </div>
+                        </div>
+                      </div>
+                    )}
+
+                    <nav className="flex-grow p-5">
+                      <ul className="space-y-2">
+                        {menuItems.map((item) => (
+                          <li key={item.path}>
+                            <Link
+                              to={item.path}
+                              className={linkClass(item.path)}
+                              onClick={toggleMobileMenu}
+                            >
+                              <item.icon size={20} className="mr-3" />
+                              {item.label}
+                            </Link>
+                          </li>
+                        ))}
+                        {user ? (
+                          <>
+                            <li>
+                              <Link
+                                to="/profile"
+                                className={linkClass("/profile")}
+                                onClick={toggleMobileMenu}
+                              >
+                                <User size={20} className="mr-3" />
+                                Profile
+                              </Link>
+                            </li>
+                            <li>
+                              <Link
+                                to="/bookingList"
+                                className={linkClass("/bookingList")}
+                                onClick={toggleMobileMenu}
+                              >
+                                <BedDouble size={20} className="mr-3" />
+                                My Bookings
+                              </Link>
+                            </li>
+                            <li>
+                              <button
+                                onClick={() => {
+                                  handleLogout();
+                                  toggleMobileMenu();
+                                }}
+                                className="flex items-center w-full py-3 px-4 text-lg font-medium text-red-600 hover:bg-red-50 transition-colors duration-200"
+                              >
+                                <LogOut size={20} className="mr-3" />
+                                Logout
+                              </button>
+                            </li>
+                          </>
+                        ) : (
+                          <>
+                            <li>
+                              <Link
+                                to="/login"
+                                className={linkClass("/login")}
+                                onClick={toggleMobileMenu}
+                              >
+                                <User size={20} className="mr-3" />
+                                User Login
+                              </Link>
+                            </li>
+                            <li>
+                              <Link
+                                to="/owner/login"
+                                className={linkClass("/owner/login")}
+                                onClick={toggleMobileMenu}
+                              >
+                                <User size={20} className="mr-3" />
+                                Owner Login
+                              </Link>
+                            </li>
+                          </>
+                        )}
+                      </ul>
+                    </nav>
+                  </div>
+                </motion.div>
+              )}
+            </AnimatePresence>
+            {isMobileMenuOpen && (
+              <div
+                className="fixed inset-0 bg-black bg-opacity-50 z-30"
+                onClick={toggleMobileMenu}
+                aria-hidden="true"
+              />
             )}
           </div>
         </div>
 
         {/* Desktop Menu */}
         <div className="items-center justify-between hidden  md:flex md:w-full md:order-1 py-5">
-          <>
-            {/* <img
-              src="/images/logo3.jpg"
-              alt="Logo"
-              className="mr-4 w-16 rounded-full object-cover"
-            /> */}
-            <span className="text-2xl font-style: italic font-semibold text-red-600 -ml-4 font-serif">
-              Stay
-              <span className="text-2xl font-style: italic font-semibold text-black">
+          <div>
+            <h2 className="text-3xl font-semibold text-gray-800">
+              <span className="text-red-600 font-style: italic font-serif">
+                Stay
+              </span>
+              <span className="text-black font-style: italic font-serif">
                 Mate
               </span>
-            </span>
-            <span className="text-xs font-style: italic font-serif text-red-600 mt-10 -ml-32">
-              Your Stay ,<span className="text-black"> Our Way .</span>
-            </span>
-          </>
+            </h2>
+            <p className="text-sm font-style: italic font-serif text-gray-600 -mt-1">
+              Your Stay, Our Way.
+            </p>
+          </div>
 
           <div className=" w-full m-auto  md:w-auto">
             <ul className="flex flex-col md:flex-row md:items-center justify-center space-y-4 md:space-y-0 md:space-x-4">

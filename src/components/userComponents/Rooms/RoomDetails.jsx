@@ -49,15 +49,15 @@ const RoomDetails = () => {
 
   const handleBookNow = () => {
     navigate("/checkOut", {
-      state: { room: state.room, values: state.values,offers:state.offers },
+      state: { room: state.room, values: state.values, offers: state.offers },
     });
   };
-const roomOffer = offers.find(offer => offer.rooms === room.roomName);
+  const roomOffer = offers.find((offer) => offer.rooms === room.roomName);
 
-const discountedRent = roomOffer && roomOffer.percentage
-  ? room.rent - (room.rent * roomOffer.percentage) / 100
-  : room.rent;
-
+  const discountedRent =
+    roomOffer && roomOffer.percentage
+      ? room.rent - (room.rent * roomOffer.percentage) / 100
+      : room.rent;
 
   return (
     <>
@@ -73,8 +73,7 @@ const discountedRent = roomOffer && roomOffer.percentage
                   src={room?.roomImages[imageIndex]}
                   alt="Property Image"
                   className="w-full h-auto rounded-md shadow-lg mb-4 object-cover  hover:scale-105 transition duration-500 cursor-pointer"
-                /> 
-                
+                />
 
                 {/* Carousel with three small images in a line */}
                 <div className="flex flex-wrap justify-center items-center gap-4">
@@ -192,9 +191,7 @@ const discountedRent = roomOffer && roomOffer.percentage
             </div>
           </div>
           <RatingList />
-
         </div>
-        
       )}
     </>
   );

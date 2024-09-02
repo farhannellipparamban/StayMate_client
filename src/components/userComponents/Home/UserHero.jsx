@@ -94,7 +94,7 @@ const UserHero = ({ dataRef }) => {
             alt="background image"
           />
         </div>
-        
+
         <div className="mx-3">
           <div className="bg-slate-100 bg-opacity-70 backdrop-filter backdrop-blur-0 border border-gray-500 border-opacity-50 rounded-lg m-auto w-full md:w-4/5 p-6 md:p-12 lg:p-20 mb-5 md:mb-0 -mt-16 z-50 relative">
             <form onSubmit={handleSubmit}>

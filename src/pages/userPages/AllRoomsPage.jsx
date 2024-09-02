@@ -78,10 +78,9 @@ const AllRoomsPage = () => {
 
   return (
     <>
-    <div className="relative">
-
-      <UserNavbar />
-    </div>
+      <div className="relative">
+        <UserNavbar />
+      </div>
       <div className="mx-auto flex flex-col w-full mt-7">
         {/* Mobile Search Bar */}
         <div className="md:hidden px-4 mb-4 mt-6">
