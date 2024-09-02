@@ -89,130 +89,132 @@ const UserHero = ({ dataRef }) => {
       <div className="h-full">
         <div className="z-[1]">
           <img
-            className="w-full h-screen"
+            className="w-full h-screen object-cover md:object-fill"
             src="/images/Eliamos-12-1600.jpg.webp"
-            alt=""
+            alt="background image"
           />
         </div>
-
-        <div className="bg-slate-100 bg-opacity-70 backdrop-filter backdrop-blur-0 border border-gray-500 border-opacity-50 rounded-lg m-auto w-full md:w-4/5 p-6 md:p-12 lg:p-20 mb-5 md:mb-0 -mt-16 z-50 relative">
-          <form onSubmit={handleSubmit}>
-            <div className="relative flex flex-col md:flex-row justify-between items-center">
-              <div className="md:mb-0 md:mr-2 w-full mb-4 md:w-1/4">
-                <label
-                  htmlFor="destination"
-                  className="text-xs md:text-xl font-bold font-serif text-black"
-                >
-                  <FontAwesomeIcon
-                    icon={faLocationDot}
-                    className="mr-2 text-gray-700"
-                  />
-                  <span>Destination</span>
-                </label>
-                {isLoaded && (
-                  <Autocomplete>
-                    <input
-                      type="text"
-                      ref={dataRef}
-                      id="chooseLocation"
-                      className="text-xs md:text-sm lg:text-md font-bold text-gray-700 font-serif bg-gray-200 border-double border-gray-100 px-4 py-2 rounded-full w-full"
-                      placeholder="Select place"
-                      value={chooseLocation}
-                      onChange={(e) => setChooseLocation(e.target.value)}
+        
+        <div className="mx-3">
+          <div className="bg-slate-100 bg-opacity-70 backdrop-filter backdrop-blur-0 border border-gray-500 border-opacity-50 rounded-lg m-auto w-full md:w-4/5 p-6 md:p-12 lg:p-20 mb-5 md:mb-0 -mt-16 z-50 relative">
+            <form onSubmit={handleSubmit}>
+              <div className="relative flex flex-col md:flex-row justify-between items-center">
+                <div className="md:mb-0 md:mr-2 w-full mb-4 md:w-1/4">
+                  <label
+                    htmlFor="destination"
+                    className="text-xs md:text-xl font-bold font-serif text-black"
+                  >
+                    <FontAwesomeIcon
+                      icon={faLocationDot}
+                      className="mr-2 text-gray-700"
                     />
-                  </Autocomplete>
-                )}
-                {loactionError && (
-                  <p className="text-red-600">{loactionError}</p>
-                )}
-              </div>
-              <div className="md:mb-0 md:mr-2 w-full mb-4 md:w-1/4">
-                <label
-                  htmlFor="check-in"
-                  className="text-xs md:text-xl font-bold font-serif text-black"
-                >
-                  <FontAwesomeIcon
-                    icon={faCalendar}
-                    className="mr-2 text-gray-700"
+                    <span>Destination</span>
+                  </label>
+                  {isLoaded && (
+                    <Autocomplete>
+                      <input
+                        type="text"
+                        ref={dataRef}
+                        id="chooseLocation"
+                        className="text-xs md:text-sm lg:text-md font-bold text-gray-700 font-serif bg-gray-200 border-double border-gray-100 px-4 py-2 rounded-full w-full"
+                        placeholder="Select place"
+                        value={chooseLocation}
+                        onChange={(e) => setChooseLocation(e.target.value)}
+                      />
+                    </Autocomplete>
+                  )}
+                  {loactionError && (
+                    <p className="text-red-600">{loactionError}</p>
+                  )}
+                </div>
+                <div className="md:mb-0 md:mr-2 w-full mb-4 md:w-1/4">
+                  <label
+                    htmlFor="check-in"
+                    className="text-xs md:text-xl font-bold font-serif text-black"
+                  >
+                    <FontAwesomeIcon
+                      icon={faCalendar}
+                      className="mr-2 text-gray-700"
+                    />
+                    <span>Check in</span>
+                  </label>
+                  <input
+                    type="date"
+                    id="CheckInDate"
+                    min={new Date().toISOString().split("T")[0]}
+                    {...getFieldProps("CheckInDate")}
+                    className="text-xs md:text-sm lg:text-md text-gray-700 font-bold font-serif bg-gray-200 border-solid border-gray-300 px-4 py-2 rounded-full w-full"
                   />
-                  <span>Check in</span>
-                </label>
-                <input
-                  type="date"
-                  id="CheckInDate"
-                  min={new Date().toISOString().split("T")[0]}
-                  {...getFieldProps("CheckInDate")}
-                  className="text-xs md:text-sm lg:text-md text-gray-700 font-bold font-serif bg-gray-200 border-solid border-gray-300 px-4 py-2 rounded-full w-full"
-                />
-                {errors.CheckInDate && touched.CheckInDate && (
-                  <p className="text-red-600">{errors.CheckInDate}</p>
-                )}
-              </div>
-              <div className="md:mb-0 md:mr-2 w-full mb-4 md:w-1/4">
-                <label
-                  htmlFor="check-out"
-                  className="text-xs md:text-xl font-bold font-serif text-black"
-                >
-                  <FontAwesomeIcon
-                    icon={faCalendar}
-                    className="mx-2 text-gray-700"
+                  {errors.CheckInDate && touched.CheckInDate && (
+                    <p className="text-red-600">{errors.CheckInDate}</p>
+                  )}
+                </div>
+                <div className="md:mb-0 md:mr-2 w-full mb-4 md:w-1/4">
+                  <label
+                    htmlFor="check-out"
+                    className="text-xs md:text-xl font-bold font-serif text-black"
+                  >
+                    <FontAwesomeIcon
+                      icon={faCalendar}
+                      className="mx-2 text-gray-700"
+                    />
+                    <span>Check out</span>
+                  </label>
+                  <input
+                    type="date"
+                    id="CheckOutDate"
+                    min={values.CheckInDate}
+                    {...getFieldProps("CheckOutDate")}
+                    className="text-xs md:text-sm lg:text-md text-gray-700 font-bold font-serif bg-gray-200 border-solid border-gray-300 px-4 py-2 rounded-full w-full"
                   />
-                  <span>Check out</span>
-                </label>
-                <input
-                  type="date"
-                  id="CheckOutDate"
-                  min={values.CheckInDate}
-                  {...getFieldProps("CheckOutDate")}
-                  className="text-xs md:text-sm lg:text-md text-gray-700 font-bold font-serif bg-gray-200 border-solid border-gray-300 px-4 py-2 rounded-full w-full"
-                />
-                {errors.CheckOutDate && touched.CheckOutDate && (
-                  <p className="text-red-600">{errors.CheckOutDate}</p>
-                )}
-              </div>
-              <div className="md:mb-0 md:mr-2 w-full mb-4 md:w-1/4">
-                <label
-                  htmlFor="person"
-                  className="flex items-center text-xs md:text-xl font-bold font-serif text-black"
-                >
-                  <FontAwesomeIcon
-                    icon={faUser}
-                    className="mr-2 text-gray-700"
+                  {errors.CheckOutDate && touched.CheckOutDate && (
+                    <p className="text-red-600">{errors.CheckOutDate}</p>
+                  )}
+                </div>
+                <div className="md:mb-0 md:mr-2 w-full mb-4 md:w-1/4">
+                  <label
+                    htmlFor="person"
+                    className="flex items-center text-xs md:text-xl font-bold font-serif text-black"
+                  >
+                    <FontAwesomeIcon
+                      icon={faUser}
+                      className="mr-2 text-gray-700"
+                    />
+                    <span className="ml-2">Person</span>
+                  </label>
+                  <input
+                    type="number"
+                    id="Persons"
+                    name="Persons"
+                    placeholder="Number of Persons"
+                    value={values.Persons}
+                    onChange={handleChange}
+                    onBlur={handleBlur}
+                    className="text-xs md:text-sm lg:text-md text-gray-700 font-bold font-serif bg-gray-200 border-solid border-gray-300 px-4 py-2 rounded-full w-full"
                   />
-                  <span className="ml-2">Person</span>
-                </label>
-                <input
-                  type="number"
-                  id="Persons"
-                  name="Persons"
-                  placeholder="Number of Persons"
-                  value={values.Persons}
-                  onChange={handleChange}
-                  onBlur={handleBlur}
-                  className="text-xs md:text-sm lg:text-md text-gray-700 font-bold font-serif bg-gray-200 border-solid border-gray-300 px-4 py-2 rounded-full w-full"
-                />
+                </div>
+                <div className="w-full md:w-auto">
+                  <button
+                    type="submit"
+                    className="text-xs mt-7 md:text-sm lg:text-lg font-bold font-serif bg-red-600 w-full md:w-auto border-solid rounded-full text-white px-4 py-2 hover:bg-red-700 focus:outline-none focus:bg-red-700"
+                  >
+                    Search
+                  </button>
+                </div>
               </div>
-              <div className="w-full md:w-auto">
-                <button
-                  type="submit"
-                  className="text-xs mt-7 md:text-sm lg:text-lg font-bold font-serif bg-red-600 w-full md:w-auto border-solid rounded-full text-white px-4 py-2 hover:bg-red-700 focus:outline-none focus:bg-red-700"
-                >
-                  Search
-                </button>
-              </div>
-            </div>
-          </form>
+            </form>
+          </div>
         </div>
 
         <div className="flex flex-col md:flex-row w-full h-full">
           <div className="md:flex-1 rounded-lg overflow-hidden text-center relative ">
             <img
-              className="img rounded-full w-full md:w-[35rem] h-[35rem] mx-auto md:mx-24 mt-4 md:mt-28 shadow-lg"
+              className="img rounded-full w-full md:w-[35rem] h-[35rem] mx-auto md:mx-14 mt-4 md:mt-28 shadow-lg md:rounded-full sm:rounded-full "
               src="/images/visualsofdana-T5pL6ciEn-I-unsplash.jpg"
               alt="image description"
             />
           </div>
-          <div className="main md:flex-1 mt-4 md:mt-16 py-4 md:py-32">
+          <div className="main md:flex-1 mt-4 md:mt-10 py-4 md:py-32 mx-8">
             <h3 className="heading text-2xl md:text-3xl font-thin mb-4 md:mb-8 font-serif">
               About Us
             </h3>

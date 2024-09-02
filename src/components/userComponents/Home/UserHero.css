@@ -4,7 +4,6 @@
 }
 
 /* Media query for screens with a minimum width of 768px */
-
 @media only screen and (min-width: 771px) and (max-width: 900px) {
   .img {
     height: 68% !important;
@@ -26,10 +25,11 @@
     margin: 0 !important;
   }
 }
+
 @media only screen and (min-width: 900px) and (max-width: 1315px) {
   .img {
     margin-top: 55px !important;
-    margin-left: 10 !important;
+    margin-left: 10px !important;
     height: 76% !important;
     width: 75% !important;
   }
@@ -47,5 +47,15 @@
   }
   .main {
     margin: 0 !important;
+  }
+}
+
+/* Additional styles for the hero image on mobile */
+@media only screen and (max-width: 770px) {
+  .img {
+    border-radius: 5% !important;
+    width: 90% !important;
+    height: auto !important;
+    margin-top: 20px !important;
   }
 }

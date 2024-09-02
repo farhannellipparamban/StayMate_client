@@ -30,7 +30,6 @@ const FilterSidebar = ({ setRooms, filterRooms, setCurrentPage }) => {
 
       setRooms(filteredRooms);
     }
-    console.log(filterRooms, "jfirhwefisuh");
   }, [filterOption, filterRooms]);
 
   const handleCheckBoxChange = (option, item) => {
@@ -63,7 +62,7 @@ const FilterSidebar = ({ setRooms, filterRooms, setCurrentPage }) => {
 
   return (
     <>
-      <div className="relative mb-6 hidden md:block">
+      <div className="relative z-10 mb-6 hidden md:block">
         <div className="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
           <svg
             className="w-3 h-3 text-gray-400 dark:text-gray-400"
