@@ -33,7 +33,7 @@ const UserNavbar = () => {
 
   return (
     <nav className="bg-white border-gray-200 white:bg-gray-900">
-      <div className="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto p-1">
+      <div className="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto ">
         {/* Mobile Menu */}
         <div className="absolute top-0 left-0 right-0">
           <div className="md:hidden">

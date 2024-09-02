@@ -6,8 +6,9 @@ import Loading from "../../loading/Loading";
 const RoomsForRental = ({ dataRef }) => {
   const [loading, setLoading] = useState(false);
   const [roomList, setRoomList] = useState([]);
+
   useEffect(() => {
-    setLoading(true)
+    setLoading(true);
     HomeRoomList()
       .then((res) => {
         setLoading(false);
@@ -18,6 +19,7 @@ const RoomsForRental = ({ dataRef }) => {
         console.log(err.message);
       });
   }, []);
+
   return (
     <div className="w-full h-full font-style: italic bg-gray-100 -mt-6 text-center lg:text-left py-10 lg:pl-20">
       <h3 className="text-4xl font-extrabold mb-2 text-gray-800">
@@ -27,10 +29,7 @@ const RoomsForRental = ({ dataRef }) => {
         Rooms & Suites
       </h3>
 
-      <h4
-        className="text-4xl font-family:monospace
-    font-style:oblique text-center font-semibold text-gray-600 p-10"
-      >
+      <h4 className="text-4xl font-family:monospace font-style:oblique text-center font-semibold text-gray-600 p-10">
         The most memorable rest time starts here.
       </h4>
       {loading ? (
@@ -40,11 +39,11 @@ const RoomsForRental = ({ dataRef }) => {
           </div>
         </div>
       ) : (
-        <div className="flex flex-wrap justify-center gap-8 md:gap-10 lg:gap-12 xl:gap-14 -ml-20 mb-10">
+        <div className="flex flex-wrap justify-center gap-8 md:gap-10 lg:gap-12 xl:gap-14 sm:-ml-16 mb-10 ">
           {roomList?.map((room) => (
             <div
               key={room._id}
-              className="max-w-sm bg-white rounded-xl overflow-hidden shadow-lg transition duration-300 transform hover:scale-105 cursor-pointer"
+              className="max-w-xs md:max-w-sm bg-white rounded-xl overflow-hidden shadow-lg transition duration-300 transform hover:scale-105 cursor-pointer"
             >
               <div onClick={() => dataRef?.current?.focus()}>
                 <HomeRoomCard room={room} />

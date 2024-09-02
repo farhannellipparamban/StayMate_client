@@ -12,13 +12,14 @@ const HomeRoomCard = ({ room }) => {
     event.preventDefault();
     setShowFullDescription(!showFullDescription);
   };
+
   return (
-    <div className="relative grid w-full max-w-[26rem] grid-row rounded-xl bg-white bg-clip-border text-gray-700 shadow-lg">
+    <div className="relative grid w-full max-w-xs md:max-w-[26rem] grid-row rounded-xl bg-white bg-clip-border text-gray-700 shadow-lg">
       <div className="relative mx-4 mt-4 overflow-hidden text-white shadow-lg rounded-xl bg-blue-gray-500 bg-clip-border">
         <img src={roomImages[0]} alt="RoomImage" className="w-full" />
         <div className="absolute inset-0 w-full h-full to-bg-black-10 bg-gradient-to-tr from-transparent via-transparent to-black/60"></div>
         <button
-          className="!absolute top-4 right-4 h-8 max-h-[32px] w-8 max-w-[32px] select-none rounded-full text-center align-middle font-sans text-xs font-medium uppercase text-red-500 transition-all hover:bg-red-500/10 active:bg-red-500/30 disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none"
+          className="absolute top-4 right-4 h-8 max-h-[32px] w-8 max-w-[32px] select-none rounded-full text-center align-middle font-sans text-xs font-medium uppercase text-red-500 transition-all hover:bg-red-500/10 active:bg-red-500/30 disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none"
           type="button"
         >
           <span className="absolute transform -translate-x-1/2 -translate-y-1/2 top-1/2 left-1/2">
@@ -50,9 +51,6 @@ const HomeRoomCard = ({ room }) => {
         <h5 className="block font-sans text-base antialiased font-semibold -mt-3 mb-2 text-red-700">
           {model}
         </h5>
-        {/* <p className="block font-sans text-base antialiased font-light leading-relaxed text-gray-700">
-          {description}
-        </p> */}
         <p
           className={`block font-sans text-base antialiased font-light leading-relaxed text-gray-700 ${
             showFullDescription ? "overflow-clip" : "overflow-hidden h-16"

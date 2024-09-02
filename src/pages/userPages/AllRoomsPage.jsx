@@ -78,7 +78,10 @@ const AllRoomsPage = () => {
 
   return (
     <>
+    <div className="relative">
+
       <UserNavbar />
+    </div>
       <div className="mx-auto flex flex-col w-full mt-5">
         {/* Mobile Search Bar */}
         <div className="md:hidden px-4 mb-4 mt-6">
@@ -92,7 +95,7 @@ const AllRoomsPage = () => {
             />
             <button
               onClick={handleSearch}
-              className="absolute right-0 bottom-0.5 text-white bg-red-700 hover:bg-red-800 focus:ring-4 focus:outline-none focus:ring-red-300 font-medium rounded-full text-sm px-4 py-2"
+              className="absolute right-0 bottom-0 top-0 text-white bg-red-600 hover:bg-red-700 focus:ring-4 focus:outline-none focus:ring-red-300 font-medium rounded-full text-sm px-4 py-2"
             >
               search
             </button>
