@@ -154,7 +154,7 @@ const RoomCardList = ({ room, values, offers }) => {
                 onClick={() =>
                   navigate("/roomDetails", { state: { room, values, offers } })
                 }
-                className="ml-1 mt-4 hover:scale-125 transition duration-500 cursor-pointer block w-full xl:w-fit bg-red-500 hover:bg-red-800 text-white rounded-full font-bold py-2 px-3 text-center text-decoration-none"
+                className="ml-1 mt-4 hover:scale-110 transition duration-500 cursor-pointer block w-full xl:w-fit bg-red-500 hover:bg-red-800 text-white rounded-full font-bold py-2 px-3 text-center text-decoration-none"
               >
                 View Details
               </button>

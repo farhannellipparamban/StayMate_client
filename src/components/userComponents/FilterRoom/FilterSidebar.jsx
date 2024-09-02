@@ -99,13 +99,24 @@ const FilterSidebar = ({ setRooms, filterRooms, setCurrentPage }) => {
         </button>
       </div>
       <div className="flex flex-col md:flex-row justify-between mb-6">
-        <h1 className="text-xl md:text-xl font-bold my-2 uppercase">Filter</h1>
-        <button
-          onClick={resetFilter}
-          className="text-sm bg-red-600 px-4 font-serif font-semibold hover:bg-red-700 focus:outline-none focus:bg-red-700 border-solid rounded-full text-white"
-        >
-          Clear Filter
-        </button>
+        <h1 className="text-xl md:text-xl font-bold my-2 ">Filter</h1>
+        <div className="flex flex-col md:flex-row justify-between">
+          {/* Hide this button on mobile view and show the icon instead */}
+          <button
+            onClick={resetFilter}
+            className="hidden md:block text-sm bg-red-600 px-4 font-serif font-semibold hover:bg-red-700 focus:outline-none focus:bg-red-700 border-solid rounded-full text-white"
+          >
+            Clear Filter
+          </button>
+
+          {/* Show this icon on mobile view */}
+          <button
+            onClick={resetFilter}
+            className="block md:hidden text-red-600 hover:text-red-700 font-semibold focus:outline-none ml-auto -mt-8"
+          >
+            clear
+          </button>
+        </div>
       </div>
       <div className="grid gap-2 my-5">
         <h1 className="px-4 py-2 bg-black text-white font-bold rounded-md shadow-md">
